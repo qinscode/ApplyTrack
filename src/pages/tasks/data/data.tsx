@@ -1,10 +1,17 @@
-import {
-  ArrowDownIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-} from "@radix-ui/react-icons";
-
 import { Job } from "@/types";
+import {
+  PlusCircledIcon,
+  ClockIcon,
+  PaperPlaneIcon,
+  ArchiveIcon,
+  EyeOpenIcon,
+  PersonIcon,
+  CodeIcon,
+  CheckCircledIcon,
+  MixerVerticalIcon,
+  CrossCircledIcon,
+  MinusCircledIcon,
+} from "@radix-ui/react-icons";
 
 export const labels = [
   {
@@ -52,20 +59,6 @@ export const labels = [
     label: "Rejected",
   },
 ];
-
-import {
-  PlusCircledIcon,
-  ClockIcon,
-  PaperPlaneIcon,
-  ArchiveIcon,
-  EyeOpenIcon,
-  PersonIcon,
-  CodeIcon,
-  CheckCircledIcon,
-  MixerVerticalIcon,
-  CrossCircledIcon,
-  MinusCircledIcon,
-} from "@radix-ui/react-icons";
 
 export const statuses = [
   {
@@ -122,24 +115,6 @@ export const statuses = [
     value: "Rejected",
     label: "Rejected",
     icon: MinusCircledIcon,
-  },
-];
-
-export const priorities = [
-  {
-    label: "Low",
-    value: "low",
-    icon: ArrowDownIcon,
-  },
-  {
-    label: "Medium",
-    value: "medium",
-    icon: ArrowRightIcon,
-  },
-  {
-    label: "High",
-    value: "high",
-    icon: ArrowUpIcon,
   },
 ];
 

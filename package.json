@@ -72,6 +72,9 @@
     "typescript": "5.3.x",
     "vite": "^5.2.9"
   },
+  "installConfig": {
+    "pnp": false
+  },
   "prettier": {
     "plugins": [
       "prettier-plugin-tailwindcss"

@@ -12,4 +12,4 @@
 !README.md
 !CHANGELOG.md
 !.eslintrc.cjs
-!postcss.config.js
+!postcss.config.js/src/pages/errors/general-error.tsx

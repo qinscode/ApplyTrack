@@ -119,9 +119,9 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+573</div>
+                  <div className="text-2xl font-bold">+73</div>
                   <p className="text-xs text-muted-foreground">
-                    +20 since last hour
+                    +20 since yesterday
                   </p>
                 </CardContent>
               </Card>

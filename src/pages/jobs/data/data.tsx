@@ -121,17 +121,19 @@ export const statuses = [
 export const jobs: Job[] = [
   {
     job_id: "1",
-    job_title: "Frontend Developer",
-    business_name: "TechCorp",
+    job_title:
+      "Frontend DeveloperFrontend DeveloperFrontend DeveloperFrontend DeveloperFrontend DeveloperFrontend Developer",
+    business_name: "TechCorpTechCorpTechCorp",
     work_type: "Full time",
     job_type: "Engineering - Software",
     pay_range: "$80,000 - $120,000",
-    suburb: "San Francisco",
-    area: "Bay Area",
+    suburb: "East Perth, Perth WA",
+    area: "CBD, Inner & Western Suburbs",
     url: "https://techcorp.com/jobs/frontend-developer",
     status: "New",
     posted_date: "2d ago",
-    job_description: "We are looking for a skilled Frontend Developer...",
+    job_description:
+      "We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...We are looking for a skilled Frontend Developer...",
   },
   {
     job_id: "2",

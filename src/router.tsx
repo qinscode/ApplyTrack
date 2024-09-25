@@ -21,17 +21,12 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: "tasks",
+        path: "jobs",
         lazy: async () => ({
-          Component: (await import("@/pages/tasks")).default,
+          Component: (await import("./pages/jobs")).default,
         }),
       },
-      {
-        path: "chats",
-        lazy: async () => ({
-          Component: (await import("@/pages/chats")).default,
-        }),
-      },
+
       {
         path: "apps",
         lazy: async () => ({
@@ -69,33 +64,6 @@ const router = createBrowserRouter([
             lazy: async () => ({
               Component: (await import("./pages/settings/account")).default,
             }),
-          },
-          {
-            path: "appearance",
-            lazy: async () => ({
-              Component: (await import("./pages/settings/appearance")).default,
-            }),
-          },
-          {
-            path: "notifications",
-            lazy: async () => ({
-              Component: (await import("./pages/settings/notifications"))
-                .default,
-            }),
-          },
-          {
-            path: "display",
-            lazy: async () => ({
-              Component: (await import("./pages/settings/display")).default,
-            }),
-          },
-          {
-            path: "error-example",
-            lazy: async () => ({
-              Component: (await import("./pages/settings/error-example"))
-                .default,
-            }),
-            errorElement: <GeneralError className="h-[50svh]" minimal />,
           },
         ],
       },

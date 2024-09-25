@@ -5,7 +5,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 
 import { Job } from "@/types";
-import { statuses } from "@/pages/tasks/data/data.tsx";
+import { statuses } from "@/pages/jobs/data/data.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 
 export const columns: ColumnDef<Job>[] = [
@@ -43,9 +43,11 @@ export const columns: ColumnDef<Job>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex max-w-[200px] flex-col ">
-          <span className="font-medium">{row.getValue("job_title")}</span>
-          <span className="text-xs text-muted-foreground">
+        <div className=" flex max-w-[200px] flex-col">
+          <span className="line-clamp-1  font-medium">
+            {row.getValue("job_title")}
+          </span>
+          <span className="line-clamp-1  text-xs font-medium text-muted-foreground">
             {row.original.job_type}
           </span>
         </div>
@@ -58,10 +60,12 @@ export const columns: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="Company" />
     ),
     cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span>{row.getValue("business_name")}</span>
-        <span className="text-xs text-muted-foreground">
-          {row.original.area}
+      <div className="flex max-w-[190px]  flex-col">
+        <span className="line-clamp-1 font-medium">
+          {row.getValue("business_name")}
+        </span>
+        <span className="line-clamp-1 text-xs font-medium  text-muted-foreground">
+          {row.original.suburb} {row.original.area}
         </span>
       </div>
     ),
@@ -126,7 +130,11 @@ export const columns: ColumnDef<Job>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Job Description" />
     ),
-    cell: ({ row }) => <div>{row.getValue("job_description")}</div>,
+    cell: ({ row }) => (
+      <div className="line-clamp-1 max-w-[180px]">
+        {row.getValue("job_description")}
+      </div>
+    ),
   },
   {
     id: "actions",

@@ -1,8 +1,14 @@
 import { Job } from "@/types";
-import { jobs } from "@/pages/tasks/data/tasks.ts";
+import { jobs } from "@/pages/jobs/data/jobs.ts";
 
 // Mock data for recently applied jobs
-const recentlyAppliedJobs: Job[] = jobs;
+const recentlyAppliedJobs: Job[] = jobs.filter(
+  (job) =>
+    job.status === "Rejected" ||
+    job.status === "Interviewing" ||
+    job.status === "Technical Assessment" ||
+    job.status === "Accepted"
+);
 
 export function RecentlyAppliedJobs() {
   return (

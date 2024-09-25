@@ -33,13 +33,13 @@ export const sidelinks: SideLink[] = [
     icon: <IconLayoutDashboard size={18} />,
   },
   {
-    title: "All Jobs",
+    title: "All jobs",
     label: "512",
-    href: "/tasks",
+    href: "/jobs",
     icon: <IconMoodHappy size={18} />,
   },
   {
-    title: "Jobs",
+    title: "jobs",
     label: "",
     href: "/jobs",
     icon: <IconBriefcase size={18} />,

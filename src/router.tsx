@@ -23,76 +23,85 @@ const router = createBrowserRouter([
       {
         path: "jobs",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/All")).default,
+          Component: (await import("./pages/jobs/jobs_page/All")).default,
         }),
       },
 
       {
         path: "jobs/new",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/new")).default,
+          Component: (await import("./pages/jobs/jobs_page/new")).default,
         }),
       },
 
       {
         path: "jobs/pending",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Pending")).default,
+          Component: (await import("./pages/jobs/jobs_page/Pending")).default,
         }),
       },
 
       {
         path: "jobs/applied",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Applied")).default,
+          Component: (await import("./pages/jobs/jobs_page/Applied")).default,
         }),
       },
 
       {
         path: "jobs/archived",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Applied")).default,
+          Component: (await import("./pages/jobs/jobs_page/Applied")).default,
         }),
       },
       {
         path: "jobs/reviewed",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Reviewed")).default,
+          Component: (await import("./pages/jobs/jobs_page/Reviewed")).default,
         }),
       },
       {
         path: "jobs/accepted",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Accepted")).default,
+          Component: (await import("./pages/jobs/jobs_page/Accepted")).default,
         }),
       },
 
       {
         path: "jobs/ghosting",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Ghosting")).default,
+          Component: (await import("./pages/jobs/jobs_page/Ghosting")).default,
         }),
       },
 
       {
         path: "jobs/rejected",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Rejected")).default,
+          Component: (await import("./pages/jobs/jobs_page/Rejected")).default,
         }),
       },
 
       {
         path: "jobs/interviewing",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Interviewing")).default,
+          Component: (await import("./pages/jobs/jobs_page/Interviewing"))
+            .default,
         }),
       },
 
       {
         path: "jobs/technical-assessment",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/Technical Assessment"))
-            .default,
+          Component: (
+            await import("./pages/jobs/jobs_page/Technical Assessment")
+          ).default,
+        }),
+      },
+
+      {
+        path: "/job/:id",
+        lazy: async () => ({
+          Component: (await import("./pages/details")).default,
         }),
       },
 

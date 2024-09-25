@@ -13,3 +13,8 @@
 !CHANGELOG.md
 !.eslintrc.cjs
 !postcss.config.js/src/pages/errors/general-error.tsx
+!/.gitignore
+
+!/.pnp.cjs
+
+!/.pnp.loader.mjs

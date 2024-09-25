@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
 
 import { Badge } from "@/components/ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
@@ -43,11 +44,14 @@ export const columns: ColumnDef<Job>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" flex max-w-[200px] flex-col">
-          <span className="line-clamp-1  font-medium">
+        <div className="flex max-w-[200px] flex-col">
+          <Link
+            to={`/job/${row.original.job_id}`}
+            className="line-clamp-1 font-medium hover:underline"
+          >
             {row.getValue("job_title")}
-          </span>
-          <span className="line-clamp-1  text-xs font-medium text-muted-foreground">
+          </Link>
+          <span className="line-clamp-1 text-xs font-medium text-muted-foreground">
             {row.original.job_type}
           </span>
         </div>

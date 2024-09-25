@@ -11,7 +11,7 @@ export const jobs: Job[] = [
     suburb: "San Francisco",
     area: "Bay Area",
     url: "https://techcorp.com/jobs/frontend-developer",
-    status: "New",
+    status: "new",
     posted_date: "2d ago",
     job_description: "We are looking for a skilled Frontend Developer...",
   },
@@ -22,7 +22,7 @@ export const jobs: Job[] = [
     work_type: "Full time",
     job_type: "Engineering - Software",
     pay_range: "$90,000 - $140,000",
-    suburb: "New York",
+    suburb: "new York",
     area: "Manhattan",
     url: "https://datasystems.com/careers/backend-engineer",
     status: "Applied",
@@ -68,7 +68,7 @@ export const jobs: Job[] = [
     suburb: "Austin",
     area: "Downtown",
     url: "https://cloudtech.solutions/jobs/devops-engineer",
-    status: "New",
+    status: "new",
     posted_date: "1d ago",
     job_description:
       "We are looking for a skilled DevOps Engineer to join our team...",
@@ -173,7 +173,7 @@ export const jobs: Job[] = [
     suburb: "Miami",
     area: "Brickell",
     url: "https://datadriven.co/jobs/data-analyst",
-    status: "New",
+    status: "new",
     posted_date: "1d ago",
     job_description:
       "Join our data team to uncover insights and drive business decisions...",
@@ -248,7 +248,7 @@ export const jobs: Job[] = [
     suburb: "Cambridge",
     area: "MIT Area",
     url: "https://futureailabs.com/jobs/research-scientist",
-    status: "New",
+    status: "new",
     posted_date: "6d ago",
     job_description:
       "Conduct cutting-edge research in artificial intelligence and machine learning...",
@@ -293,7 +293,7 @@ export const jobs: Job[] = [
     suburb: "Boulder",
     area: "University Hill",
     url: "https://quantumtech.com/careers/quantum-computing-researcher",
-    status: "New",
+    status: "new",
     posted_date: "2d ago",
     job_description:
       "Push the boundaries of quantum computing and develop novel algorithms...",

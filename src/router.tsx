@@ -23,26 +23,76 @@ const router = createBrowserRouter([
       {
         path: "jobs",
         lazy: async () => ({
-          Component: (await import("./pages/jobs")).default,
+          Component: (await import("./pages/jobs/All")).default,
         }),
       },
 
       {
-        path: "apps",
+        path: "jobs/new",
         lazy: async () => ({
-          Component: (await import("@/pages/apps")).default,
+          Component: (await import("./pages/jobs/new")).default,
+        }),
+      },
+
+      {
+        path: "jobs/pending",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Pending")).default,
+        }),
+      },
+
+      {
+        path: "jobs/applied",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Applied")).default,
+        }),
+      },
+
+      {
+        path: "jobs/archived",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Applied")).default,
         }),
       },
       {
-        path: "users",
+        path: "jobs/reviewed",
         lazy: async () => ({
-          Component: (await import("@/components/coming-soon")).default,
+          Component: (await import("./pages/jobs/Reviewed")).default,
         }),
       },
       {
-        path: "analysis",
+        path: "jobs/accepted",
         lazy: async () => ({
-          Component: (await import("@/components/coming-soon")).default,
+          Component: (await import("./pages/jobs/Accepted")).default,
+        }),
+      },
+
+      {
+        path: "jobs/ghosting",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Ghosting")).default,
+        }),
+      },
+
+      {
+        path: "jobs/rejected",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Rejected")).default,
+        }),
+      },
+
+      {
+        path: "jobs/interviewing",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Interviewing")).default,
+        }),
+      },
+
+      {
+        path: "jobs/technical-assessment",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/Technical Assessment"))
+            .default,
         }),
       },
 

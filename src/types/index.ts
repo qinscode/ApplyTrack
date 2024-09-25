@@ -10,7 +10,7 @@ export interface Job {
   area: string;
   url: string;
   status:
-    | "New"
+    | "new"
     | "Pending"
     | "Applied"
     | "Archived"

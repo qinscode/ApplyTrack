@@ -1,18 +1,13 @@
 import { Layout } from "@/components/custom/layout";
 import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
-import { DataTable } from "./components/data-table";
-import { columns } from "./components/columns";
-import { jobs } from "./data/data";
+import { DataTable } from "../components/data-table";
+import { columns } from "../components/columns";
+import { jobs } from "../data/jobs";
 
 export default function Jobs() {
   return (
     <Layout>
-      {/* ===== Top Heading ===== */}
-      {/*<Layout.Header sticky>*/}
-
-      {/*</Layout.Header>*/}
-
       <Layout.Body>
         <div className="mb-2 flex items-center justify-between space-y-2">
           <div>
@@ -28,7 +23,10 @@ export default function Jobs() {
           </div>
         </div>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <DataTable data={jobs} columns={columns} />
+          <DataTable
+            data={jobs.filter((job) => job.status === "Applied")}
+            columns={columns}
+          />
         </div>
       </Layout.Body>
     </Layout>

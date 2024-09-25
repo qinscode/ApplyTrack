@@ -12,7 +12,9 @@ export default function Dashboard() {
     <Layout>
       <Layout.Body>
         <div className="mb-2 flex items-center justify-between space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Dashboard (Mock Data)
+          </h1>
           <div className="flex items-center space-x-2">
             <ThemeSwitch />
             <UserNav />
@@ -28,7 +30,6 @@ export default function Dashboard() {
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="reports">Reports</TabsTrigger>
-              <TabsTrigger value="notifications">Notifications</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="overview" className="space-y-4">
@@ -128,7 +129,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
               <Card className="col-span-1 lg:col-span-4">
                 <CardHeader>
-                  <CardTitle>Job Overview</CardTitle>
+                  <CardTitle>Jobs Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
                   <Overview />

@@ -81,7 +81,7 @@ export default function Sidebar({
                 strokeLinejoin="round"
                 strokeWidth="16"
               ></line>
-              <span className="sr-only">Website Name</span>
+              <span className="sr-only">Job Tracker</span>
             </svg>
             <div
               className={`flex flex-col justify-end truncate ${

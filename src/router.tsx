@@ -5,38 +5,6 @@ import MaintenanceError from "./pages/errors/maintenance-error";
 import UnauthorisedError from "./pages/errors/unauthorised-error.tsx";
 
 const router = createBrowserRouter([
-  // Auth routes
-  {
-    path: "/sign-in",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/sign-in")).default,
-    }),
-  },
-  {
-    path: "/sign-in-2",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/sign-in-2")).default,
-    }),
-  },
-  {
-    path: "/sign-up",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/sign-up")).default,
-    }),
-  },
-  {
-    path: "/forgot-password",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/forgot-password")).default,
-    }),
-  },
-  {
-    path: "/otp",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/otp")).default,
-    }),
-  },
-
   // Main routes
   {
     path: "/",
@@ -82,12 +50,7 @@ const router = createBrowserRouter([
           Component: (await import("@/components/coming-soon")).default,
         }),
       },
-      {
-        path: "extra-components",
-        lazy: async () => ({
-          Component: (await import("@/pages/extra-components")).default,
-        }),
-      },
+
       {
         path: "settings",
         lazy: async () => ({

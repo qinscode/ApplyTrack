@@ -18,6 +18,7 @@ import { PasswordInput } from "@/components/custom/password-input.tsx";
 import { cn } from "@/lib/utils.ts";
 import { authApi } from "@/api";
 import { AxiosError } from "axios";
+import { toast } from "@/components/ui/use-toast.ts";
 
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -52,17 +53,50 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setIsLoading(true);
     try {
       const response = await authApi.login(data.email, data.password);
-      console.log("Login successful", response.data);
-      // Handle successful login (e.g., save token, redirect)
+      console.log("Login successful", response);
+
+      // Save token to local storage
+      localStorage.setItem("token", response.token);
+
+      toast({
+        title: "Login Successful",
+        description: "You have been successfully logged in.",
+      });
       navigate("/");
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error("Login failed", error.response?.data);
-        // Handle specific API errors
+        if (error.response) {
+          console.error("Login failed", error.response.data);
+          toast({
+            title: "Login Failed",
+            description:
+              error.response.data.message || "An error occurred during login.",
+            variant: "destructive",
+          });
+        } else if (error.request) {
+          console.error("No response received", error.request);
+          toast({
+            title: "Network Error",
+            description:
+              "No response received from server. Please check your connection.",
+            variant: "destructive",
+          });
+        } else {
+          console.error("Error", error.message);
+          toast({
+            title: "Error",
+            description: "An unexpected error occurred.",
+            variant: "destructive",
+          });
+        }
       } else {
         console.error("An unexpected error occurred", error);
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred.",
+          variant: "destructive",
+        });
       }
-      // Handle login error (e.g., show error message)
     } finally {
       setIsLoading(false);
     }

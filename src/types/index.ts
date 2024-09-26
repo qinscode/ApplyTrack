@@ -10,16 +10,15 @@ export interface Job {
   area: string;
   url: string;
   status:
-    | "new"
+    | "New"
     | "Pending"
-    | "Applied"
     | "Archived"
     | "Reviewed"
-    | "Interviewing"
-    | "Technical Assessment"
-    | "Accepted"
     | "Ghosting"
-    | "Pass"
+    | "Applied"
+    | "Interviewing"
+    | "TechnicalAssessment"
+    | "Offered"
     | "Rejected";
   posted_date: string;
   job_description: string;

@@ -11,7 +11,7 @@ export const jobs: Job[] = [
     suburb: "San Francisco",
     area: "Bay Area",
     url: "https://techcorp.com/jobs/frontend-developer",
-    status: "new",
+    status: "New",
     posted_date: "2d ago",
     job_description: "We are looking for a skilled Frontend Developer...",
   },
@@ -54,7 +54,7 @@ export const jobs: Job[] = [
     suburb: "Seattle",
     area: "Bellevue",
     url: "https://ai-innovations.com/careers/data-scientist",
-    status: "Technical Assessment",
+    status: "TechnicalAssessment",
     posted_date: "5d ago",
     job_description: "Join our cutting-edge AI team as a Data Scientist...",
   },
@@ -68,7 +68,7 @@ export const jobs: Job[] = [
     suburb: "Austin",
     area: "Downtown",
     url: "https://cloudtech.solutions/jobs/devops-engineer",
-    status: "new",
+    status: "New",
     posted_date: "1d ago",
     job_description:
       "We are looking for a skilled DevOps Engineer to join our team...",
@@ -113,7 +113,7 @@ export const jobs: Job[] = [
     suburb: "Denver",
     area: "Tech Center",
     url: "https://cloudnine.systems/opportunities/cloud-architect",
-    status: "Accepted",
+    status: "Offered",
     posted_date: "2d ago",
     job_description:
       "We are looking for a skilled Cloud Architect to design and implement...",
@@ -143,7 +143,7 @@ export const jobs: Job[] = [
     suburb: "Washington D.C.",
     area: "Downtown",
     url: "https://securenet.com/jobs/cybersecurity-analyst",
-    status: "Pass",
+    status: "Rejected",
     posted_date: "3d ago",
     job_description:
       "We are seeking a skilled Cybersecurity Analyst to protect our systems...",
@@ -173,7 +173,7 @@ export const jobs: Job[] = [
     suburb: "Miami",
     area: "Brickell",
     url: "https://datadriven.co/jobs/data-analyst",
-    status: "new",
+    status: "New",
     posted_date: "1d ago",
     job_description:
       "Join our data team to uncover insights and drive business decisions...",
@@ -203,7 +203,7 @@ export const jobs: Job[] = [
     suburb: "Atlanta",
     area: "Midtown",
     url: "https://reliabletech.io/careers/sre",
-    status: "Technical Assessment",
+    status: "TechnicalAssessment",
     posted_date: "1w ago",
     job_description:
       "Ensure the reliability and performance of our large-scale systems...",
@@ -248,7 +248,7 @@ export const jobs: Job[] = [
     suburb: "Cambridge",
     area: "MIT Area",
     url: "https://futureailabs.com/jobs/research-scientist",
-    status: "new",
+    status: "New",
     posted_date: "6d ago",
     job_description:
       "Conduct cutting-edge research in artificial intelligence and machine learning...",
@@ -293,7 +293,7 @@ export const jobs: Job[] = [
     suburb: "Boulder",
     area: "University Hill",
     url: "https://quantumtech.com/careers/quantum-computing-researcher",
-    status: "new",
+    status: "New",
     posted_date: "2d ago",
     job_description:
       "Push the boundaries of quantum computing and develop novel algorithms...",

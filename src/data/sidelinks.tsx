@@ -87,13 +87,13 @@ export const sidelinks: SideLink[] = [
         icon: <IconUsers size={18} />,
       },
       {
-        title: "Technical Assessment",
+        title: "TechnicalAssessment",
         label: "2",
         href: "/jobs/technical-assessment",
         icon: <IconPencilPlus size={18} />,
       },
       {
-        title: "Accepted",
+        title: "Offered",
         label: "0",
         href: "/jobs/accepted",
         icon: <IconCheck size={18} />,

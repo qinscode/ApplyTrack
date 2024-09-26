@@ -93,9 +93,9 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: "jobs/accepted",
+        path: "jobs/offered",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/jobs_page/Accepted")).default,
+          Component: (await import("./pages/jobs/jobs_page/Offered")).default,
         }),
       },
 
@@ -125,7 +125,7 @@ const router = createBrowserRouter([
         path: "jobs/technical-assessment",
         lazy: async () => ({
           Component: (
-            await import("./pages/jobs/jobs_page/Technical Assessment")
+            await import("./pages/jobs/jobs_page/TechnicalAssessment")
           ).default,
         }),
       },

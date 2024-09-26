@@ -6,8 +6,8 @@ const recentlyAppliedJobs: Job[] = jobs.filter(
   (job) =>
     job.status === "Rejected" ||
     job.status === "Interviewing" ||
-    job.status === "Technical Assessment" ||
-    job.status === "Accepted"
+    job.status === "TechnicalAssessment" ||
+    job.status === "Offered"
 );
 
 export function RecentlyAppliedJobs() {

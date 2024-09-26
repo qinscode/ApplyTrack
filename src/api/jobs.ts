@@ -1,19 +1,22 @@
 import api from "./axios";
+import { Job } from "@/types";
 
-export const getJobs = async () => {
-  try {
-    const response = await api.get("/Jobs");
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+export const getJobs = () => {
+  return api.get<Job[]>("/Jobs");
 };
 
-export const createJob = async (jobData: any) => {
-  try {
-    const response = await api.post("/Jobs", jobData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+export const getJob = (id: string) => {
+  return api.get<Job>(`/Jobs/${id}`);
+};
+
+export const createJob = (jobData: Partial<Job>) => {
+  return api.post<Job>("/Jobs", jobData);
+};
+
+export const updateJob = (id: string, jobData: Partial<Job>) => {
+  return api.put<Job>(`/Jobs/${id}`, jobData);
+};
+
+export const deleteJob = (id: string) => {
+  return api.delete(`/Jobs/${id}`);
 };

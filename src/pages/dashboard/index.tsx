@@ -6,8 +6,43 @@ import { UserNav } from "@/components/user-nav";
 import { Overview } from "./components/overview";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import { RecentlyAppliedJobs } from "./components/RecentlyAppliedJobs.tsx";
+import { useEffect, useState } from "react";
+import api from "@/api/axios.ts";
 
 export default function Dashboard() {
+  const [totalJobs, setTotalJobs] = useState(0);
+  const [appliedJobs, setAppliedJobs] = useState(0);
+  const [newJobs, setNewJobs] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch total jobs
+        const totalJobsResponse = await api.get(
+          "/Jobs?pageNumber=1&pageSize=1"
+        );
+        setTotalJobs(totalJobsResponse.data.totalCount);
+
+        // Assuming you have the user ID stored somewhere, replace 'YOUR_USER_ID' with the actual user ID
+        const userId = "YOUR_USER_ID";
+
+        // Fetch applied jobs
+        const appliedJobsResponse = await api.get(
+          `/UserJobs/user/${userId}/status/Applied?pageNumber=1&pageSize=1`
+        );
+        setAppliedJobs(appliedJobsResponse.data.totalCount);
+
+        // Fetch new jobs (assuming 'Saved' status represents new jobs)
+        const newJobsResponse = await api.get(
+          `/UserJobs/user/${userId}/status/Saved?pageNumber=1&pageSize=1`
+        );
+        setNewJobs(newJobsResponse.data.totalCount);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <Layout>
       <Layout.Body>
@@ -43,9 +78,9 @@ export default function Dashboard() {
                   <WorkOutlineIcon style={{ fontSize: 20 }} />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">512</div>
+                  <div className="text-2xl font-bold">{totalJobs}</div>
                   <p className="text-xs text-muted-foreground">
-                    +10.1% from last month
+                    +0% from last month
                   </p>
                 </CardContent>
               </Card>
@@ -68,9 +103,9 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">235</div>
+                  <div className="text-2xl font-bold">{appliedJobs}</div>
                   <p className="text-xs text-muted-foreground">
-                    +18.1% from last month
+                    +0% from last month
                   </p>
                 </CardContent>
               </Card>
@@ -96,7 +131,7 @@ export default function Dashboard() {
                 <CardContent>
                   <div className="text-2xl font-bold">10</div>
                   <p className="text-xs text-muted-foreground">
-                    -19% from last month
+                    +0% from last month
                   </p>
                 </CardContent>
               </Card>
@@ -119,9 +154,11 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+73</div>
+                  <div className="text-2xl font-bold">
+                    {newJobs === 0 ? `${newJobs}` : `+${newJobs}`}
+                  </div>
                   <p className="text-xs text-muted-foreground">
-                    +20 since yesterday
+                    +0 since yesterday
                   </p>
                 </CardContent>
               </Card>
@@ -137,7 +174,7 @@ export default function Dashboard() {
               </Card>
               <Card className="col-span-1 lg:col-span-3">
                 <CardHeader>
-                  <CardTitle>Recently Response</CardTitle>
+                  <CardTitle>Recently Activity</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <RecentlyAppliedJobs />

@@ -38,12 +38,12 @@ export const labels = [
     label: "Interviewing",
   },
   {
-    value: "Technical Assessment",
-    label: "Technical Assessment",
+    value: "TechnicalAssessment",
+    label: "TechnicalAssessment",
   },
   {
-    value: "Accepted",
-    label: "Accepted",
+    value: "Offered",
+    label: "Offered",
   },
   {
     value: "Ghosting",
@@ -91,13 +91,13 @@ export const statuses = [
     icon: PersonIcon,
   },
   {
-    value: "Technical Assessment",
-    label: "Technical Assessment",
+    value: "TechnicalAssessment",
+    label: "TechnicalAssessment",
     icon: CodeIcon,
   },
   {
-    value: "Accepted",
-    label: "Accepted",
+    value: "Offered",
+    label: "Offered",
     icon: CheckCircledIcon,
   },
   {

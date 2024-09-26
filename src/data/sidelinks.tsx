@@ -19,6 +19,12 @@ import {
   IconSettings,
   IconMoodHappy,
   IconPencilPlus,
+  IconHexagonNumber1,
+  IconHexagonNumber2,
+  IconHexagonNumber3,
+  IconHexagonNumber4,
+  IconHexagonNumber5,
+  IconUserShield,
 } from "@tabler/icons-react";
 
 export interface SideLink extends NavLink {
@@ -103,6 +109,44 @@ export const sidelinks: SideLink[] = [
         label: "",
         href: "/jobs/rejected",
         icon: <IconX size={18} />,
+      },
+    ],
+  },
+  {
+    title: "Authentication",
+    label: "",
+    href: "",
+    icon: <IconUserShield size={18} />,
+    sub: [
+      {
+        title: "Sign In (email + password)",
+        label: "",
+        href: "/sign-in",
+        icon: <IconHexagonNumber1 size={18} />,
+      },
+      {
+        title: "Sign In (Box)",
+        label: "",
+        href: "/sign-in-2",
+        icon: <IconHexagonNumber2 size={18} />,
+      },
+      {
+        title: "Sign Up",
+        label: "",
+        href: "/sign-up",
+        icon: <IconHexagonNumber3 size={18} />,
+      },
+      {
+        title: "Forgot Password",
+        label: "",
+        href: "/forgot-password",
+        icon: <IconHexagonNumber4 size={18} />,
+      },
+      {
+        title: "OTP",
+        label: "",
+        href: "/otp",
+        icon: <IconHexagonNumber5 size={18} />,
       },
     ],
   },

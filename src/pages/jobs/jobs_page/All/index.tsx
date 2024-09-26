@@ -6,32 +6,38 @@ import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import api from "@/api/axios.ts";
 import { useEffect, useState } from "react";
-import { adaptJob } from "@/adapters/jobAdapter"; // Import the adapter
+import { adaptJob } from "@/adapters/jobAdapter";
+import { useSearchParams } from "react-router-dom";
 
-const PAGE_SIZE = 20;
+const DEFAULT_PAGE_SIZE = 20;
 
 export default function AllJobs() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageSize = parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
+    10
+  );
+  const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
+
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalJobsCount, setTotalJobsCount] = useState(0);
 
   useEffect(() => {
     fetchJobs();
-  }, [currentPage]);
+  }, [currentPage, pageSize]);
 
   const fetchJobs = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await api.get(
-        `/Jobs?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`
+        `/Jobs?pageNumber=${currentPage}&pageSize=${pageSize}`
       );
 
       const adaptedJobs = response.data.jobs.map(adaptJob);
 
-      // Filter out any jobs that didn't adapt correctly
       const validJobs = adaptedJobs.filter(
         (job: Job) =>
           job.job_id &&
@@ -45,17 +51,24 @@ export default function AllJobs() {
           job.job_description
       );
 
-      console.log(validJobs);
-      console.log(response);
+      console.log("Valid jobs:", validJobs);
+      console.log("Total jobs count:", response.data.jobs);
 
       setJobs(validJobs);
-      setTotalPages(Math.ceil(response.data.totalCount / PAGE_SIZE));
+      setTotalJobsCount(response.data.totalCount);
     } catch (err) {
-      setError("Failed to fetch jobs. Please try again later.");
       console.error("Error fetching jobs:", err);
+      setError("Failed to fetch jobs. Please try again later.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setSearchParams({
+      pageSize: pageSize.toString(),
+      pageNumber: page.toString(),
+    });
   };
 
   return (
@@ -65,7 +78,7 @@ export default function AllJobs() {
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
             <p className="text-muted-foreground">
-              Here&apos;s a list of your job applications!
+              Here&apos;s a list of all job applications!
             </p>
           </div>
 
@@ -78,9 +91,24 @@ export default function AllJobs() {
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
-            <p>Error: {error}</p>
+            <div>
+              <p>Error: {error}</p>
+              <button
+                onClick={fetchJobs}
+                className="mt-2 rounded bg-blue-500 px-4 py-2 text-white"
+              >
+                Retry
+              </button>
+            </div>
           ) : (
-            <DataTable data={jobs} columns={columns} />
+            <DataTable
+              data={jobs}
+              columns={columns}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              totalCount={totalJobsCount}
+              onPageChange={handlePageChange}
+            />
           )}
         </div>
       </Layout.Body>

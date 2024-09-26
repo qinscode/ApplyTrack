@@ -23,43 +23,45 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "../components/data-table-pagination";
 import { DataTableToolbar } from "../components/data-table-toolbar";
-import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  pageSize?: number;
+  pageSize: number;
+  currentPage: number;
+  totalCount: number;
+  onPageChange: (page: number) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   pageSize,
+  currentPage,
+  totalCount,
+  onPageChange,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  useEffect(() => {
-    console.log("Applied", data);
-  }, []);
+  React.useEffect(() => {
+    console.log('DataTable received data:', data);
+  }, [data]);
 
   const table = useReactTable({
     data,
     columns,
+    pageCount: Math.ceil(totalCount / pageSize),
     state: {
       sorting,
       columnVisibility,
       rowSelection,
       columnFilters,
-    },
-    initialState: {
       pagination: {
-        pageSize: pageSize, // default page size
+        pageSize: pageSize,
+        pageIndex: currentPage - 1,
       },
     },
     enableRowSelection: true,
@@ -73,7 +75,18 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    onPaginationChange: (updater) => {
+      if (typeof updater === 'function') {
+        const newPaginationState = updater(table.getState().pagination);
+        onPageChange(newPaginationState.pageIndex + 1);
+      }
+    },
+    manualPagination: true,
   });
+
+  React.useEffect(() => {
+    table.setPageIndex(currentPage - 1);
+  }, [currentPage, table]);
 
   return (
     <div className="space-y-4">

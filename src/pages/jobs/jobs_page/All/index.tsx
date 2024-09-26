@@ -3,9 +3,57 @@ import ThemeSwitch from "@/components/theme-switch.tsx";
 import { UserNav } from "@/components/user-nav.tsx";
 import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
-import { jobs } from "../../data/jobs.ts";
+import { Job } from "@/types";
+import api from "@/api/axios.ts";
+import { useEffect, useState } from "react";
+
+const PAGE_SIZE = 20;
 
 export default function AllJobs() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [currentPage]);
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get(
+        `/Jobs?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`
+      );
+
+      const validJobs = response.data.jobs.filter(
+        (job: any) =>
+          job.job_id &&
+          job.job_title &&
+          job.business_name &&
+          job.work_type &&
+          job.job_type &&
+          job.pay_range &&
+          job.status &&
+          job.posted_date &&
+          job.job_description
+      );
+
+      console.log(validJobs);
+      console.log(response);
+
+      setJobs(validJobs);
+      setTotalPages(Math.ceil(response.data.totalCount / PAGE_SIZE));
+    } catch (err) {
+      setError("Failed to fetch jobs. Please try again later.");
+      console.error("Error fetching jobs:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Layout>
       <Layout.Body>

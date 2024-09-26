@@ -28,7 +28,7 @@ export default function Dashboard() {
 
         console.log("Applied", appliedJobsResponse.data.totalCount);
 
-        // Fetch new jobs (assuming 'Saved' status represents new jobs)
+        // Fetch New jobs (assuming 'Saved' status represents New jobs)
         const newJobsResponse = await api.get(`/Jobs/new`);
         setNewJobs(newJobsResponse.data.totalCount);
       } catch (error) {

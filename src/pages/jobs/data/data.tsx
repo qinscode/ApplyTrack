@@ -14,8 +14,8 @@ import {
 
 export const labels = [
   {
-    value: "new",
-    label: "new",
+    value: "New",
+    label: "New",
   },
   {
     value: "Pending",
@@ -61,8 +61,8 @@ export const labels = [
 
 export const statuses = [
   {
-    value: "new",
-    label: "new",
+    value: "New",
+    label: "New",
     icon: PlusCircledIcon,
   },
   {

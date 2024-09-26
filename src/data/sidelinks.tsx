@@ -51,9 +51,9 @@ export const sidelinks: SideLink[] = [
     icon: <IconBriefcase size={18} />,
     sub: [
       {
-        title: "new",
+        title: "New",
         label: "20",
-        href: "/jobs/new",
+        href: "/jobs/New",
         icon: <IconPlus size={18} />,
       },
       {
@@ -95,7 +95,7 @@ export const sidelinks: SideLink[] = [
       {
         title: "Offered",
         label: "0",
-        href: "/jobs/accepted",
+        href: "/jobs/offered",
         icon: <IconCheck size={18} />,
       },
       {

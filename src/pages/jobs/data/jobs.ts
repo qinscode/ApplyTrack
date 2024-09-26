@@ -22,7 +22,7 @@ export const jobs: Job[] = [
     work_type: "Full time",
     job_type: "Engineering - Software",
     pay_range: "$90,000 - $140,000",
-    suburb: "new York",
+    suburb: "New York",
     area: "Manhattan",
     url: "https://datasystems.com/careers/backend-engineer",
     status: "Applied",

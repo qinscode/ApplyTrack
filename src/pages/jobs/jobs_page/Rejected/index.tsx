@@ -5,7 +5,7 @@ import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { jobs } from "../../data/jobs.ts";
 
-export default function Jobs() {
+export default function RejectedJobs() {
   return (
     <Layout>
       <Layout.Body>

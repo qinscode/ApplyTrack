@@ -13,7 +13,7 @@ export const jobSchema = z.object({
   area: z.string(),
   url: z.string(),
   status: z.enum([
-    "new",
+    "New",
     "Pending",
     "Applied",
     "Archived",

@@ -5,7 +5,7 @@ import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { jobs } from "../../data/jobs.ts";
 
-export default function Jobs() {
+export default function NewJobs() {
   return (
     <Layout>
       <Layout.Body>
@@ -24,7 +24,7 @@ export default function Jobs() {
         </div>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
           <DataTable
-            data={jobs.filter((job) => job.status.toLowerCase() === "new")}
+            data={jobs.filter((job) => job.status.toLowerCase() === "New")}
             columns={columns}
           />
         </div>

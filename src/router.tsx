@@ -60,9 +60,9 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "jobs/new",
+        path: "jobs/New",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/jobs_page/new")).default,
+          Component: (await import("./pages/jobs/jobs_page/New")).default,
         }),
       },
 

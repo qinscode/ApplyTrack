@@ -6,7 +6,6 @@ import { columns } from "../../components/columns.tsx";
 import { jobs } from "../../data/jobs.ts";
 
 export default function Jobs() {
-  console.log("fuck");
   return (
     <Layout>
       <Layout.Body>

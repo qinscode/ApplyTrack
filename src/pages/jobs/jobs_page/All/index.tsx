@@ -6,6 +6,7 @@ import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import api from "@/api/axios.ts";
 import { useEffect, useState } from "react";
+import { adaptJob } from "@/adapters/jobAdapter"; // Import the adapter
 
 const PAGE_SIZE = 20;
 
@@ -28,8 +29,11 @@ export default function AllJobs() {
         `/Jobs?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`
       );
 
-      const validJobs = response.data.jobs.filter(
-        (job: any) =>
+      const adaptedJobs = response.data.jobs.map(adaptJob);
+
+      // Filter out any jobs that didn't adapt correctly
+      const validJobs = adaptedJobs.filter(
+        (job: Job) =>
           job.job_id &&
           job.job_title &&
           job.business_name &&
@@ -71,7 +75,13 @@ export default function AllJobs() {
           </div>
         </div>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <DataTable data={jobs} columns={columns} />
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : (
+            <DataTable data={jobs} columns={columns} />
+          )}
         </div>
       </Layout.Body>
     </Layout>

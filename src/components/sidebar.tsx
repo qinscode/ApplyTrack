@@ -4,7 +4,7 @@ import { Layout } from "./custom/layout";
 import { Button } from "./custom/button";
 import Nav from "./nav";
 import { cn } from "@/lib/utils";
-import { sidelinks } from "@/data/sidelinks";
+import { SidebarLinks } from "@/data/sidelinks";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean;
@@ -17,6 +17,7 @@ export default function Sidebar({
   setIsCollapsed,
 }: SidebarProps) {
   const [navOpened, setNavOpened] = useState(false);
+  const sidelinks = SidebarLinks();
 
   /* Make body not scrollable when navBar is opened */
   useEffect(() => {

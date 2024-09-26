@@ -22,19 +22,14 @@ export default function Dashboard() {
         );
         setTotalJobs(totalJobsResponse.data.totalCount);
 
-        // Assuming you have the user ID stored somewhere, replace 'YOUR_USER_ID' with the actual user ID
-        const userId = "YOUR_USER_ID";
-
         // Fetch applied jobs
-        const appliedJobsResponse = await api.get(
-          `/UserJobs/user/${userId}/status/Applied?pageNumber=1&pageSize=1`
-        );
+        const appliedJobsResponse = await api.get(`/UserJobs/status/Applied`);
         setAppliedJobs(appliedJobsResponse.data.totalCount);
 
+        console.log("Applied", appliedJobsResponse.data.totalCount);
+
         // Fetch new jobs (assuming 'Saved' status represents new jobs)
-        const newJobsResponse = await api.get(
-          `/UserJobs/user/${userId}/status/Saved?pageNumber=1&pageSize=1`
-        );
+        const newJobsResponse = await api.get(`/Jobs/new`);
         setNewJobs(newJobsResponse.data.totalCount);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -47,9 +42,7 @@ export default function Dashboard() {
     <Layout>
       <Layout.Body>
         <div className="mb-2 flex items-center justify-between space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">
-            Dashboard (Mock Data)
-          </h1>
+          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
           <div className="flex items-center space-x-2">
             <ThemeSwitch />
             <UserNav />
@@ -174,7 +167,7 @@ export default function Dashboard() {
               </Card>
               <Card className="col-span-1 lg:col-span-3">
                 <CardHeader>
-                  <CardTitle>Recently Activity</CardTitle>
+                  <CardTitle>Recent Response</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <RecentlyAppliedJobs />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "@/api/axios";
 import { Job } from "@/types";
+import { adaptJob } from "@/adapters/jobAdapter.ts";
 
 type JobStatus = Job["status"];
 
@@ -39,32 +40,63 @@ export function useTotalJobsCount() {
   return { totalJobs, loading, error };
 }
 
-export function useJobCountByStatus(status: JobStatus) {
-  const [totalJobs, setTotalJobs] = useState<number>(0);
+export function useJobCountByStatus(
+  status: JobStatus,
+
+  currentPage: number = 1,
+  PAGE_SIZE: number = 20
+) {
+  const [totalJobsCount, setTotalJobsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [Jobs, setJobs] = useState<Job[]>();
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchJobCount = async () => {
       try {
         setLoading(true);
         setupApiToken();
-        const response = await api.get(`/UserJobs/status/${status}`);
-        setTotalJobs(response.data.totalCount);
+        const response = await api.get(
+          `/UserJobs/status/${status}?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`
+        );
+        setTotalJobsCount(response.data.totalCount);
         setError(null);
+        setTotalPages(Math.ceil(response.data.totalCount / PAGE_SIZE));
+
+        const adaptedJobs = response.data.jobs.map(adaptJob);
+
+        // Filter out any jobs that didn't adapt correctly
+        const validJobs = adaptedJobs.filter(
+          (job: Job) =>
+            job.job_id &&
+            job.job_title &&
+            job.business_name &&
+            job.work_type &&
+            job.job_type &&
+            job.pay_range &&
+            job.status &&
+            job.posted_date &&
+            job.job_description
+        );
+
+        // console.log(validJobs);
+        // console.log(response);
+
+        setJobs(validJobs);
       } catch (err) {
         console.error(`Error fetching ${status} jobs:`, err);
         setError(`Failed to fetch ${status} jobs count`);
-        setTotalJobs(0);
+        setTotalJobsCount(0);
       } finally {
         setLoading(false);
       }
     };
 
     fetchJobCount();
-  }, [status]);
+  }, [status, currentPage, PAGE_SIZE]);
 
-  return { totalJobs, loading, error };
+  return { totalJobsCount, loading, error, Jobs, totalPages };
 }
 
 export function useNewJobsCount() {

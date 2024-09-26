@@ -39,36 +39,32 @@ export interface SideLink extends NavLink {
 
 export function SidebarLinks() {
   const { totalJobs, error: TotalJobsError } = useTotalJobsCount();
-  const {
-    totalNewJobs,
-    loading: loadingNew,
-    error: newError,
-  } = useNewJobsCount();
-  const { totalJobs: pendingJobs, error: pendingError } =
+  const { totalNewJobs, error: newError } = useNewJobsCount();
+  const { totalJobsCount: pendingJobs, error: pendingError } =
     useJobCountByStatus("Pending");
-  const { totalJobs: archivedJobs, error: archivedError } =
+  const { totalJobsCount: archivedJobs, error: archivedError } =
     useJobCountByStatus("Archived");
-  const { totalJobs: reviewedJobs, error: reviewedError } =
+  const { totalJobsCount: reviewedJobs, error: reviewedError } =
     useJobCountByStatus("Reviewed");
 
-  const { totalJobs: ghostingJobs, error: ghostingError } =
+  const { totalJobsCount: ghostingJobs, error: ghostingError } =
     useJobCountByStatus("Ghosting");
 
-  const { totalJobs: appliedJobs, error: appliedError } =
+  const { totalJobsCount: appliedJobs, error: appliedError } =
     useJobCountByStatus("Applied");
 
-  const { totalJobs: interviewingJobs, error: interviewingError } =
+  const { totalJobsCount: interviewingJobs, error: interviewingError } =
     useJobCountByStatus("Interviewing");
 
   const {
-    totalJobs: technicalAssessmentJobs,
+    totalJobsCount: technicalAssessmentJobs,
     error: technicalAssessmentError,
   } = useJobCountByStatus("TechnicalAssessment");
 
-  const { totalJobs: offeredJobs, error: offeredError } =
+  const { totalJobsCount: offeredJobs, error: offeredError } =
     useJobCountByStatus("Offered");
 
-  const { totalJobs: rejectedJobs, error: rejectedError } =
+  const { totalJobsCount: rejectedJobs, error: rejectedError } =
     useJobCountByStatus("Rejected");
 
   const sidelinks: SideLink[] = [
@@ -153,6 +149,50 @@ export function SidebarLinks() {
           icon: <IconX size={18} />,
         },
       ],
+    },
+    {
+      title: "Authentication",
+      label: "",
+      href: "",
+      icon: <IconUserShield size={18} />,
+      sub: [
+        {
+          title: "Sign In (email + password)",
+          label: "",
+          href: "/sign-in",
+          icon: <IconHexagonNumber1 size={18} />,
+        },
+        {
+          title: "Sign In (Box)",
+          label: "",
+          href: "/sign-in-2",
+          icon: <IconHexagonNumber2 size={18} />,
+        },
+        {
+          title: "Sign Up",
+          label: "",
+          href: "/sign-up",
+          icon: <IconHexagonNumber3 size={18} />,
+        },
+        {
+          title: "Forgot Password",
+          label: "",
+          href: "/forgot-password",
+          icon: <IconHexagonNumber4 size={18} />,
+        },
+        {
+          title: "OTP",
+          label: "",
+          href: "/otp",
+          icon: <IconHexagonNumber5 size={18} />,
+        },
+      ],
+    },
+    {
+      title: "Settings",
+      label: "",
+      href: "/settings",
+      icon: <IconSettings size={18} />,
     },
   ];
   return sidelinks;

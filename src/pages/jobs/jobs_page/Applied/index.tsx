@@ -3,9 +3,20 @@ import ThemeSwitch from "@/components/theme-switch.tsx";
 import { UserNav } from "@/components/user-nav.tsx";
 import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
-import { jobs } from "../../data/jobs.ts";
+import { Job } from "@/types";
+import { useState } from "react";
+import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
 
+const PAGE_SIZE = 20;
 export default function AppliedJobs() {
+  const [currentPage] = useState(1);
+
+  const { Jobs, loading, error } = useJobCountByStatus(
+    "Applied",
+    currentPage,
+    PAGE_SIZE
+  );
+
   return (
     <Layout>
       <Layout.Body>
@@ -23,10 +34,17 @@ export default function AppliedJobs() {
           </div>
         </div>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <DataTable
-            data={jobs.filter((job) => job.status === "Applied")}
-            columns={columns}
-          />
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : (
+            <DataTable
+              data={Jobs as Job[]}
+              columns={columns}
+              pageSize={PAGE_SIZE}
+            />
+          )}
         </div>
       </Layout.Body>
     </Layout>

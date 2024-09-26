@@ -4,24 +4,76 @@ import { UserNav } from "@/components/user-nav.tsx";
 import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
-import { useSearchParams } from 'react-router-dom';
-import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
+import { useSearchParams } from "react-router-dom";
+import api from "@/api/axios.ts";
+import { adaptJob } from "@/adapters/jobAdapter.ts";
+import { useEffect, useState } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
 
 export default function NewJobs() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageSize = parseInt(searchParams.get('pageSize') || DEFAULT_PAGE_SIZE.toString(), 10);
-  const currentPage = parseInt(searchParams.get('pageNumber') || '1', 10);
-
-  const { Jobs, loading, error, totalJobsCount } = useJobCountByStatus(
-    "New",
-    currentPage,
-    pageSize
+  const pageSize = parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
+    10
   );
+  const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [totalJobsCount, setTotalJobsCount] = useState(0);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [currentPage, pageSize]);
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get(
+        `/Jobs/new?pageNumber=${currentPage}&pageSize=${pageSize}`
+      );
+
+      const adaptedJobs = response.data.jobs.map(adaptJob);
+      console.log("Adapted jobs:", adaptedJobs);
+
+      // Log each job's posted_date to check for empty values
+      adaptedJobs.forEach((job) => {
+        console.log(`Job ID: ${job.job_id}, Posted Date: ${job.posted_date}`);
+      });
+
+      const validJobs = adaptedJobs.filter(
+        (job: Job) =>
+          job.job_id &&
+          job.job_title !== null &&
+          job.business_name !== null &&
+          job.work_type !== null &&
+          job.job_type !== null &&
+          job.pay_range !== null &&
+          job.status !== null &&
+          job.posted_date !== null &&
+          job.job_description !== null
+      );
+
+      console.log("Valid jobs:", validJobs);
+      console.log("Total jobs count:", response.data.totalCount);
+
+      setJobs(validJobs);
+      setTotalJobsCount(response.data.totalCount);
+    } catch (err) {
+      console.error("Error fetching jobs:", err);
+      setError("Failed to fetch jobs. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
   const handlePageChange = (page: number) => {
-    setSearchParams({ pageSize: pageSize.toString(), pageNumber: page.toString() });
+    setSearchParams({
+      pageSize: pageSize.toString(),
+      pageNumber: page.toString(),
+    });
   };
 
   return (
@@ -47,7 +99,7 @@ export default function NewJobs() {
             <p>Error: {error}</p>
           ) : (
             <DataTable
-              data={Jobs as Job[]}
+              data={jobs}
               columns={columns}
               pageSize={pageSize}
               currentPage={currentPage}

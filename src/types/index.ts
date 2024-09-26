@@ -1,6 +1,6 @@
 // src/types/job.ts
 export interface Job {
-  job_id: string;
+  job_id: number; // 将 job_id 类型改为 number
   job_title: string;
   business_name: string;
   work_type: string;

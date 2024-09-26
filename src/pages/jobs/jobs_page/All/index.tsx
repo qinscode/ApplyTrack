@@ -37,22 +37,28 @@ export default function AllJobs() {
       );
 
       const adaptedJobs = response.data.jobs.map(adaptJob);
+      console.log("Adapted jobs:", adaptedJobs);
+
+      // Log each job's posted_date to check for empty values
+      adaptedJobs.forEach((job) => {
+        console.log(`Job ID: ${job.job_id}, Posted Date: ${job.posted_date}`);
+      });
 
       const validJobs = adaptedJobs.filter(
         (job: Job) =>
           job.job_id &&
-          job.job_title &&
-          job.business_name &&
-          job.work_type &&
-          job.job_type &&
-          job.pay_range &&
-          job.status &&
-          job.posted_date &&
-          job.job_description
+          job.job_title !== null &&
+          job.business_name !== null &&
+          job.work_type !== null &&
+          job.job_type !== null &&
+          job.pay_range !== null &&
+          job.status !== null &&
+          job.posted_date !== null &&
+          job.job_description !== null
       );
 
       console.log("Valid jobs:", validJobs);
-      console.log("Total jobs count:", response.data.jobs);
+      console.log("Total jobs count:", response.data.totalCount);
 
       setJobs(validJobs);
       setTotalJobsCount(response.data.totalCount);
@@ -101,14 +107,17 @@ export default function AllJobs() {
               </button>
             </div>
           ) : (
-            <DataTable
-              data={jobs}
-              columns={columns}
-              pageSize={pageSize}
-              currentPage={currentPage}
-              totalCount={totalJobsCount}
-              onPageChange={handlePageChange}
-            />
+            <>
+              {console.log("Jobs passed to DataTable:", jobs)}
+              <DataTable
+                data={jobs}
+                columns={columns}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                totalCount={totalJobsCount}
+                onPageChange={handlePageChange}
+              />
+            </>
           )}
         </div>
       </Layout.Body>

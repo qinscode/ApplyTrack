@@ -2,7 +2,6 @@ import { Layout } from "@/components/custom/layout";
 import { useParams } from "react-router-dom";
 import ThemeSwitch from "@/components/theme-switch.tsx";
 import { UserNav } from "@/components/user-nav.tsx";
-import { jobs } from "@/pages/jobs/data/jobs.ts";
 import {
   Briefcase,
   MapPin,

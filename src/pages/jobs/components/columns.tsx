@@ -8,6 +8,9 @@ import { DataTableRowActions } from "./data-table-row-actions";
 import { Job } from "@/types";
 import { statuses } from "@/pages/jobs/data/data.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
+import useHTMLToPlainText from "@/hooks/useHTMLToPlainText.ts";
+import React from "react";
+import HTMLToPlainTextCell from "@/hooks/useHTMLToPlainText.ts";
 
 export const columns: ColumnDef<Job>[] = [
   {
@@ -134,14 +137,21 @@ export const columns: ColumnDef<Job>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Job Description" />
     ),
-    cell: ({ row }) => (
-      <div className="line-clamp-1 max-w-[180px]">
-        {row.getValue("job_description")}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const htmlContent = row.getValue("job_description");
+      const plainText = htmlToPlainText(htmlContent);
+      return <div className="line-clamp-1 max-w-[180px]">{plainText}</div>;
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
+
+const htmlToPlainText = (html) => {
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  const text = temp.textContent || temp.innerText || "";
+  return text.replace(/\s+/g, " ").trim();
+};

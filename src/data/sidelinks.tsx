@@ -162,12 +162,6 @@ export function SidebarLinks() {
           href: "/forgot-password",
           icon: <IconHexagonNumber4 size={18} />,
         },
-        {
-          title: "OTP",
-          label: "",
-          href: "/otp",
-          icon: <IconHexagonNumber5 size={18} />,
-        },
       ],
     },
     {

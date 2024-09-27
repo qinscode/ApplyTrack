@@ -140,9 +140,9 @@ export default function Details() {
               </div>
 
               <div className="mb-6">
-                <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-                  Job Details
-                </h3>
+                {/*<h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">*/}
+                {/*  Job Details*/}
+                {/*</h3>*/}
                 <div
                   className="prose dark:prose-invert job-description max-w-none"
                   dangerouslySetInnerHTML={{ __html: job.job_description }}

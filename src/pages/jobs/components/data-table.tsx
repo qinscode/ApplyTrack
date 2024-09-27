@@ -23,6 +23,8 @@ import {
 import { DataTablePagination } from "../components/data-table-pagination";
 import { DataTableToolbar } from "../components/data-table-toolbar";
 import { useEffect, useState } from "react";
+import { Job } from "@/types";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,24 +33,46 @@ interface DataTableProps<TData, TValue> {
   currentPage: number;
   totalCount: number;
   onPageChange: (page: number) => void;
+  onDataChange: (updatedData: TData[]) => void;  // New prop
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends Job, TValue>({
   columns,
   data,
   pageSize,
   currentPage,
   totalCount,
   onPageChange,
+  onDataChange,  // New prop
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const handleStatusChange = (jobId: number, newStatus: Job["status"]) => {
+    const updatedData = data.map(job => 
+      job.job_id === jobId ? { ...job, status: newStatus } : job
+    ) as TData[];
+    onDataChange(updatedData);
+  };
+
   const table = useReactTable({
     data,
-    columns,
+    columns: columns.map(col => {
+      if (col.id === 'actions') {
+        return {
+          ...col,
+          cell: ({ row }) => (
+            <DataTableRowActions 
+              row={row} 
+              onStatusChange={handleStatusChange}
+            />
+          ),
+        };
+      }
+      return col;
+    }),
     pageCount: Math.ceil(totalCount / pageSize),
     state: {
       sorting,

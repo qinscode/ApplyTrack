@@ -1,5 +1,6 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
+import { useState } from "react";
 
 import { Button } from "@/components/custom/button";
 import {
@@ -18,15 +19,52 @@ import {
 
 import { labels } from "../data/data";
 import { jobSchema } from "../data/schema";
+import api from "@/api/axios";
+import { Job } from "@/types";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
+  onStatusChange: (jobId: number, newStatus: Job["status"]) => void;
 }
 
 export function DataTableRowActions<TData>({
   row,
+  onStatusChange,
 }: DataTableRowActionsProps<TData>) {
-  const job = jobSchema.parse(row.original);
+  const job = jobSchema.parse(row.original) as Job;
+  const [status, setStatus] = useState<Job["status"]>(job.status);
+
+  const handleStatusChange = async (newStatus: string) => {
+    // Type guard to ensure newStatus is a valid Job["status"]
+    if (isValidJobStatus(newStatus)) {
+      try {
+        await api.put(`/UserJobs/${job.job_id}/status/${newStatus}`);
+        setStatus(newStatus);
+        onStatusChange(job.job_id, newStatus);
+      } catch (error) {
+        console.error("Failed to update job status:", error);
+        // You might want to show an error message to the user here
+      }
+    } else {
+      console.error("Invalid status:", newStatus);
+    }
+  };
+
+  // Type guard function
+  function isValidJobStatus(status: string): status is Job["status"] {
+    return [
+      "New",
+      "Pending",
+      "Applied",
+      "Archived",
+      "Reviewed",
+      "Interviewing",
+      "TechnicalAssessment",
+      "Offered",
+      "Ghosting",
+      "Rejected",
+    ].includes(status);
+  }
 
   return (
     <DropdownMenu>
@@ -47,7 +85,10 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={job.status}>
+            <DropdownMenuRadioGroup
+              value={status}
+              onValueChange={handleStatusChange}
+            >
               {labels.map((label) => (
                 <DropdownMenuRadioItem key={label.value} value={label.value}>
                   {label.label}

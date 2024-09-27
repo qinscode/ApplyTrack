@@ -40,6 +40,7 @@ export interface SideLink extends NavLink {
 export function SidebarLinks() {
   const { totalJobs, error: TotalJobsError } = useTotalJobsCount();
   const { totalNewJobs, error: newError } = useNewJobsCount();
+
   const { totalJobsCount: pendingJobs, error: pendingError } =
     useJobCountByStatus("Pending");
   const { totalJobsCount: archivedJobs, error: archivedError } =

@@ -5,7 +5,7 @@ import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import api from "@/api/axios.ts";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { adaptJob } from "@/adapters/jobAdapter";
 import { useSearchParams } from "react-router-dom";
 
@@ -24,11 +24,7 @@ export default function AllJobs() {
   const [error, setError] = useState<string | null>(null);
   const [totalJobsCount, setTotalJobsCount] = useState(0);
 
-  useEffect(() => {
-    fetchJobs();
-  }, [currentPage, pageSize]);
-
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -37,13 +33,6 @@ export default function AllJobs() {
       );
 
       const adaptedJobs = response.data.jobs.map(adaptJob);
-      console.log("Adapted jobs:", adaptedJobs);
-
-      // Log each job's posted_date to check for empty values
-      adaptedJobs.forEach((job) => {
-        console.log(`Job ID: ${job.job_id}, Posted Date: ${job.posted_date}`);
-      });
-
       const validJobs = adaptedJobs.filter(
         (job: Job) =>
           job.job_id &&
@@ -57,9 +46,6 @@ export default function AllJobs() {
           job.job_description !== null
       );
 
-      console.log("Valid jobs:", validJobs);
-      console.log("Total jobs count:", response.data.totalCount);
-
       setJobs(validJobs);
       setTotalJobsCount(response.data.totalCount);
     } catch (err) {
@@ -68,13 +54,22 @@ export default function AllJobs() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, pageSize]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [fetchJobs]);
 
   const handlePageChange = (page: number) => {
     setSearchParams({
       pageSize: pageSize.toString(),
       pageNumber: page.toString(),
     });
+  };
+
+  const handleDataChange = (updatedData: Job[]) => {
+    setJobs(updatedData);
+    fetchJobs(); // Refetch data after update
   };
 
   return (
@@ -116,6 +111,7 @@ export default function AllJobs() {
                 currentPage={currentPage}
                 totalCount={totalJobsCount}
                 onPageChange={handlePageChange}
+                onDataChange={handleDataChange}
               />
             </>
           )}

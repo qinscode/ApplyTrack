@@ -4,26 +4,37 @@ import { UserNav } from "@/components/user-nav.tsx";
 import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
+import { useCallback } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
 
 export default function GhostingJobs() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageSize = parseInt(searchParams.get('pageSize') || DEFAULT_PAGE_SIZE.toString(), 10);
-  const currentPage = parseInt(searchParams.get('pageNumber') || '1', 10);
-
-  const { Jobs, loading, error, totalJobsCount } = useJobCountByStatus(
-    "Ghosting",
-    currentPage,
-    pageSize
+  const pageSize = parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
+    10
   );
+  const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
+
+  const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
+    useJobCountByStatus("Applied", currentPage, pageSize);
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ pageSize: pageSize.toString(), pageNumber: page.toString() });
+    setSearchParams({
+      pageSize: pageSize.toString(),
+      pageNumber: page.toString(),
+    });
   };
 
+  const handleDataChange = useCallback(
+    (updatedData: Job[]) => {
+      setJobs(updatedData);
+      refetch(); // Refetch data after update
+    },
+    [setJobs, refetch]
+  );
   return (
     <Layout>
       <Layout.Body>
@@ -53,6 +64,7 @@ export default function GhostingJobs() {
               currentPage={currentPage}
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
+              onDataChange={handleDataChange}
             />
           )}
         </div>

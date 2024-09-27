@@ -6,6 +6,7 @@ import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import { useSearchParams } from "react-router-dom";
 import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
+import { useCallback } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -17,11 +18,8 @@ export default function ArchivedJobs() {
   );
   const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
-  const { Jobs, loading, error, totalJobsCount } = useJobCountByStatus(
-    "Archived",
-    currentPage,
-    pageSize
-  );
+  const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
+    useJobCountByStatus("Applied", currentPage, pageSize);
 
   const handlePageChange = (page: number) => {
     setSearchParams({
@@ -30,6 +28,13 @@ export default function ArchivedJobs() {
     });
   };
 
+  const handleDataChange = useCallback(
+    (updatedData: Job[]) => {
+      setJobs(updatedData);
+      refetch(); // Refetch data after update
+    },
+    [setJobs, refetch]
+  );
   return (
     <Layout>
       <Layout.Body>
@@ -59,6 +64,7 @@ export default function ArchivedJobs() {
               currentPage={currentPage}
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
+              onDataChange={handleDataChange}
             />
           )}
         </div>

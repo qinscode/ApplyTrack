@@ -76,6 +76,8 @@ export default function NewJobs() {
     });
   };
 
+  const handleDataChange = () => {};
+
   return (
     <Layout>
       <Layout.Body>
@@ -105,6 +107,7 @@ export default function NewJobs() {
               currentPage={currentPage}
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
+              onDataChange={handleDataChange}
             />
           )}
         </div>

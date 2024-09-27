@@ -3,17 +3,17 @@
 import { Job } from "@/types";
 
 interface BackendJob {
-  id: number; // 允许 id 为数字
+  id: number;
   jobTitle: string;
   businessName: string;
-  workType: string;
-  jobType: string;
-  payRange: string;
+  workType: string | null;
+  jobType: string | null;
+  payRange: string | null;
   suburb: string | null;
   area: string | null;
   url: string | null;
   status: string;
-  postedDate: string | null; // 允许 postedDate 为 null
+  postedDate: string | null;
   jobDescription: string;
 }
 
@@ -21,16 +21,16 @@ export function adaptJob(backendJob: BackendJob): Job {
   const adaptedJob: Job = {
     job_id: backendJob.id,
     job_title: backendJob.jobTitle,
-    business_name: backendJob.businessName || "",
-    work_type: backendJob.workType || "",
-    job_type: backendJob.jobType || "",
-    pay_range: backendJob.payRange || "",
-    suburb: backendJob.suburb || "",
-    area: backendJob.area || "",
-    url: backendJob.url || "",
+    business_name: backendJob.businessName || "N/A",
+    work_type: backendJob.workType || "N/A",
+    job_type: backendJob.jobType || "N/A",
+    pay_range: backendJob.payRange || "N/A",
+    suburb: backendJob.suburb || "N/A",
+    area: backendJob.area || "N/A",
+    url: backendJob.url || "N/A",
     status: backendJob.status as Job["status"],
-    posted_date: backendJob.postedDate || "",
-    job_description: backendJob.jobDescription || "",
+    posted_date: backendJob.postedDate || "N/A",
+    job_description: backendJob.jobDescription || "N/A",
   };
 
   console.log("Adapted job:", adaptedJob);

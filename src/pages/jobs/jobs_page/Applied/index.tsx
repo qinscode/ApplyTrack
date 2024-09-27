@@ -7,8 +7,6 @@ import { Job } from "@/types";
 import { useSearchParams } from "react-router-dom";
 import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
 import { useEffect, useCallback } from "react";
-import { useDispatch } from 'react-redux';
-import { updateJobCount } from '@/store/jobStatusSlice';
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -21,13 +19,8 @@ export default function AppliedJobs() {
   );
   const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
-  const { Jobs, loading, error, totalJobsCount, setJobs, refetch } = useJobCountByStatus(
-    "Applied",
-    currentPage,
-    pageSize
-  );
-
-  const dispatch = useDispatch();
+  const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
+    useJobCountByStatus("Applied", currentPage, pageSize);
 
   const { refetch: refetchJobStatusCounts } = useJobStatusCounts();
 
@@ -38,11 +31,14 @@ export default function AppliedJobs() {
     });
   };
 
-  const handleDataChange = useCallback((updatedData: Job[]) => {
-    setJobs(updatedData);
-    refetch(); // Refetch current page data
-    refetchJobStatusCounts(); // Refetch all job status counts
-  }, [setJobs, refetch, refetchJobStatusCounts]);
+  const handleDataChange = useCallback(
+    (updatedData: Job[]) => {
+      setJobs(updatedData);
+      refetch(); // Refetch current page data
+      refetchJobStatusCounts(); // Refetch all job status counts
+    },
+    [setJobs, refetch, refetchJobStatusCounts]
+  );
 
   useEffect(() => {
     console.log("Current page:", currentPage);

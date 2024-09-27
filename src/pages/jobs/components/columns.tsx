@@ -44,7 +44,7 @@ export const columns: ColumnDef<Job>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex max-w-[200px] flex-col">
+        <div className="flex max-w-[300px] flex-col">
           <Link
             to={`/job/${row.original.job_id}`}
             className="line-clamp-1 font-medium hover:underline"
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Job>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Pay Range" />
     ),
-    cell: ({ row }) => <div>{row.getValue("pay_range")}</div>,
+    cell: ({ row }) => <div>{row.getValue("pay_range") || "N/A"}</div>,
   },
   {
     accessorKey: "status",
@@ -107,7 +107,7 @@ export const columns: ColumnDef<Job>[] = [
       }
 
       return (
-        <div className="flex w-[180px] items-center">
+        <div className="flex w-[10px] items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
@@ -126,7 +126,7 @@ export const columns: ColumnDef<Job>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Posted Date" />
     ),
-    cell: ({ row }) => <div>{row.getValue("posted_date")}</div>,
+    cell: ({ row }) => <div>{row.getValue("posted_date") || "N/A"}</div>,
   },
 
   {

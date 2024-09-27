@@ -21,7 +21,6 @@ import {
   IconUserShield,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
-import { useEffect } from 'react';
 
 export interface NavLink {
   title: string;
@@ -37,18 +36,6 @@ export interface SideLink extends NavLink {
 export function SidebarLinks() {
   const { statusCounts, totalJobsCount, newJobsCount, loading, error } =
     useJobStatusCounts();
-
-  useEffect(() => {
-    console.log("Status counts updated:", statusCounts);
-  }, [statusCounts]);
-
-  console.log("SidebarLinks render:", {
-    statusCounts,
-    totalJobsCount,
-    newJobsCount,
-    loading,
-    error,
-  });
 
   const getCountByStatus = (status: string) => {
     const statusCount = statusCounts.find((item) => item.status === status);

@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import api from "@/api/axios";
 import { Job } from "@/types";
 import { adaptJob } from "@/adapters/jobAdapter.ts";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import { setJobStatusCounts } from '@/store/jobStatusSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setJobStatusCounts } from "@/store/jobStatusSlice";
+import { toast } from "@/components/ui/use-toast.ts";
 
 type JobStatus = Job["status"];
 
@@ -16,6 +17,123 @@ const setupApiToken = () => {
   api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
+export function useJobStatusUpdate(initialStatus: Job["status"]) {
+  const [status, setStatus] = useState<Job["status"]>(initialStatus);
+  const dispatch = useDispatch();
+
+  const isValidJobStatus = (status: string): status is Job["status"] => {
+    return [
+      "New",
+      "Pending",
+      "Applied",
+      "Archived",
+      "Reviewed",
+      "Interviewing",
+      "TechnicalAssessment",
+      "Offered",
+      "Ghosting",
+      "Rejected",
+    ].includes(status);
+  };
+
+  const fetchUpdatedJobCounts = async () => {
+    try {
+      const response = await api.get("/UserJobs/count");
+      dispatch(setJobStatusCounts(response.data));
+    } catch (error) {
+      console.error("Failed to fetch updated job counts:", error);
+    }
+  };
+
+  const updateJobStatus = async (jobId: number, newStatus: string) => {
+    if (!isValidJobStatus(newStatus)) {
+      console.error("Invalid status:", newStatus);
+      toast({
+        title: "Error",
+        description: "Invalid job status selected.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No token found, user might not be logged in");
+    }
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+    try {
+      await api.put(`/UserJobs/${jobId}/status/${newStatus}`);
+      setStatus(newStatus);
+      toast({
+        title: "Status updated",
+        description: `Job status has been updated to ${newStatus}`,
+      });
+
+      // Fetch and update the job counts in Redux store
+      await fetchUpdatedJobCounts();
+    } catch (error: any) {
+      console.error("Failed to update job status:", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        const errorMessage = error.response.data.message;
+        if (errorMessage.includes("UserJob not found")) {
+          try {
+            await api.post(
+              "/UserJobs",
+              {
+                jobId: jobId,
+                status: newStatus,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            setStatus(newStatus);
+            toast({
+              title: "Job Added and Status Updated",
+              description: `This job has been added to your account with the status ${newStatus}`,
+            });
+
+            // Fetch and update the job counts in Redux store
+            await fetchUpdatedJobCounts();
+          } catch (createError) {
+            console.error(
+              "Failed to create UserJob relationship:",
+              createError
+            );
+            toast({
+              title: "Error",
+              description:
+                "Failed to add this job to your account. Please try again.",
+              variant: "destructive",
+            });
+          }
+        } else {
+          toast({
+            title: "Error",
+            description: "Failed to update job status. Please try again.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
+  return { status, updateJobStatus };
+}
 export function useTotalJobsCount() {
   const [totalJobs, setTotalJobs] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -142,7 +260,9 @@ interface JobStatusResponse {
 
 export function useJobStatusCounts() {
   const dispatch = useDispatch();
-  const { statusCounts, totalJobsCount, newJobsCount } = useSelector((state: RootState) => state.jobStatus);
+  const { statusCounts, totalJobsCount, newJobsCount } = useSelector(
+    (state: RootState) => state.jobStatus
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -153,7 +273,6 @@ export function useJobStatusCounts() {
       const response = await api.get<JobStatusResponse>("/UserJobs/count");
       dispatch(setJobStatusCounts(response.data));
       setError(null);
-      console.log("Fetched job status counts:", response.data);
     } catch (err) {
       console.error("Error fetching job status counts:", err);
       setError("Failed to fetch job status counts");

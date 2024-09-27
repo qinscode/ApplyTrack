@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -17,10 +18,12 @@ import {
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  onPageSizeChange: (pageSize: number) => void;
 }
 
 export function DataTablePagination<TData>({
   table,
+  onPageSizeChange,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between overflow-auto px-2">
@@ -34,7 +37,9 @@ export function DataTablePagination<TData>({
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value));
+              const newPageSize = Number(value);
+              table.setPageSize(newPageSize);
+              onPageSizeChange(newPageSize);
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">

@@ -33,7 +33,8 @@ interface DataTableProps<TData, TValue> {
   currentPage: number;
   totalCount: number;
   onPageChange: (page: number) => void;
-  onDataChange: (updatedData: TData[]) => void;  // New prop
+  onDataChange: (updatedData: TData[]) => void;
+  onPageSizeChange: (pageSize: number) => void;
 }
 
 export function DataTable<TData extends Job, TValue>({
@@ -43,7 +44,8 @@ export function DataTable<TData extends Job, TValue>({
   currentPage,
   totalCount,
   onPageChange,
-  onDataChange,  // New prop
+  onDataChange,
+  onPageSizeChange,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -51,7 +53,7 @@ export function DataTable<TData extends Job, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const handleStatusChange = (jobId: number, newStatus: Job["status"]) => {
-    const updatedData = data.map(job => 
+    const updatedData = data.map((job) =>
       job.job_id === jobId ? { ...job, status: newStatus } : job
     ) as TData[];
     onDataChange(updatedData);
@@ -59,13 +61,13 @@ export function DataTable<TData extends Job, TValue>({
 
   const table = useReactTable({
     data,
-    columns: columns.map(col => {
-      if (col.id === 'actions') {
+    columns: columns.map((col) => {
+      if (col.id === "actions") {
         return {
           ...col,
           cell: ({ row }) => (
-            <DataTableRowActions 
-              row={row} 
+            <DataTableRowActions
+              row={row}
               onStatusChange={handleStatusChange}
             />
           ),
@@ -106,7 +108,8 @@ export function DataTable<TData extends Job, TValue>({
 
   useEffect(() => {
     table.setPageIndex(currentPage - 1);
-  }, [currentPage, table]);
+    table.setPageSize(pageSize); // 当 pageSize 变化时，更新每页显示条目数
+  }, [currentPage, pageSize, table]);
 
   return (
     <div className="space-y-4">
@@ -161,7 +164,7 @@ export function DataTable<TData extends Job, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} onPageSizeChange={onPageSizeChange} />
     </div>
   );
 }

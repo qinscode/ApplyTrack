@@ -72,6 +72,13 @@ export default function AllJobs() {
     fetchJobs(); // Refetch data after update
   };
 
+  const handleperPageChange = (newPageSize: number) => {
+    setSearchParams({
+      pageSize: newPageSize.toString(),
+      pageNumber: "1",
+    });
+  };
+
   return (
     <Layout>
       <Layout.Body>
@@ -112,6 +119,7 @@ export default function AllJobs() {
                 totalCount={totalJobsCount}
                 onPageChange={handlePageChange}
                 onDataChange={handleDataChange}
+                onPageSizeChange={handleperPageChange}
               />
             </>
           )}

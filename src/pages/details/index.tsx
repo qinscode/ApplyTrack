@@ -1,21 +1,21 @@
 import { Layout } from "@/components/custom/layout";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ThemeSwitch from "@/components/theme-switch.tsx";
 import { UserNav } from "@/components/user-nav.tsx";
-import { useJobDetails } from "@/hooks/useJobDetails"; // Import the new hook
-
+import { useJobDetails } from "@/hooks/useJobDetails";
 import {
   Briefcase,
   MapPin,
   DollarSign,
   Calendar,
   ArrowLeft,
+  ExternalLink,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Job } from "@/types";
 import { Button } from "@/components/custom/button.tsx";
-import { useNavigate } from "react-router-dom";
+import { useJobStatusUpdate } from "@/hooks/useTotalJobsCount.ts";
 
 const statusColors: Record<Job["status"], string> = {
   New: "bg-green-100 text-green-800",
@@ -34,9 +34,16 @@ export default function Details() {
   const { id } = useParams();
   const { job, loading, error } = useJobDetails(id);
   const navigate = useNavigate();
+  const { status, updateJobStatus } = useJobStatusUpdate(job?.status || "New");
 
   const goBack = () => {
     navigate(-1);
+  };
+
+  const handleApply = async () => {
+    if (job && job.job_id) {
+      await updateJobStatus(job.job_id, "Applied");
+    }
   };
 
   if (loading) {
@@ -74,7 +81,17 @@ export default function Details() {
                 <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
                   {job.job_title}
                 </h1>
-                <Button className="mb-4 w-1/2">Apply Now</Button>
+                <a
+                  href={job.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mb-4 w-1/2"
+                >
+                  <Button className="w-full" onClick={handleApply}>
+                    Apply Now
+                    <ExternalLink className="ml-2" size={16} />
+                  </Button>
+                </a>
               </div>
 
               <h2 className="mb-4 text-xl text-gray-600 dark:text-gray-300">
@@ -106,11 +123,9 @@ export default function Details() {
                     Status
                   </h3>
                   <Badge
-                    className={`${
-                      statusColors[job.status]
-                    } pointer-events-none font-semibold`}
+                    className={`${statusColors[status]} pointer-events-none font-semibold`}
                   >
-                    {job.status}
+                    {status}
                   </Badge>
                 </div>
 

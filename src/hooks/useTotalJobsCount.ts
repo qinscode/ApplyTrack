@@ -134,6 +134,7 @@ interface JobStatusCount {
 interface JobStatusResponse {
   statusCounts: JobStatusCount[];
   totalJobsCount: number;
+  newJobsCount: number;
 }
 
 export function useJobStatusCounts() {
@@ -141,6 +142,7 @@ export function useJobStatusCounts() {
   const [totalJobsCount, setTotalJobsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [newJobsCount, setNewJobsCount] = useState<number>(0);
 
   useEffect(() => {
     const fetchJobStatusCounts = async () => {
@@ -150,12 +152,14 @@ export function useJobStatusCounts() {
         const response = await api.get<JobStatusResponse>("/UserJobs/count");
         setStatusCounts(response.data.statusCounts);
         setTotalJobsCount(response.data.totalJobsCount);
+        setNewJobsCount(response.data.newJobsCount);
         setError(null);
       } catch (err) {
         console.error("Error fetching job status counts:", err);
         setError("Failed to fetch job status counts");
         setStatusCounts([]);
         setTotalJobsCount(0);
+        setNewJobsCount(0);
       } finally {
         setLoading(false);
       }
@@ -165,9 +169,16 @@ export function useJobStatusCounts() {
   }, []);
 
   const getCountByStatus = (status: string) => {
-    const statusCount = statusCounts.find(item => item.status === status);
+    const statusCount = statusCounts.find((item) => item.status === status);
     return statusCount ? statusCount.count : 0;
   };
 
-  return { statusCounts, totalJobsCount, loading, error, getCountByStatus };
+  return {
+    statusCounts,
+    totalJobsCount,
+    loading,
+    error,
+    getCountByStatus,
+    newJobsCount,
+  };
 }

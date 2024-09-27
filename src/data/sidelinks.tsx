@@ -34,7 +34,8 @@ export interface SideLink extends NavLink {
 }
 
 export function SidebarLinks() {
-  const { getCountByStatus, totalJobsCount, error } = useJobStatusCounts();
+  const { getCountByStatus, totalJobsCount, error, newJobsCount } =
+    useJobStatusCounts();
 
   const sidelinks: SideLink[] = [
     {
@@ -57,7 +58,7 @@ export function SidebarLinks() {
       sub: [
         {
           title: "New",
-          label: error ? "" : getCountByStatus("New").toString(),
+          label: error ? "" : newJobsCount.toString(),
           href: "/jobs/New",
           icon: <IconPlus size={18} />,
         },
@@ -93,7 +94,9 @@ export function SidebarLinks() {
         },
         {
           title: "TechnicalAssessment",
-          label: error ? "" : getCountByStatus("TechnicalAssessment").toString(),
+          label: error
+            ? ""
+            : getCountByStatus("TechnicalAssessment").toString(),
           href: "/jobs/technical-assessment",
           icon: <IconPencilPlus size={18} />,
         },

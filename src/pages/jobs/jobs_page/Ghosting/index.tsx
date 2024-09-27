@@ -5,7 +5,7 @@ import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import { useSearchParams } from "react-router-dom";
-import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
+import { useJobCountByStatus, useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 import { useCallback } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -21,6 +21,8 @@ export default function GhostingJobs() {
   const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
     useJobCountByStatus("Ghosting", currentPage, pageSize);
 
+  const { refetch: refetchJobStatusCounts } = useJobStatusCounts();
+
   const handlePageChange = (page: number) => {
     setSearchParams({
       pageSize: pageSize.toString(),
@@ -31,10 +33,12 @@ export default function GhostingJobs() {
   const handleDataChange = useCallback(
     (updatedData: Job[]) => {
       setJobs(updatedData);
-      refetch(); // Refetch data after update
+      refetch(); // Refetch current page data
+      refetchJobStatusCounts(); // Refetch all job status counts
     },
-    [setJobs, refetch]
+    [setJobs, refetch, refetchJobStatusCounts]
   );
+
   return (
     <Layout>
       <Layout.Body>

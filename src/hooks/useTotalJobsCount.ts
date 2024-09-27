@@ -125,3 +125,49 @@ export function useNewJobsCount() {
 
   return { totalNewJobs, loading, error };
 }
+
+interface JobStatusCount {
+  status: string;
+  count: number;
+}
+
+interface JobStatusResponse {
+  statusCounts: JobStatusCount[];
+  totalJobsCount: number;
+}
+
+export function useJobStatusCounts() {
+  const [statusCounts, setStatusCounts] = useState<JobStatusCount[]>([]);
+  const [totalJobsCount, setTotalJobsCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchJobStatusCounts = async () => {
+      try {
+        setLoading(true);
+        setupApiToken();
+        const response = await api.get<JobStatusResponse>("/UserJobs/count");
+        setStatusCounts(response.data.statusCounts);
+        setTotalJobsCount(response.data.totalJobsCount);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching job status counts:", err);
+        setError("Failed to fetch job status counts");
+        setStatusCounts([]);
+        setTotalJobsCount(0);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobStatusCounts();
+  }, []);
+
+  const getCountByStatus = (status: string) => {
+    const statusCount = statusCounts.find(item => item.status === status);
+    return statusCount ? statusCount.count : 0;
+  };
+
+  return { statusCounts, totalJobsCount, loading, error, getCountByStatus };
+}

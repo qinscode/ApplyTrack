@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
   const [appliedJobs, setAppliedJobs] = useState(0);
   const [newJobs, setNewJobs] = useState(0);
+  const [interviewedJobs, setInterviewedJobs] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,6 +32,12 @@ export default function Dashboard() {
         // Fetch New jobs (assuming 'Saved' status represents New jobs)
         const newJobsResponse = await api.get(`/Jobs/new`);
         setNewJobs(newJobsResponse.data.totalCount);
+
+        // Fetch interviewed jobs
+        const interviewedJobsResponse = await api.get(
+          `/UserJobs/status/Interviewing`
+        );
+        setInterviewedJobs(interviewedJobsResponse.data.totalCount);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       }
@@ -122,7 +129,7 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">10</div>
+                  <div className="text-2xl font-bold">{interviewedJobs}</div>
                   <p className="text-xs text-muted-foreground">
                     +0% from last month
                   </p>
@@ -151,7 +158,7 @@ export default function Dashboard() {
                     {newJobs === 0 ? `${newJobs}` : `+${newJobs}`}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    +0 since yesterday
+                    since yesterday
                   </p>
                 </CardContent>
               </Card>

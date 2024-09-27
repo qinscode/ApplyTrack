@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import { IconChevronDown } from "@tabler/icons-react";
 import { Button, buttonVariants } from "./custom/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -115,18 +111,12 @@ function NavLink({
 }
 
 function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
-  const { checkActiveNav } = useCheckActiveNav();
-
-  /* Open collapsible by default
-   * if one of child element is active */
-  const isChildActive = !!sub?.find((s) => checkActiveNav(s.href));
-
   return (
-    <Collapsible defaultOpen={isChildActive}>
-      <CollapsibleTrigger
+    <div>
+      <div
         className={cn(
           buttonVariants({ variant: "ghost", size: "sm" }),
-          "group h-12 w-full justify-start rounded-none px-6"
+          "h-12 w-full justify-start rounded-none px-6"
         )}
       >
         <div className="mr-2">{icon}</div>
@@ -136,27 +126,17 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
             {label}
           </div>
         )}
-        <span
-          className={cn(
-            'ml-auto transition-all group-data-[state="open"]:-rotate-180'
-          )}
-        >
-          <IconChevronDown stroke={1} />
-        </span>
-      </CollapsibleTrigger>
-      <CollapsibleContent className="collapsibleDropdown" asChild>
-        <ul>
-          {sub!.map((sublink) => (
-            <li key={sublink.title} className="my-1 ml-8">
-              <NavLink {...sublink} subLink closeNav={closeNav} />
-            </li>
-          ))}
-        </ul>
-      </CollapsibleContent>
-    </Collapsible>
+      </div>
+      <ul>
+        {sub!.map((sublink) => (
+          <li key={sublink.title} className="my-1 ml-8">
+            <NavLink {...sublink} subLink closeNav={closeNav} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
-
 function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
   const { checkActiveNav } = useCheckActiveNav();
   return (

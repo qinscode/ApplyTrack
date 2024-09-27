@@ -2,22 +2,12 @@ import { useEffect, useState } from "react";
 import api from "@/api/axios";
 
 interface RecentJob {
-  id: string;
-  userId: string;
-  userName: string | null;
   jobId: string;
   jobTitle: string;
   status: number;
   createdAt: string;
   updatedAt: string;
 }
-
-const statusMap: { [key: number]: string } = {
-  6: "Interviewing",
-  7: "Technical Assessment",
-  8: "Offered",
-  9: "Rejected",
-};
 
 export function RecentlyAppliedJobs() {
   const [recentlyAppliedJobs, setRecentlyAppliedJobs] = useState<RecentJob[]>(
@@ -66,7 +56,7 @@ export function RecentlyAppliedJobs() {
     <div className="space-y-4">
       {recentlyAppliedJobs.map((job) => (
         <div
-          key={job.id}
+          key={job.jobId}
           className="flex items-center justify-between rounded-lg bg-white p-4 "
         >
           <div className="space-y-1">
@@ -75,9 +65,7 @@ export function RecentlyAppliedJobs() {
               Updated on: {new Date(job.updatedAt).toLocaleDateString()}
             </p>
           </div>
-          <div className="text-sm font-medium">
-            {statusMap[job.status] || "Unknown"}
-          </div>
+          <div className="text-sm font-medium">{[job.status] || "Unknown"}</div>
         </div>
       ))}
     </div>

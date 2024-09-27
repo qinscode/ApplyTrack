@@ -14,6 +14,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Disable any */
+      "noImplicitAny": false,
+
+
+
     /* Alias */
     "baseUrl": ".",
     "paths": {

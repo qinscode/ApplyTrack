@@ -4,15 +4,18 @@ import { UserNav } from "@/components/user-nav.tsx";
 import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
 
 const DEFAULT_PAGE_SIZE = 20;
 
 export default function ArchivedJobs() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageSize = parseInt(searchParams.get('pageSize') || DEFAULT_PAGE_SIZE.toString(), 10);
-  const currentPage = parseInt(searchParams.get('pageNumber') || '1', 10);
+  const pageSize = parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
+    10
+  );
+  const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
   const { Jobs, loading, error, totalJobsCount } = useJobCountByStatus(
     "Archived",
@@ -21,7 +24,10 @@ export default function ArchivedJobs() {
   );
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ pageSize: pageSize.toString(), pageNumber: page.toString() });
+    setSearchParams({
+      pageSize: pageSize.toString(),
+      pageNumber: page.toString(),
+    });
   };
 
   return (

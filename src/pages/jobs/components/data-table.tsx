@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "../components/data-table-pagination";
 import { DataTableToolbar } from "../components/data-table-toolbar";
+import { useEffect, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,14 +41,10 @@ export function DataTable<TData, TValue>({
   totalCount,
   onPageChange,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-
-  React.useEffect(() => {
-    console.log('DataTable received data:', data);
-  }, [data]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -76,7 +72,7 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onPaginationChange: (updater) => {
-      if (typeof updater === 'function') {
+      if (typeof updater === "function") {
         const newPaginationState = updater(table.getState().pagination);
         onPageChange(newPaginationState.pageIndex + 1);
       }
@@ -84,7 +80,7 @@ export function DataTable<TData, TValue>({
     manualPagination: true,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table.setPageIndex(currentPage - 1);
   }, [currentPage, table]);
 

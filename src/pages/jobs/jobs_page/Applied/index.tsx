@@ -4,16 +4,19 @@ import { UserNav } from "@/components/user-nav.tsx";
 import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
 
 export default function AppliedJobs() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageSize = parseInt(searchParams.get('pageSize') || DEFAULT_PAGE_SIZE.toString(), 10);
-  const currentPage = parseInt(searchParams.get('pageNumber') || '1', 10);
+  const pageSize = parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
+    10
+  );
+  const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
   const { Jobs, loading, error, totalJobsCount } = useJobCountByStatus(
     "Applied",
@@ -22,13 +25,16 @@ export default function AppliedJobs() {
   );
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ pageSize: pageSize.toString(), pageNumber: page.toString() });
+    setSearchParams({
+      pageSize: pageSize.toString(),
+      pageNumber: page.toString(),
+    });
   };
 
   useEffect(() => {
-    console.log('Current page:', currentPage);
-    console.log('Jobs:', Jobs);
-    console.log('Total count:', totalJobsCount);
+    console.log("Current page:", currentPage);
+    console.log("Jobs:", Jobs);
+    console.log("Total count:", totalJobsCount);
   }, [currentPage, Jobs, totalJobsCount]);
 
   return (
@@ -38,7 +44,7 @@ export default function AppliedJobs() {
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
             <p className="text-muted-foreground">
-              Here&apos;s a list of your job applications!
+              Here&apos;s a list of your applied job applications!
             </p>
           </div>
 

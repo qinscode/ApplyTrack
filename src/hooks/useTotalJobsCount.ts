@@ -134,32 +134,6 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
 
   return { status, updateJobStatus };
 }
-export function useTotalJobsCount() {
-  const [totalJobs, setTotalJobs] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchTotalJobs = async () => {
-      try {
-        setLoading(true);
-        const response = await api.get("/Jobs?pageNumber=1&pageSize=1");
-        setTotalJobs(response.data.totalCount);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching total jobs:", err);
-        setError("Failed to fetch total jobs count");
-        setTotalJobs(0);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTotalJobs();
-  }, []);
-
-  return { totalJobs, loading, error };
-}
 
 export function useJobCountByStatus(
   status: JobStatus,

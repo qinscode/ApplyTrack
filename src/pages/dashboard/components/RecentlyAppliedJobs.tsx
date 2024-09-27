@@ -7,6 +7,7 @@ interface RecentJob {
   status: number;
   createdAt: string;
   updatedAt: string;
+  businessName: string;
 }
 
 export function RecentlyAppliedJobs() {
@@ -61,11 +62,18 @@ export function RecentlyAppliedJobs() {
         >
           <div className="space-y-1">
             <p className="text-sm font-medium leading-none">{job.jobTitle}</p>
+            <p className="text-xs text-muted-foreground">{job.businessName}</p>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-sm font-medium leading-none">
+              {[job.status] || "Unknown"}
+            </p>
             <p className="text-xs text-muted-foreground">
-              Updated on: {new Date(job.updatedAt).toLocaleDateString()}
+              Applied on: {new Date(job.updatedAt).toLocaleDateString()}
             </p>
           </div>
-          <div className="text-sm font-medium">{[job.status] || "Unknown"}</div>
+          {/*<div className="text-sm font-medium">{[job.status] || "Unknown"}</div>*/}
         </div>
       ))}
     </div>

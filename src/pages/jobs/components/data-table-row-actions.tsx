@@ -21,6 +21,7 @@ import { labels } from "../data/data";
 import { jobSchema } from "../data/schema";
 import api from "@/api/axios";
 import { Job } from "@/types";
+import { toast } from "@/components/ui/use-toast";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -34,19 +35,85 @@ export function DataTableRowActions<TData>({
   const job = jobSchema.parse(row.original) as Job;
   const [status, setStatus] = useState<Job["status"]>(job.status);
 
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No token found, user might not be logged in");
+  }
+  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   const handleStatusChange = async (newStatus: string) => {
-    // Type guard to ensure newStatus is a valid Job["status"]
     if (isValidJobStatus(newStatus)) {
       try {
         await api.put(`/UserJobs/${job.job_id}/status/${newStatus}`);
         setStatus(newStatus);
         onStatusChange(job.job_id, newStatus);
-      } catch (error) {
+        toast({
+          title: "Status updated",
+          description: `Job status has been updated to ${newStatus}`,
+        });
+      } catch (error: any) {
         console.error("Failed to update job status:", error);
-        // You might want to show an error message to the user here
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const errorMessage = error.response.data.message;
+          if (errorMessage.includes("UserJob not found")) {
+            try {
+              await api.post(
+                "/UserJobs",
+                {
+                  jobId: job.job_id,
+                  status: newStatus,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+
+              // After creating the relationship, update the local state
+              setStatus(newStatus);
+              onStatusChange(job.job_id, newStatus);
+              toast({
+                title: "Job Added and Status Updated",
+                description: `This job has been added to your account with the status ${newStatus}`,
+              });
+            } catch (createError) {
+              console.error(
+                "Failed to create UserJob relationship:",
+                createError
+              );
+              toast({
+                title: "Error",
+                description:
+                  "Failed to add this job to your account. Please try again.",
+                variant: "destructive",
+              });
+            }
+          } else {
+            toast({
+              title: "Error",
+              description: "Failed to update job status. Please try again.",
+              variant: "destructive",
+            });
+          }
+        } else {
+          toast({
+            title: "Error",
+            description: "An unexpected error occurred. Please try again.",
+            variant: "destructive",
+          });
+        }
       }
     } else {
       console.error("Invalid status:", newStatus);
+      toast({
+        title: "Error",
+        description: "Invalid job status selected.",
+        variant: "destructive",
+      });
     }
   };
 

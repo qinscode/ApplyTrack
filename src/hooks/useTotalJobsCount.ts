@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import api from "@/api/axios";
 import { Job } from "@/types";
 import { adaptJob } from "@/adapters/jobAdapter.ts";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { setJobStatusCounts } from '@/store/jobStatusSlice';
 
 type JobStatus = Job["status"];
 
@@ -138,35 +141,30 @@ interface JobStatusResponse {
 }
 
 export function useJobStatusCounts() {
-  const [statusCounts, setStatusCounts] = useState<JobStatusCount[]>([]);
-  const [totalJobsCount, setTotalJobsCount] = useState<number>(0);
+  const dispatch = useDispatch();
+  const { statusCounts, totalJobsCount, newJobsCount } = useSelector((state: RootState) => state.jobStatus);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [newJobsCount, setNewJobsCount] = useState<number>(0);
+
+  const fetchJobStatusCounts = useCallback(async () => {
+    try {
+      setLoading(true);
+      setupApiToken();
+      const response = await api.get<JobStatusResponse>("/UserJobs/count");
+      dispatch(setJobStatusCounts(response.data));
+      setError(null);
+      console.log("Fetched job status counts:", response.data);
+    } catch (err) {
+      console.error("Error fetching job status counts:", err);
+      setError("Failed to fetch job status counts");
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    const fetchJobStatusCounts = async () => {
-      try {
-        setLoading(true);
-        setupApiToken();
-        const response = await api.get<JobStatusResponse>("/UserJobs/count");
-        setStatusCounts(response.data.statusCounts);
-        setTotalJobsCount(response.data.totalJobsCount);
-        setNewJobsCount(response.data.newJobsCount);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching job status counts:", err);
-        setError("Failed to fetch job status counts");
-        setStatusCounts([]);
-        setTotalJobsCount(0);
-        setNewJobsCount(0);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchJobStatusCounts();
-  }, []);
+  }, [fetchJobStatusCounts]);
 
   const getCountByStatus = (status: string) => {
     const statusCount = statusCounts.find((item) => item.status === status);
@@ -180,5 +178,6 @@ export function useJobStatusCounts() {
     error,
     getCountByStatus,
     newJobsCount,
+    refetch: fetchJobStatusCounts,
   };
 }

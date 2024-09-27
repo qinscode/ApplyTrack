@@ -1,11 +1,3 @@
-import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
-
-export interface NavLink {
-  title: string;
-  label?: string;
-  href: string;
-  icon: JSX.Element;
-}
 import {
   IconLayoutDashboard,
   IconBriefcase,
@@ -28,14 +20,49 @@ import {
   IconHexagonNumber5,
   IconUserShield,
 } from "@tabler/icons-react";
+import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
+import { useEffect } from 'react';
+
+export interface NavLink {
+  title: string;
+  label?: string;
+  href: string;
+  icon: JSX.Element;
+}
 
 export interface SideLink extends NavLink {
   sub?: NavLink[];
 }
 
 export function SidebarLinks() {
-  const { getCountByStatus, totalJobsCount, error, newJobsCount } =
+  const { statusCounts, totalJobsCount, newJobsCount, loading, error } =
     useJobStatusCounts();
+
+  useEffect(() => {
+    console.log("Status counts updated:", statusCounts);
+  }, [statusCounts]);
+
+  console.log("SidebarLinks render:", {
+    statusCounts,
+    totalJobsCount,
+    newJobsCount,
+    loading,
+    error,
+  });
+
+  const getCountByStatus = (status: string) => {
+    const statusCount = statusCounts.find((item) => item.status === status);
+    return statusCount ? statusCount.count : 0;
+  };
+
+  if (loading) {
+    return []; // or return a loading placeholder
+  }
+
+  if (error) {
+    console.error("Error loading job counts:", error);
+    return []; // or return an error placeholder
+  }
 
   const sidelinks: SideLink[] = [
     {
@@ -46,7 +73,7 @@ export function SidebarLinks() {
     },
     {
       title: "All jobs",
-      label: error ? "" : totalJobsCount.toString(),
+      label: totalJobsCount.toString(),
       href: "/jobs",
       icon: <IconMoodHappy size={18} />,
     },
@@ -58,63 +85,61 @@ export function SidebarLinks() {
       sub: [
         {
           title: "New",
-          label: error ? "" : newJobsCount.toString(),
+          label: newJobsCount.toString(),
           href: "/jobs/New",
           icon: <IconPlus size={18} />,
         },
         {
           title: "Pending",
-          label: error ? "" : getCountByStatus("Pending").toString(),
+          label: getCountByStatus("Pending").toString(),
           href: "/jobs/pending",
           icon: <IconClock size={18} />,
         },
         {
           title: "Applied",
-          label: error ? "" : getCountByStatus("Applied").toString(),
+          label: getCountByStatus("Applied").toString(),
           href: "/jobs/applied",
           icon: <IconSend size={18} />,
         },
         {
           title: "Archived",
-          label: error ? "" : getCountByStatus("Archived").toString(),
+          label: getCountByStatus("Archived").toString(),
           href: "/jobs/archived",
           icon: <IconArchive size={18} />,
         },
         {
           title: "Reviewed",
-          label: error ? "" : getCountByStatus("Reviewed").toString(),
+          label: getCountByStatus("Reviewed").toString(),
           href: "/jobs/reviewed",
           icon: <IconEye size={18} />,
         },
         {
           title: "Interviewing",
-          label: error ? "" : getCountByStatus("Interviewing").toString(),
+          label: getCountByStatus("Interviewing").toString(),
           href: "/jobs/interviewing",
           icon: <IconUsers size={18} />,
         },
         {
           title: "TechnicalAssessment",
-          label: error
-            ? ""
-            : getCountByStatus("TechnicalAssessment").toString(),
+          label: getCountByStatus("TechnicalAssessment").toString(),
           href: "/jobs/technical-assessment",
           icon: <IconPencilPlus size={18} />,
         },
         {
           title: "Offered",
-          label: error ? "" : getCountByStatus("Offered").toString(),
+          label: getCountByStatus("Offered").toString(),
           href: "/jobs/offered",
           icon: <IconCheck size={18} />,
         },
         {
           title: "Ghosting",
-          label: error ? "" : getCountByStatus("Ghosting").toString(),
+          label: getCountByStatus("Ghosting").toString(),
           href: "/jobs/ghosting",
           icon: <IconGhost size={18} />,
         },
         {
           title: "Rejected",
-          label: error ? "" : getCountByStatus("Rejected").toString(),
+          label: getCountByStatus("Rejected").toString(),
           href: "/jobs/rejected",
           icon: <IconX size={18} />,
         },
@@ -165,5 +190,6 @@ export function SidebarLinks() {
       icon: <IconSettings size={18} />,
     },
   ];
+
   return sidelinks;
 }

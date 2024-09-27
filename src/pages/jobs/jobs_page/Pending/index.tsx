@@ -19,7 +19,7 @@ export default function PendingAppliedJobs() {
   const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
   const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
-    useJobCountByStatus("Applied", currentPage, pageSize);
+    useJobCountByStatus("Pending", currentPage, pageSize);
 
   const handlePageChange = (page: number) => {
     setSearchParams({

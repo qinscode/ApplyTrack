@@ -19,7 +19,7 @@ export default function RejectedJobs() {
   const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
 
   const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
-    useJobCountByStatus("Applied", currentPage, pageSize);
+    useJobCountByStatus("Rejected", currentPage, pageSize);
 
   const handlePageChange = (page: number) => {
     setSearchParams({

@@ -13,11 +13,6 @@ import {
   IconSettings,
   IconMoodHappy,
   IconPencilPlus,
-  IconHexagonNumber1,
-  IconHexagonNumber2,
-  IconHexagonNumber3,
-  IconHexagonNumber4,
-  IconUserShield,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
@@ -64,7 +59,7 @@ export function SidebarLinks() {
       icon: <IconMoodHappy size={18} />,
     },
     {
-      title: "jobs",
+      title: "Jobs",
       label: "",
       href: "/jobs",
       icon: <IconBriefcase size={18} />,
@@ -128,38 +123,6 @@ export function SidebarLinks() {
           label: getCountByStatus("Rejected").toString(),
           href: "/jobs/rejected",
           icon: <IconX size={18} />,
-        },
-      ],
-    },
-    {
-      title: "Authentication",
-      label: "",
-      href: "",
-      icon: <IconUserShield size={18} />,
-      sub: [
-        {
-          title: "Sign In (email + password)",
-          label: "",
-          href: "/sign-in",
-          icon: <IconHexagonNumber1 size={18} />,
-        },
-        {
-          title: "Sign In (Box)",
-          label: "",
-          href: "/sign-in-2",
-          icon: <IconHexagonNumber2 size={18} />,
-        },
-        {
-          title: "Sign Up",
-          label: "",
-          href: "/sign-up",
-          icon: <IconHexagonNumber3 size={18} />,
-        },
-        {
-          title: "Forgot Password",
-          label: "",
-          href: "/forgot-password",
-          icon: <IconHexagonNumber4 size={18} />,
         },
       ],
     },

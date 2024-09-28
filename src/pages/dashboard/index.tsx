@@ -30,8 +30,6 @@ export default function Dashboard() {
         const appliedJobsResponse = await api.get(`/UserJobs/status/Applied`);
         setAppliedJobs(appliedJobsResponse.data.totalCount);
 
-        console.log("Applied", appliedJobsResponse.data.totalCount);
-
         // Fetch New jobs (assuming 'Saved' status represents New jobs)
         const newJobsResponse = await api.get(`/Jobs/new`);
         setNewJobs(newJobsResponse.data.totalCount);

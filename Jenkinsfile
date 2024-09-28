@@ -66,7 +66,7 @@ pipeline {
                 sh '''
                     echo "Deploying to production..."
 
-                    mkdir -p ${DEPLOY_PATH}
+                    sudo mkdir -p ${DEPLOY_PATH}
 
                     cp -R dist/* ${DEPLOY_PATH}/
 

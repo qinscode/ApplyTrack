@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/qinscode/JobTracker.git'
-        DEPLOY_PATH = '~/project/jobtracker'
+        DEPLOY_PATH = '/home/ubuntu/project/jobtracker'
     }
 
     stages {

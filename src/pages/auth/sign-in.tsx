@@ -20,7 +20,7 @@ export default function SignIn() {
             >
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
-            Shadcn Admin
+            Job Application Tracker
           </div>
 
           <img
@@ -34,11 +34,14 @@ export default function SignIn() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;This library has saved me countless hours of work and
-                helped me deliver stunning designs to my clients faster than
-                ever before.&rdquo;
+                &ldquo;Your work is going to fill a large part of your life, and
+                the only way to be truly satisfied is to do what you believe is
+                great work. The only way to do great work is to love what you
+                do. If you haven't found it yet, keep looking. Don't settle. As
+                with all matters of the heart, you'll know when you find
+                it.&rdquo;
               </p>
-              <footer className="text-sm">Sofia Davis</footer>
+              <footer className="text-sm">Steve Jobs</footer>
             </blockquote>
           </div>
         </div>
@@ -47,8 +50,16 @@ export default function SignIn() {
             <div className="flex flex-col space-y-2 text-left">
               <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
               <p className="text-sm text-muted-foreground">
-                Enter your email and password below <br />
-                to log into your account
+                Enter your email and password below to log into your account.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Don't have an account?{" "}
+                <a
+                  href="/sign-up"
+                  className="underline underline-offset-4 hover:text-primary"
+                >
+                  Sign Up
+                </a>
               </p>
             </div>
             <UserAuthForm />

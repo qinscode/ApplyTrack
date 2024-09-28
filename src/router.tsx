@@ -15,12 +15,6 @@ const router = createBrowserRouter([
     }),
   },
   {
-    path: "/sign-in-2",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/sign-in-2")).default,
-    }),
-  },
-  {
     path: "/sign-up",
     lazy: async () => ({
       Component: (await import("./pages/auth/sign-up")).default,
@@ -30,12 +24,6 @@ const router = createBrowserRouter([
     path: "/forgot-password",
     lazy: async () => ({
       Component: (await import("./pages/auth/forgot-password")).default,
-    }),
-  },
-  {
-    path: "/otp",
-    lazy: async () => ({
-      Component: (await import("./pages/auth/otp")).default,
     }),
   },
 
@@ -112,13 +100,16 @@ const router = createBrowserRouter([
       {
         path: "jobs/interviewing",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/jobs_page/Interviewing")).default,
+          Component: (await import("./pages/jobs/jobs_page/Interviewing"))
+            .default,
         }),
       },
       {
         path: "jobs/technical-assessment",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/jobs_page/TechnicalAssessment")).default,
+          Component: (
+            await import("./pages/jobs/jobs_page/TechnicalAssessment")
+          ).default,
         }),
       },
       {

@@ -70,6 +70,7 @@ pipeline {
 
                     cp -R dist/* ${DEPLOY_PATH}/
 
+
                     echo "Deployment completed."
                 '''
             }

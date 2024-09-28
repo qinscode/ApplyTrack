@@ -3,7 +3,9 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/qinscode/JobTracker.git'
-        DEPLOY_PATH = '/home/ubuntu/project/jobtracker'
+        DOCKER_IMAGE = 'jobtracker'
+        DOCKER_TAG = "${BUILD_NUMBER}"
+        CONTAINER_NAME = 'jobtracker-container'
     }
 
     stages {
@@ -20,6 +22,8 @@ pipeline {
                     node --version
                     echo "Yarn version:"
                     yarn --version
+                    echo "Docker version:"
+                    docker --version
                 '''
             }
         }
@@ -57,23 +61,26 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'No test script specified in package.json. Skipping tests.'
-
             }
         }
 
-        stage('Deploy and Start') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                    echo "Deploying to production..."
+                script {
+                    docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
+                }
+            }
+        }
 
-                    sudo mkdir -p ${DEPLOY_PATH}
-
-                    cp -R dist/* ${DEPLOY_PATH}/
-
-                    echo "Deployment completed."
-
-
-                '''
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    sh """
+                        docker stop ${CONTAINER_NAME} || true
+                        docker rm ${CONTAINER_NAME} || true
+                        docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    """
+                }
             }
         }
     }

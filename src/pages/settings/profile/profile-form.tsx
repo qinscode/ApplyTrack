@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Link } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/custom/button";
 import {
@@ -12,13 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
@@ -53,7 +46,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
   bio: "I own a computer.",
-  urls: [{ value: "https://fudong.dev" }],
+  urls: [{ value: "https://..." }],
 };
 
 export default function ProfileForm() {
@@ -89,11 +82,11 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Jack Qin" {...field} />
+                <Input placeholder="" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                pseudonym.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -105,21 +98,23 @@ export default function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input placeholder="" {...field} />
+              </FormControl>
+              {/*<Select onValueChange={field.onChange} defaultValue={field.value}>*/}
+              {/*  <FormControl>*/}
+              {/*    <SelectTrigger>*/}
+              {/*      <SelectValue placeholder="Select a verified email to display" />*/}
+              {/*    </SelectTrigger>*/}
+              {/*  </FormControl>*/}
+              {/*  <SelectContent>*/}
+              {/*    <SelectItem value="m@example.com">m@example.com</SelectItem>*/}
+              {/*    <SelectItem value="m@google.com">m@google.com</SelectItem>*/}
+              {/*    <SelectItem value="m@support.com">m@support.com</SelectItem>*/}
+              {/*  </SelectContent>*/}
+              {/*</Select>*/}
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link to="/examples/forms">email settings</Link>.
+                You can manage verified email addresses here.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -139,8 +134,8 @@ export default function ProfileForm() {
                 />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                Briefly describe yourself. This will be displayed on your public
+                profile.
               </FormDescription>
               <FormMessage />
             </FormItem>

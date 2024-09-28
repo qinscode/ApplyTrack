@@ -75,8 +75,9 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
 
             setStatus(newStatus);
             toast({
-              title: "Job Added and Status Updated",
-              description: `This job has been added to your account with the status ${newStatus}`,
+              title: "You've just applied a new job!",
+              description: `Good luck with your application!`,
+              duration: 3000,
             });
 
             // Fetch and update the job counts in Redux store
@@ -91,6 +92,7 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
               description:
                 "Failed to add this job to your account. Please try again.",
               variant: "destructive",
+              duration: 3000,
             });
           }
         } else {

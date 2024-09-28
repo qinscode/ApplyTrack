@@ -33,6 +33,5 @@ export function adaptJob(backendJob: BackendJob): Job {
     job_description: backendJob.jobDescription || "N/A",
   };
 
-  console.log("Adapted job:", adaptedJob);
   return adaptedJob;
 }

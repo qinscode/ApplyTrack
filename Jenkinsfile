@@ -68,7 +68,6 @@ pipeline {
 
                     mkdir -p ${DEPLOY_PATH}
 
-
                     cp -R dist/* ${DEPLOY_PATH}/
 
 

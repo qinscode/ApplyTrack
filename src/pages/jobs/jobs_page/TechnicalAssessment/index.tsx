@@ -78,6 +78,7 @@ export default function TAJobs() {
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
               onDataChange={handleDataChange}
+              onPageSizeChange={handleperPageChange}
             />
           )}
         </div>

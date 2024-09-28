@@ -17,7 +17,6 @@ import {
   IconHexagonNumber2,
   IconHexagonNumber3,
   IconHexagonNumber4,
-  IconHexagonNumber5,
   IconUserShield,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";

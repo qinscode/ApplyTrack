@@ -26,6 +26,7 @@ export default function NewJobs() {
 
   useEffect(() => {
     fetchJobs();
+    // eslint-disable-next-line
   }, [currentPage, pageSize]);
 
   const fetchJobs = async () => {

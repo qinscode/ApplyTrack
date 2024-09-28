@@ -20,14 +20,8 @@ export function RecentlyAppliedJobs() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("No token found, user might not be logged in");
-        }
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await api.get<RecentJob[]>("/UserJobs/recent");
         setRecentlyAppliedJobs(response.data);
-        console.log("Rec", response.data);
       } catch (error) {
         console.error("Error fetching recently applied jobs:", error);
         setError(

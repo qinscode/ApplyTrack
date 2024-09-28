@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import GeneralError from "./pages/errors/general-error";
 import NotFoundError from "./pages/errors/not-found-error";
 import MaintenanceError from "./pages/errors/maintenance-error";
 import UnauthorisedError from "./pages/errors/unauthorised-error.tsx";
+import AppShell from "@/components/app-shell.tsx";
 
 const router = createBrowserRouter([
-  // Auth routes
+  // Auth routes (not protected)
   {
     path: "/sign-in",
     lazy: async () => ({
@@ -37,13 +39,14 @@ const router = createBrowserRouter([
     }),
   },
 
-  // Main routes
+  // Protected routes
   {
     path: "/",
-    lazy: async () => {
-      const AppShell = await import("./components/app-shell");
-      return { Component: AppShell.default };
-    },
+    element: (
+      <ProtectedRoute>
+        <AppShell />
+      </ProtectedRoute>
+    ),
     errorElement: <GeneralError />,
     children: [
       {
@@ -58,28 +61,24 @@ const router = createBrowserRouter([
           Component: (await import("./pages/jobs/jobs_page/All")).default,
         }),
       },
-
       {
         path: "jobs/New",
         lazy: async () => ({
           Component: (await import("./pages/jobs/jobs_page/New")).default,
         }),
       },
-
       {
         path: "jobs/pending",
         lazy: async () => ({
           Component: (await import("./pages/jobs/jobs_page/Pending")).default,
         }),
       },
-
       {
         path: "jobs/applied",
         lazy: async () => ({
           Component: (await import("./pages/jobs/jobs_page/Applied")).default,
         }),
       },
-
       {
         path: "jobs/archived",
         lazy: async () => ({
@@ -98,45 +97,36 @@ const router = createBrowserRouter([
           Component: (await import("./pages/jobs/jobs_page/Offered")).default,
         }),
       },
-
       {
         path: "jobs/ghosting",
         lazy: async () => ({
           Component: (await import("./pages/jobs/jobs_page/Ghosting")).default,
         }),
       },
-
       {
         path: "jobs/rejected",
         lazy: async () => ({
           Component: (await import("./pages/jobs/jobs_page/Rejected")).default,
         }),
       },
-
       {
         path: "jobs/interviewing",
         lazy: async () => ({
-          Component: (await import("./pages/jobs/jobs_page/Interviewing"))
-            .default,
+          Component: (await import("./pages/jobs/jobs_page/Interviewing")).default,
         }),
       },
-
       {
         path: "jobs/technical-assessment",
         lazy: async () => ({
-          Component: (
-            await import("./pages/jobs/jobs_page/TechnicalAssessment")
-          ).default,
+          Component: (await import("./pages/jobs/jobs_page/TechnicalAssessment")).default,
         }),
       },
-
       {
         path: "/job/:id",
         lazy: async () => ({
           Component: (await import("./pages/details")).default,
         }),
       },
-
       {
         path: "settings",
         lazy: async () => ({
@@ -163,7 +153,6 @@ const router = createBrowserRouter([
 
   // Error routes
   { path: "/500", Component: GeneralError },
-  { path: "/404", Component: NotFoundError },
   { path: "/503", Component: MaintenanceError },
   { path: "/401", Component: UnauthorisedError },
 

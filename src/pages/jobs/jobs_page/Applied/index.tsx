@@ -40,12 +40,6 @@ export default function AppliedJobs() {
     [setJobs, refetch, refetchJobStatusCounts]
   );
 
-  useEffect(() => {
-    console.log("Current page:", currentPage);
-    console.log("Jobs:", Jobs);
-    console.log("Total count:", totalJobsCount);
-  }, [currentPage, Jobs, totalJobsCount]);
-
   return (
     <Layout>
       <Layout.Body>

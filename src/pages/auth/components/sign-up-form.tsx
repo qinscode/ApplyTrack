@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconBrandFacebook, IconBrandGithub } from "@tabler/icons-react";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -15,11 +16,14 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/custom/button.tsx";
 import { PasswordInput } from "@/components/custom/password-input.tsx";
 import { cn } from "@/lib/utils.ts";
+import { register } from "@/api/users";
+import { toast } from "@/components/ui/use-toast";
 
 interface SignUpFormProps extends HTMLAttributes<HTMLDivElement> {}
 
 const formSchema = z
   .object({
+    username: z.string().min(1, { message: "Please enter a username" }),
     email: z
       .string()
       .min(1, { message: "Please enter your email" })
@@ -29,8 +33,8 @@ const formSchema = z
       .min(1, {
         message: "Please enter your password",
       })
-      .min(7, {
-        message: "Password must be at least 7 characters long",
+      .min(3, {
+        message: "Password must be at least 3 characters long",
       }),
     confirmPassword: z.string(),
   })
@@ -41,23 +45,40 @@ const formSchema = z
 
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    console.log(data);
-
-    setTimeout(() => {
+    try {
+      const { username, email, password } = data;
+      const { user, token } = await register({ username, email, password });
+      toast({
+        title: "Account created successfully",
+        description: "You have been logged in automatically.",
+      });
+      // Redirect to home page
+      navigate("/");
+    } catch (error) {
+      console.error("Error creating user:", error);
+      toast({
+        title: "Error",
+        description:
+          "There was a problem creating your account. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 3000);
+    }
   }
 
   return (
@@ -65,6 +86,19 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-2">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="johndoe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"

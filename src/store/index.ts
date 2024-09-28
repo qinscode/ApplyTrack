@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit';
-import jobStatusReducer from './jobStatusSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import jobStatusReducer from "./jobStatusSlice";
 
 export const store = configureStore({
   reducer: {

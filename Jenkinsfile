@@ -36,6 +36,12 @@ pipeline {
             }
         }
 
+        stage('Format Code') {
+            steps {
+                sh 'yarn format'
+            }
+        }
+
         stage('Format Check') {
             steps {
                 sh 'yarn format:check'

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface JobStatusCount {
   status: string;
@@ -18,7 +18,7 @@ const initialState: JobStatusState = {
 };
 
 const jobStatusSlice = createSlice({
-  name: 'jobStatus',
+  name: "jobStatus",
   initialState,
   reducers: {
     setJobStatusCounts: (state, action: PayloadAction<JobStatusState>) => {

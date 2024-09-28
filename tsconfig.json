@@ -15,9 +15,7 @@
     "jsx": "react-jsx",
 
     /* Disable any */
-      "noImplicitAny": false,
-
-
+    "noImplicitAny": false,
 
     /* Alias */
     "baseUrl": ".",

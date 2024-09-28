@@ -6,6 +6,7 @@ import { DataTableRowActions } from "./data-table-row-actions";
 import { Job } from "@/types";
 import { statuses } from "@/pages/jobs/data/data.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { useJobStatusUpdate } from "@/hooks/useTotalJobsCount.ts";
 
 export const columns: ColumnDef<Job>[] = [
   {
@@ -140,7 +141,18 @@ export const columns: ColumnDef<Job>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { updateJobStatus } = useJobStatusUpdate(row.original.status);
+
+      const handleStatusChange = (jobId: number, newStatus: Job["status"]) => {
+        updateJobStatus(jobId, newStatus);
+      };
+
+      return (
+        <DataTableRowActions row={row} onStatusChange={handleStatusChange} />
+      );
+    },
   },
 ];
 

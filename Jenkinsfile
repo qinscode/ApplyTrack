@@ -61,15 +61,16 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy and Start') {
             steps {
                 sh '''
                     echo "Deploying to production..."
-                    # 确保目标目录存在
+
                     mkdir -p ${DEPLOY_PATH}
 
-                    # 复制构建文件到部署目录
+
                     cp -R dist/* ${DEPLOY_PATH}/
+
 
                     echo "Deployment completed."
                 '''

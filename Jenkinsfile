@@ -73,7 +73,6 @@ pipeline {
 
                     echo "Deployment completed."
 
-
                 '''
             }
         }

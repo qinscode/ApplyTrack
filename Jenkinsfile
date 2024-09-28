@@ -30,11 +30,11 @@ pipeline {
             }
         }
 
-//         stage('Lint') {
-//             steps {
-//                 sh 'yarn lint'
-//             }
-//         }
+        stage('Lint') {
+            steps {
+                sh 'yarn lint'
+            }
+        }
 
         stage('Format Check') {
             steps {

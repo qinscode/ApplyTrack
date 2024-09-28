@@ -110,7 +110,6 @@ export default function AllJobs() {
             </div>
           ) : (
             <>
-              {console.log("Jobs passed to DataTable:", jobs)}
               <DataTable
                 data={jobs}
                 columns={columns}

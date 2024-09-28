@@ -11,6 +11,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  Row,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -26,7 +27,7 @@ import { useEffect, useState } from "react";
 import { Job } from "@/types";
 import { DataTableRowActions } from "./data-table-row-actions";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends Job, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pageSize: number;
@@ -65,13 +66,13 @@ export function DataTable<TData extends Job, TValue>({
       if (col.id === "actions") {
         return {
           ...col,
-          cell: ({ row }) => (
+          cell: ({ row }: { row: Row<TData> }) => (
             <DataTableRowActions
               row={row}
               onStatusChange={handleStatusChange}
             />
           ),
-        };
+        } as ColumnDef<TData, TValue>;
       }
       return col;
     }),
@@ -108,7 +109,7 @@ export function DataTable<TData extends Job, TValue>({
 
   useEffect(() => {
     table.setPageIndex(currentPage - 1);
-    table.setPageSize(pageSize); // 当 pageSize 变化时，更新每页显示条目数
+    table.setPageSize(pageSize);
   }, [currentPage, pageSize, table]);
 
   return (

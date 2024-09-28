@@ -6,7 +6,7 @@ import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import { useSearchParams } from "react-router-dom";
 import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -40,6 +40,13 @@ export default function AppliedJobs() {
     [setJobs, refetch, refetchJobStatusCounts]
   );
 
+  const handleperPageChange = (newPageSize: number) => {
+    setSearchParams({
+      pageSize: newPageSize.toString(),
+      pageNumber: "1",
+    });
+  };
+
   return (
     <Layout>
       <Layout.Body>
@@ -70,6 +77,7 @@ export default function AppliedJobs() {
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
               onDataChange={handleDataChange}
+              onPageSizeChange={handleperPageChange}
             />
           )}
         </div>

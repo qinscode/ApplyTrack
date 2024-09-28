@@ -77,6 +77,12 @@ export default function NewJobs() {
   };
 
   const handleDataChange = () => {};
+  const handleperPageChange = (newPageSize: number) => {
+    setSearchParams({
+      pageSize: newPageSize.toString(),
+      pageNumber: "1",
+    });
+  };
 
   return (
     <Layout>
@@ -108,6 +114,7 @@ export default function NewJobs() {
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
               onDataChange={handleDataChange}
+              onPageSizeChange={handleperPageChange}
             />
           )}
         </div>

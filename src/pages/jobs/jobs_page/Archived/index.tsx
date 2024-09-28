@@ -5,7 +5,10 @@ import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import { useSearchParams } from "react-router-dom";
-import { useJobCountByStatus, useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
+import {
+  useJobCountByStatus,
+  useJobStatusCounts,
+} from "@/hooks/useTotalJobsCount.ts";
 import { useCallback } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -38,6 +41,12 @@ export default function ArchivedJobs() {
     },
     [setJobs, refetch, refetchJobStatusCounts]
   );
+  const handleperPageChange = (newPageSize: number) => {
+    setSearchParams({
+      pageSize: newPageSize.toString(),
+      pageNumber: "1",
+    });
+  };
 
   return (
     <Layout>
@@ -69,6 +78,7 @@ export default function ArchivedJobs() {
               totalCount={totalJobsCount}
               onPageChange={handlePageChange}
               onDataChange={handleDataChange}
+              onPageSizeChange={handleperPageChange}
             />
           )}
         </div>

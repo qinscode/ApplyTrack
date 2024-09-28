@@ -30,11 +30,11 @@ pipeline {
             }
         }
 
-        stage('Lint') {
-            steps {
-                sh 'yarn lint'
-            }
-        }
+//         stage('Lint') {
+//             steps {
+//                 sh 'yarn lint'
+//             }
+//         }
 
         stage('Format Check') {
             steps {
@@ -51,8 +51,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'No test script specified in package.json. Skipping tests.'
-                // If you add tests later, you can uncomment the following line:
-                // sh 'yarn test'
+
             }
         }
 

@@ -9,14 +9,6 @@ import { toast } from "@/components/ui/use-toast.ts";
 
 type JobStatus = Job["status"];
 
-const setupApiToken = () => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    throw new Error("No token found, user might not be logged in");
-  }
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-};
-
 export function useJobStatusUpdate(initialStatus: Job["status"]) {
   const [status, setStatus] = useState<Job["status"]>(initialStatus);
   const dispatch = useDispatch();
@@ -56,12 +48,6 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
       return;
     }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No token found, user might not be logged in");
-    }
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
     try {
       await api.put(`/UserJobs/${jobId}/status/${newStatus}`);
       setStatus(newStatus);
@@ -82,18 +68,10 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
         const errorMessage = error.response.data.message;
         if (errorMessage.includes("UserJob not found")) {
           try {
-            await api.post(
-              "/UserJobs",
-              {
-                jobId: jobId,
-                status: newStatus,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+            await api.post("/UserJobs", {
+              jobId: jobId,
+              status: newStatus,
+            });
 
             setStatus(newStatus);
             toast({
@@ -149,7 +127,6 @@ export function useJobCountByStatus(
   const fetchJobCount = useCallback(async () => {
     try {
       setLoading(true);
-      setupApiToken();
       const response = await api.get(
         `/UserJobs/status/${status}?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`
       );
@@ -243,7 +220,6 @@ export function useJobStatusCounts() {
   const fetchJobStatusCounts = useCallback(async () => {
     try {
       setLoading(true);
-      setupApiToken();
       const response = await api.get<JobStatusResponse>("/UserJobs/count");
       dispatch(setJobStatusCounts(response.data));
       setError(null);

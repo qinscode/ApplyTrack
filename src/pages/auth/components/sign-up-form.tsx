@@ -61,7 +61,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
     setIsLoading(true);
     try {
       const { username, email, password } = data;
-      const { user, token } = await register({ username, email, password });
+      await register({ username, email, password });
       toast({
         title: "Account created successfully",
         description: "You have been logged in automatically.",

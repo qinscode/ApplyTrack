@@ -7,6 +7,10 @@ WORKDIR /app
 # Copy package.json and yarn.lock files
 COPY package.json yarn.lock ./
 
+RUN npm install -g corepack
+
+RUN corepack enable
+
 # Install dependencies
 RUN yarn install
 

@@ -8,10 +8,16 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Copy the rest of the application code
 COPY . .
+
+#
+RUN yarn lint
+
+# format the code
+RUN yarn format
 
 # Build the application
 RUN yarn build

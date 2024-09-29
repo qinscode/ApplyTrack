@@ -13,12 +13,6 @@ RUN yarn install
 # Copy the rest of the application code
 COPY . .
 
-#
-RUN yarn lint
-
-# format the code
-RUN yarn format
-
 # Build the application
 RUN yarn build
 
@@ -26,4 +20,4 @@ RUN yarn build
 EXPOSE 4173
 
 # Command to run the application
-CMD ["yarn", "start"]
+CMD ["yarn", "preview", "--host", "0.0.0.0", "--port", "4173"]

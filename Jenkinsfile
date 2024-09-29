@@ -37,39 +37,12 @@ pipeline {
             }
         }
 
-        stage('Install dependencies') {
+        stage('Lint and Format') {
             steps {
                 sh 'yarn install'
-            }
-        }
-
-        stage('Lint') {
-            steps {
                 sh 'yarn lint'
-            }
-        }
-
-        stage('Format Code') {
-            steps {
                 sh 'yarn format'
-            }
-        }
-
-        stage('Format Check') {
-            steps {
                 sh 'yarn format:check'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'yarn build'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'No test script specified in package.json. Skipping tests.'
             }
         }
 

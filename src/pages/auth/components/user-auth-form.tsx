@@ -1,9 +1,9 @@
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconBrandFacebook, IconBrandGithub } from "@tabler/icons-react";
+import { IconBrandFacebook, IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import {
   Form,
   FormControl,
@@ -37,6 +37,12 @@ const formSchema = z.object({
     }),
 });
 
+declare global {
+  interface Window {
+    gapi: any;
+  }
+}
+
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -48,6 +54,27 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       password: "",
     },
   });
+
+  useEffect(() => {
+    const loadGoogleSDK = () => {
+      const script = document.createElement('script');
+      script.src = 'https://apis.google.com/js/platform.js';
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+      script.onload = initializeGoogleSignIn;
+    };
+
+    const initializeGoogleSignIn = () => {
+      window.gapi.load('auth2', () => {
+        window.gapi.auth2.init({
+          client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your actual Google Client ID
+        });
+      });
+    };
+
+    loadGoogleSDK();
+  }, []);
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -101,6 +128,34 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       setIsLoading(false);
     }
   }
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const googleUser = await window.gapi.auth2.getAuthInstance().signIn();
+      const googleToken = googleUser.getAuthResponse().id_token;
+      const response = await authApi.googleLogin(googleToken);
+      console.log('Google login successful', response);
+
+      // Save token to local storage
+      localStorage.setItem("token", response.token);
+
+      toast({
+        title: "Google Login Successful",
+        description: "You have been successfully logged in with Google.",
+      });
+      navigate("/");
+    } catch (error) {
+      console.error('Google login failed', error);
+      toast({
+        title: "Google Login Failed",
+        description: "An error occurred during Google login.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -157,6 +212,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </div>
 
             <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                className="w-full"
+                type="button"
+                loading={isLoading}
+                leftSection={<IconBrandGoogle className="h-4 w-4" />}
+                onClick={handleGoogleSignIn}
+              >
+                Google
+              </Button>
               <Button
                 variant="outline"
                 className="w-full"

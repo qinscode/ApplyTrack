@@ -8,8 +8,9 @@ export const login = async (email: string, password: string) => {
   return response.data;
 };
 
-export const googleLogin = async (googleToken: string) => {
-  const response = await api.post("/auth/google", { token: googleToken });
+export const googleLogin = async (accessToken: string) => {
+  console.log(accessToken);
+  const response = await api.post("/auth/google", { access_token: accessToken });
   const { token } = response.data;
   updateToken(token);
   return response.data;

@@ -7,6 +7,7 @@ pipeline {
         DOCKER_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = 'jobtracker-container'
         VITE_API_URL = credentials('API_URL_SECRET')
+        VITE_GOOGLE_CLIENT_ID = credentials('GOOGLE_CLIENT_ID_SECRET')
     }
 
     stages {
@@ -20,6 +21,8 @@ pipeline {
             steps {
                 sh '''
                     echo "VITE_API_URL=${VITE_API_URL}" > .env
+                    echo "VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}" >> .env
+
                 '''
             }
         }

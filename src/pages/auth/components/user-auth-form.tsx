@@ -43,6 +43,9 @@ declare global {
   }
 }
 
+// 添加这行来获取环境变量
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -58,19 +61,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   useEffect(() => {
     const loadGoogleSDK = () => {
       const script = document.createElement('script');
-      script.src = 'https://apis.google.com/js/platform.js';
+      script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
-      script.onload = initializeGoogleSignIn;
-    };
-
-    const initializeGoogleSignIn = () => {
-      window.gapi.load('auth2', () => {
-        window.gapi.auth2.init({
-          client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your actual Google Client ID
-        });
-      });
     };
 
     loadGoogleSDK();
@@ -132,19 +126,33 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const googleUser = await window.gapi.auth2.getAuthInstance().signIn();
-      const googleToken = googleUser.getAuthResponse().id_token;
-      const response = await authApi.googleLogin(googleToken);
-      console.log('Google login successful', response);
-
-      // Save token to local storage
-      localStorage.setItem("token", response.token);
-
-      toast({
-        title: "Google Login Successful",
-        description: "You have been successfully logged in with Google.",
+      const client = google.accounts.oauth2.initTokenClient({
+        client_id: GOOGLE_CLIENT_ID, // 使用环境变量
+        scope: 'email profile',
+        callback: async (response) => {
+          if (response.access_token) {
+            try {
+              const result = await authApi.googleLogin(response.access_token);
+              console.log('Google login successful', result);
+              localStorage.setItem("token", result.token);
+              toast({
+                title: "Google Login Successful",
+                description: "You have been successfully logged in with Google.",
+              });
+              navigate("/");
+            } catch (error) {
+              console.error('Backend login failed', error);
+              toast({
+                title: "Login Failed",
+                description: "An error occurred during login with Google.",
+                variant: "destructive",
+              });
+            }
+          }
+        },
       });
-      navigate("/");
+
+      client.requestAccessToken();
     } catch (error) {
       console.error('Google login failed', error);
       toast({

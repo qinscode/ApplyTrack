@@ -73,7 +73,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Jobs in Seek
+                    Today's Jobs in Seek
                   </CardTitle>
 
                   <DirectionsRunRounded style={{ fontSize: 20 }} />

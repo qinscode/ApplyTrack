@@ -22,7 +22,6 @@ interface JobListLayoutProps {
 }
 
 export function JobListLayout({
-  title,
   description,
   jobs,
   error,
@@ -34,7 +33,7 @@ export function JobListLayout({
   onPageSizeChange,
   onSearch,
   onSort,
-  onRetry
+  onRetry,
 }: JobListLayoutProps) {
   return (
     <Layout>
@@ -79,4 +78,4 @@ export function JobListLayout({
       </Layout.Body>
     </Layout>
   );
-} 
+}

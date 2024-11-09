@@ -35,6 +35,12 @@ export function DataTableToolbar<TData>({
     debouncedSearch(value);
   };
 
+  const handleReset = () => {
+    table.resetColumnFilters();
+    setSearchValue("");
+    onSearch("");
+  };
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -53,14 +59,10 @@ export function DataTableToolbar<TData>({
             />
           )}
         </div>
-        {isFiltered && (
+        {(isFiltered || searchValue) && (
           <Button
             variant="ghost"
-            onClick={() => {
-              table.resetColumnFilters();
-              setSearchValue("");
-              onSearch("");
-            }}
+            onClick={handleReset}
             className="h-8 px-2 lg:px-3"
           >
             Reset

@@ -4,11 +4,26 @@ export default function useCheckActiveNav() {
   const { pathname } = useLocation();
 
   const checkActiveNav = (nav: string) => {
-    const pathArray = pathname.split("/").filter((item) => item !== "");
+    // 处理根路径
+    if (nav === "/" && pathname === "/") {
+      return true;
+    }
 
-    if (nav === "/" && pathArray.length < 1) return true;
+    // 处理 /jobs 路径的特殊情况
+    if (nav === "/jobs" && pathname === "/jobs") {
+      return true;
+    }
 
-    return pathArray.includes(nav.replace(/^\//, ""));
+    // 如果不是根路径，则进行精确匹配
+    if (nav !== "/") {
+      // 移除开头的斜杠并转换为小写进行比较
+      const normalizedNav = nav.replace(/^\//, "").toLowerCase();
+      const normalizedPathname = pathname.replace(/^\//, "").toLowerCase();
+      
+      return normalizedPathname === normalizedNav;
+    }
+
+    return false;
   };
 
   return { checkActiveNav };

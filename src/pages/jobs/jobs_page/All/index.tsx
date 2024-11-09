@@ -25,12 +25,10 @@ export default function AllJobs() {
   const sortDescending = searchParams.get("sortDescending") === "true";
 
   const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalJobsCount, setTotalJobsCount] = useState(0);
 
   const fetchJobs = useCallback(async () => {
-    setLoading(true);
     setError(null);
     
     try {
@@ -59,8 +57,6 @@ export default function AllJobs() {
     } catch (err) {
       console.error("Error fetching jobs:", err);
       setError("Failed to fetch jobs");
-    } finally {
-      setLoading(false);
     }
   }, [currentPage, pageSize, searchTerm, jobTitle, companyName, sortBy, sortDescending]);
 
@@ -134,9 +130,7 @@ export default function AllJobs() {
           </div>
         </div>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
+          {error ? (
             <div>
               <p>Error: {error}</p>
               <button
@@ -147,20 +141,18 @@ export default function AllJobs() {
               </button>
             </div>
           ) : (
-            <>
-              <DataTable
-                data={jobs}
-                columns={columns}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                totalCount={totalJobsCount}
-                onSearch={handleSearch}
-                onSort={handleSort}
-                onPageChange={handlePageChange}
-                onDataChange={handleDataChange}
-                onPageSizeChange={handleperPageChange}
-              />
-            </>
+            <DataTable
+              data={jobs}
+              columns={columns}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              totalCount={totalJobsCount}
+              onSearch={handleSearch}
+              onSort={handleSort}
+              onPageChange={handlePageChange}
+              onDataChange={handleDataChange}
+              onPageSizeChange={handleperPageChange}
+            />
           )}
         </div>
       </Layout.Body>

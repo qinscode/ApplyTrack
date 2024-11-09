@@ -5,9 +5,10 @@ import { DataTable } from "../../components/data-table.tsx";
 import { columns } from "../../components/columns.tsx";
 import { Job } from "@/types";
 import { useSearchParams } from "react-router-dom";
-import { useJobCountByStatus } from "@/hooks/useTotalJobsCount.ts";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
+import api from "@/api/axios.ts";
+import { adaptJob } from "@/adapters/jobAdapter";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -18,32 +19,95 @@ export default function AppliedJobs() {
     10
   );
   const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
+  const searchTerm = searchParams.get("searchTerm") || "";
+  const sortBy = searchParams.get("sortBy") || "";
+  const sortDescending = searchParams.get("sortDescending") === "true";
 
-  const { Jobs, loading, error, totalJobsCount, setJobs, refetch } =
-    useJobCountByStatus("Applied", currentPage, pageSize);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [totalJobsCount, setTotalJobsCount] = useState(0);
 
   const { refetch: refetchJobStatusCounts } = useJobStatusCounts();
 
+  const fetchJobs = useCallback(async () => {
+    setError(null);
+    
+    try {
+      const response = await api.get(`/UserJobs/status/Applied`, { 
+        params: {
+          searchTerm,
+          pageNumber: currentPage,
+          pageSize,
+          sortBy,
+          sortDescending
+        }
+      });
+
+      const adaptedJobs = response.data.jobs.map((job: any) => {
+        const adaptedJob = adaptJob(job);
+        if (!adaptedJob.status) {
+          adaptedJob.status = "Applied";
+        }
+        return adaptedJob;
+      });
+
+      setJobs(adaptedJobs);
+      setTotalJobsCount(response.data.totalCount);
+    } catch (err) {
+      console.error("Error fetching applied jobs:", err);
+      setError("Failed to fetch applied jobs");
+    }
+  }, [currentPage, pageSize, searchTerm, sortBy, sortDescending]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [searchParams]);
+
   const handlePageChange = (page: number) => {
-    setSearchParams({
-      pageSize: pageSize.toString(),
-      pageNumber: page.toString(),
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("pageNumber", page.toString());
+      newParams.set("pageSize", pageSize.toString());
+      return newParams;
     });
   };
 
   const handleDataChange = useCallback(
     (updatedData: Job[]) => {
       setJobs(updatedData);
-      refetch(); // Refetch current page data
-      refetchJobStatusCounts(); // Refetch all job status counts
+      fetchJobs();
+      refetchJobStatusCounts();
     },
-    [setJobs, refetch, refetchJobStatusCounts]
+    [fetchJobs, refetchJobStatusCounts]
   );
 
   const handleperPageChange = (newPageSize: number) => {
-    setSearchParams({
-      pageSize: newPageSize.toString(),
-      pageNumber: "1",
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("pageSize", newPageSize.toString());
+      newParams.set("pageNumber", "1");
+      return newParams;
+    });
+  };
+
+  const handleSearch = useCallback((term: string) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      if (term) {
+        newParams.set("searchTerm", term);
+      } else {
+        newParams.delete("searchTerm");
+      }
+      return newParams;
+    });
+  }, [setSearchParams]);
+
+  const handleSort = (column: string, descending: boolean) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("sortBy", column);
+      newParams.set("sortDescending", String(descending));
+      return newParams;
     });
   };
 
@@ -64,17 +128,25 @@ export default function AppliedJobs() {
           </div>
         </div>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>Error: {error}</p>
+          {error ? (
+            <div>
+              <p>Error: {error}</p>
+              <button
+                onClick={fetchJobs}
+                className="mt-2 rounded bg-blue-500 px-4 py-2 text-white"
+              >
+                Retry
+              </button>
+            </div>
           ) : (
             <DataTable
-              data={Jobs as Job[]}
+              data={jobs}
               columns={columns}
               pageSize={pageSize}
               currentPage={currentPage}
               totalCount={totalJobsCount}
+              onSearch={handleSearch}
+              onSort={handleSort}
               onPageChange={handlePageChange}
               onDataChange={handleDataChange}
               onPageSizeChange={handleperPageChange}

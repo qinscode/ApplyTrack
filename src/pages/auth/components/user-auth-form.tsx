@@ -3,7 +3,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconBrandFacebook, IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
+import {
+  IconBrandFacebook,
+  IconBrandGithub,
+  IconBrandGoogle,
+} from "@tabler/icons-react";
 import {
   Form,
   FormControl,
@@ -60,8 +64,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   useEffect(() => {
     const loadGoogleSDK = () => {
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
@@ -126,22 +130,24 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
+      let google;
       const client = google.accounts.oauth2.initTokenClient({
         client_id: GOOGLE_CLIENT_ID, // 使用环境变量
-        scope: 'email profile',
+        scope: "email profile",
         callback: async (response) => {
           if (response.access_token) {
             try {
               const result = await authApi.googleLogin(response.access_token);
-              console.log('Google login successful', result);
+              console.log("Google login successful", result);
               localStorage.setItem("token", result.token);
               toast({
                 title: "Google Login Successful",
-                description: "You have been successfully logged in with Google.",
+                description:
+                  "You have been successfully logged in with Google.",
               });
               navigate("/");
             } catch (error) {
-              console.error('Backend login failed', error);
+              console.error("Backend login failed", error);
               toast({
                 title: "Login Failed",
                 description: "An error occurred during login with Google.",
@@ -154,7 +160,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
       client.requestAccessToken();
     } catch (error) {
-      console.error('Google login failed', error);
+      console.error("Google login failed", error);
       toast({
         title: "Google Login Failed",
         description: "An error occurred during Google login.",

@@ -23,3 +23,15 @@ export interface Job {
   posted_date: string;
   job_description: string;
 }
+
+// 添加搜索参数接口
+export interface JobSearchParams {
+  searchTerm?: string;
+  jobTitle?: string;
+  companyName?: string;
+  isActive?: boolean;
+  sortBy?: string;
+  sortDescending?: boolean;
+  pageNumber: number;
+  pageSize: number;
+}

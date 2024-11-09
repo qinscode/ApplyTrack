@@ -18,6 +18,11 @@ export default function AllJobs() {
     10
   );
   const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
+  const searchTerm = searchParams.get("searchTerm") || "";
+  const jobTitle = searchParams.get("jobTitle") || "";
+  const companyName = searchParams.get("companyName") || "";
+  const sortBy = searchParams.get("sortBy") || "";
+  const sortDescending = searchParams.get("sortDescending") === "true";
 
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,55 +32,88 @@ export default function AllJobs() {
   const fetchJobs = useCallback(async () => {
     setLoading(true);
     setError(null);
+    
     try {
-      const response = await api.get(
-        `/Jobs?pageNumber=${currentPage}&pageSize=${pageSize}`
-      );
+      const response = await api.get("/Jobs/search", { 
+        params: {
+          searchTerm,
+          jobTitle,
+          companyName,
+          pageNumber: currentPage,
+          pageSize,
+          sortBy,
+          sortDescending
+        }
+      });
 
-      const adaptedJobs = response.data.jobs.map(adaptJob);
-      const validJobs = adaptedJobs.filter(
-        (job: Job) =>
-          job.job_id &&
-          job.job_title !== null &&
-          job.business_name !== null &&
-          job.work_type !== null &&
-          job.job_type !== null &&
-          job.pay_range !== null &&
-          job.status !== null &&
-          job.posted_date !== null &&
-          job.job_description !== null
-      );
+      const adaptedJobs = response.data.jobs.map((job: any) => {
+        const adaptedJob = adaptJob(job);
+        if (!adaptedJob.status) {
+          adaptedJob.status = "New";
+        }
+        return adaptedJob;
+      });
 
-      setJobs(validJobs);
+      setJobs(adaptedJobs);
       setTotalJobsCount(response.data.totalCount);
     } catch (err) {
       console.error("Error fetching jobs:", err);
-      setError("Failed to fetch jobs. Please try again later.");
+      setError("Failed to fetch jobs");
     } finally {
       setLoading(false);
     }
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, searchTerm, jobTitle, companyName, sortBy, sortDescending]);
 
   useEffect(() => {
     fetchJobs();
-  }, [fetchJobs]);
+  }, [searchParams]);
 
   const handlePageChange = (page: number) => {
-    setSearchParams({
-      pageSize: pageSize.toString(),
-      pageNumber: page.toString(),
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("pageNumber", page.toString());
+      newParams.set("pageSize", pageSize.toString());
+      return newParams;
     });
   };
 
   const handleDataChange = (updatedData: Job[]) => {
     setJobs(updatedData);
-    fetchJobs(); // Refetch data after update
+    fetchJobs();
   };
 
   const handleperPageChange = (newPageSize: number) => {
-    setSearchParams({
-      pageSize: newPageSize.toString(),
-      pageNumber: "1",
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("pageSize", newPageSize.toString());
+      newParams.set("pageNumber", "1");
+      return newParams;
+    });
+  };
+
+  const handleSearch = useCallback((term: string) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      if (term) {
+        newParams.set("searchTerm", term);
+        // 可以根据需要设置其他搜索相关参数
+        // newParams.set("jobTitle", term);
+        // newParams.set("companyName", term);
+      } else {
+        newParams.delete("searchTerm");
+        // newParams.delete("jobTitle");
+        // newParams.delete("companyName");
+      }
+      return newParams;
+    });
+  }, [setSearchParams]);
+
+  const handleSort = (column: string, descending: boolean) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("sortBy", column);
+      newParams.set("sortDescending", String(descending));
+      return newParams;
     });
   };
 
@@ -116,6 +154,8 @@ export default function AllJobs() {
                 pageSize={pageSize}
                 currentPage={currentPage}
                 totalCount={totalJobsCount}
+                onSearch={handleSearch}
+                onSort={handleSort}
                 onPageChange={handlePageChange}
                 onDataChange={handleDataChange}
                 onPageSizeChange={handleperPageChange}

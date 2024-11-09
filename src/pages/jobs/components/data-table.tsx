@@ -36,6 +36,8 @@ interface DataTableProps<TData extends Job, TValue> {
   onPageChange: (page: number) => void;
   onDataChange: (updatedData: TData[]) => void;
   onPageSizeChange: (pageSize: number) => void;
+  onSearch: (term: string) => void;
+  onSort: (column: string, descending: boolean) => void;
 }
 
 export function DataTable<TData extends Job, TValue>({
@@ -47,6 +49,8 @@ export function DataTable<TData extends Job, TValue>({
   onPageChange,
   onDataChange,
   onPageSizeChange,
+  onSearch,
+  onSort,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -89,7 +93,16 @@ export function DataTable<TData extends Job, TValue>({
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
+    onSortingChange: (updater) => {
+      if (typeof updater === "function") {
+        const newSorting = updater(sorting);
+        const sortingState = newSorting[0];
+        if (sortingState) {
+          onSort(sortingState.id, sortingState.desc);
+        }
+      }
+      setSorting(updater);
+    },
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
@@ -105,6 +118,8 @@ export function DataTable<TData extends Job, TValue>({
       }
     },
     manualPagination: true,
+    manualFiltering: true,
+    manualSorting: true,
   });
 
   useEffect(() => {
@@ -114,7 +129,7 @@ export function DataTable<TData extends Job, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} onSearch={onSearch} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

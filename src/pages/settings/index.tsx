@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 
 import { Layout } from "@/components/custom/layout";
-import { Search } from "@/components/search";
 import { Separator } from "@/components/ui/separator";
 import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
@@ -11,7 +10,6 @@ export default function Settings() {
     <Layout fixed>
       {/* ===== Top Heading ===== */}
       <Layout.Header>
-        <Search />
         <div className="ml-auto flex items-center space-x-4">
           <ThemeSwitch />
           <UserNav />

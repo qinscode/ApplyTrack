@@ -23,12 +23,12 @@ interface StatusCount {
 }
 
 const mockMonthlyData = [
-  { month: "Jan", applications: 20, fill: "var(--color-january)" },
-  { month: "Feb", applications: 35, fill: "var(--color-february)" },
-  { month: "Mar", applications: 45, fill: "var(--color-march)" },
-  { month: "Apr", applications: 30, fill: "var(--color-april)" },
-  { month: "May", applications: 40, fill: "var(--color-may)" },
-  { month: "Jun", applications: 50, fill: "var(--color-june)" },
+  { month: "January", desktop: 186 },
+  { month: "February", desktop: 305 },
+  { month: "March", desktop: 237 },
+  { month: "April", desktop: 73 },
+  { month: "May", desktop: 209 },
+  { month: "June", desktop: 214 },
 ];
 
 const workTypeData = [

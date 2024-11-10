@@ -10,8 +10,8 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { Overview } from "./components/overview";
-import { RecentlyAppliedJobs } from "./components/RecentlyAppliedJobs.tsx";
+import { Index } from "./overview";
+import { RecentlyAppliedJobs } from "./overview/RecentlyAppliedJobs.tsx";
 
 export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
@@ -132,7 +132,7 @@ export default function Dashboard() {
                   <CardTitle>Jobs Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview />
+                  <Index />
                 </CardContent>
               </Card>
               <Card className="col-span-1 lg:col-span-3">

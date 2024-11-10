@@ -140,7 +140,8 @@ const router = createBrowserRouter([
           {
             path: "email-tracking",
             lazy: async () => ({
-              Component: (await import("./pages/settings/email-tracking")).default,
+              Component: (await import("./pages/settings/email-tracking"))
+                .default,
             }),
           },
         ],
@@ -166,19 +167,22 @@ const router = createBrowserRouter([
               {
                 index: true,
                 lazy: async () => ({
-                  Component: (await import("./pages/documents/resumes")).default,
+                  Component: (await import("./pages/documents/resumes"))
+                    .default,
                 }),
               },
               {
                 path: "create",
                 lazy: async () => ({
-                  Component: (await import("./pages/documents/resumes/create")).default,
+                  Component: (await import("./pages/documents/resumes/create"))
+                    .default,
                 }),
               },
               {
                 path: ":id/edit",
                 lazy: async () => ({
-                  Component: (await import("./pages/documents/resumes/edit")).default,
+                  Component: (await import("./pages/documents/resumes/edit"))
+                    .default,
                 }),
               },
             ],
@@ -189,19 +193,24 @@ const router = createBrowserRouter([
               {
                 index: true,
                 lazy: async () => ({
-                  Component: (await import("./pages/documents/cover-letters")).default,
+                  Component: (await import("./pages/documents/cover-letters"))
+                    .default,
                 }),
               },
               {
                 path: "create",
                 lazy: async () => ({
-                  Component: (await import("./pages/documents/cover-letters/create")).default,
+                  Component: (
+                    await import("./pages/documents/cover-letters/create")
+                  ).default,
                 }),
               },
               {
                 path: ":id/edit",
                 lazy: async () => ({
-                  Component: (await import("./pages/documents/cover-letters/edit")).default,
+                  Component: (
+                    await import("./pages/documents/cover-letters/edit")
+                  ).default,
                 }),
               },
             ],
@@ -231,7 +240,7 @@ const router = createBrowserRouter([
           {
             index: true,
             lazy: async () => ({
-              Component: (await import("./pages/dashboard")).default,
+              Component: (await import("./pages/dashboard/")).default,
             }),
           },
           {

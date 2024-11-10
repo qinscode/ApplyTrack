@@ -244,9 +244,9 @@ const router = createBrowserRouter([
             }),
           },
           {
-            path: "stats",
+            path: "analyze",
             lazy: async () => ({
-              Component: (await import("./pages/dashboard/stats")).default,
+              Component: (await import("./pages/dashboard/analyze")).default,
             }),
           },
           {

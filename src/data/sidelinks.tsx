@@ -68,7 +68,7 @@ export function SidebarLinks() {
         },
         {
           title: "Analytics",
-          href: "/dashboard/stats",
+          href: "/dashboard/analyze",
           icon: <IconChartBar size={18} />,
         },
         {

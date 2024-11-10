@@ -166,33 +166,6 @@ function NavLink({
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
-  return (
-    <div>
-      <div
-        className={cn(
-          buttonVariants({ variant: "ghost", size: "sm" }),
-          "h-12 w-full justify-start rounded-none px-6"
-        )}
-      >
-        <div className="mr-2">{icon}</div>
-        {title}
-        {label && (
-          <div className="ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground">
-            {label}
-          </div>
-        )}
-      </div>
-      <ul>
-        {sub!.map((sublink) => (
-          <li key={sublink.title} className="my-1 ml-8">
-            <NavLink {...sublink} subLink closeNav={closeNav} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
   const { checkActiveNav } = useCheckActiveNav();
   return (

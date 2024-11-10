@@ -31,14 +31,19 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
     accessorKey: "email_subject",
     header: "Email Subject",
     cell: ({ row }) => {
-      const isNew = (new Date().getTime() - new Date(row.original.last_analyzed).getTime()) < 5 * 60 * 1000;
-      
+      const isNew =
+        new Date().getTime() - new Date(row.original.last_analyzed).getTime() <
+        5 * 60 * 1000;
+
       return (
         <div className="flex flex-col">
           <div className="flex items-center justify-between gap-2">
             <span className="font-medium">{row.getValue("email_subject")}</span>
             {isNew && (
-              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+              >
                 New
               </Badge>
             )}
@@ -79,7 +84,7 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
       const currentStatus = row.original.status;
       const detectedStatus = row.getValue("detected_status") as string;
       const hasChanged = currentStatus !== detectedStatus;
-      
+
       return (
         <div className="flex items-center gap-2">
           <Badge variant={hasChanged ? "default" : "outline"}>
@@ -104,7 +109,7 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
 
       if (!hasChanged) {
         return (
-          <Badge variant="outline" className="text-xs whitespace-nowrap">
+          <Badge variant="outline" className="whitespace-nowrap text-xs">
             Up to date
           </Badge>
         );
@@ -116,15 +121,15 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
           size="sm"
           onClick={async () => {
             try {
-              await new Promise(resolve => setTimeout(resolve, 500));
+              await new Promise((resolve) => setTimeout(resolve, 500));
 
-              setResults(prev => 
-                prev.map(result => 
-                  result.job_id === row.original.job_id
-                    ? { ...result, status: result.detected_status }
-                    : result
-                )
-              );
+              // setResults(prev =>
+              //   prev.map(result =>
+              //     result.job_id === row.original.job_id
+              //       ? { ...result, status: result.detected_status }
+              //       : result
+              //   )
+              // );
 
               toast({
                 title: "Status Updated",
@@ -195,7 +200,7 @@ const initialMockData: EmailAnalysisResult[] = [
     confidence_score: 0.95,
     key_phrases: ["application received", "under review", "next steps"],
     next_action: "Wait for response",
-    last_analyzed: new Date().toISOString()
+    last_analyzed: new Date().toISOString(),
   },
   {
     job_id: 2,
@@ -209,7 +214,7 @@ const initialMockData: EmailAnalysisResult[] = [
     confidence_score: 0.92,
     key_phrases: ["interview invitation", "availability", "team meeting"],
     next_action: "Schedule interview",
-    last_analyzed: new Date().toISOString()
+    last_analyzed: new Date().toISOString(),
   },
   {
     job_id: 3,
@@ -223,15 +228,16 @@ const initialMockData: EmailAnalysisResult[] = [
     confidence_score: 0.85,
     key_phrases: ["no response", "2 weeks", "automated message"],
     next_action: "Consider follow-up email",
-    last_analyzed: new Date().toISOString()
-  }
+    last_analyzed: new Date().toISOString(),
+  },
 ];
 
 export default function AIAnalysis() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
   // 使用初始假数据初始化结果
-  const [results, setResults] = useState<EmailAnalysisResult[]>(initialMockData);
+  const [results, setResults] =
+    useState<EmailAnalysisResult[]>(initialMockData);
   const [error, setError] = useState<string | null>(null);
 
   const startAnalysis = async () => {
@@ -241,8 +247,8 @@ export default function AIAnalysis() {
 
     try {
       // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       // 添加新的分析结果
       const newResults: EmailAnalysisResult[] = [
         {
@@ -257,7 +263,7 @@ export default function AIAnalysis() {
           confidence_score: 0.88,
           key_phrases: ["passed assessment", "next round", "team interview"],
           next_action: "Prepare for team interview",
-          last_analyzed: new Date().toISOString()
+          last_analyzed: new Date().toISOString(),
         },
         {
           job_id: 5,
@@ -269,19 +275,23 @@ export default function AIAnalysis() {
           email_sender: "careers@digitalsolutions.com",
           detected_status: "Rejected",
           confidence_score: 0.94,
-          key_phrases: ["thank you for interest", "other candidates", "future opportunities"],
+          key_phrases: [
+            "thank you for interest",
+            "other candidates",
+            "future opportunities",
+          ],
           next_action: "Archive application",
-          last_analyzed: new Date().toISOString()
-        }
+          last_analyzed: new Date().toISOString(),
+        },
       ];
 
       // 合并现有结果和新结果
-      setResults(prevResults => [...prevResults, ...newResults]);
+      setResults((prevResults) => [...prevResults, ...newResults]);
       setProgress(100);
 
       // 添加分析完成的通知
       const statusChanges = newResults.filter(
-        result => result.status !== result.detected_status
+        (result) => result.status !== result.detected_status
       );
 
       toast({
@@ -290,17 +300,19 @@ export default function AIAnalysis() {
           <div className="mt-2 space-y-2">
             <p>Found {newResults.length} new emails.</p>
             {statusChanges.length > 0 && (
-              <p>Detected {statusChanges.length} status changes that need your attention.</p>
+              <p>
+                Detected {statusChanges.length} status changes that need your
+                attention.
+              </p>
             )}
           </div>
         ),
         duration: 5000,
       });
-
     } catch (err) {
       setError("Analysis failed. Please try again.");
       console.error("Analysis failed:", err);
-      
+
       toast({
         title: "Analysis Failed",
         description: "Failed to analyze emails. Please try again.",
@@ -314,7 +326,7 @@ export default function AIAnalysis() {
   // 添加处理批量更新的函数
   const handleBatchUpdate = async () => {
     const statusChanges = results.filter(
-      result => result.status !== result.detected_status
+      (result) => result.status !== result.detected_status
     );
 
     if (statusChanges.length === 0) {
@@ -327,10 +339,10 @@ export default function AIAnalysis() {
 
     try {
       // 这里应该是实际的API调用
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // 更新本地状态
-      const updatedResults = results.map(result => ({
+      const updatedResults = results.map((result) => ({
         ...result,
         status: result.detected_status, // 将当前状态更新为检测到的状态
       }));
@@ -355,7 +367,9 @@ export default function AIAnalysis() {
       <Layout.Body>
         <div className="mb-2 flex items-center justify-between space-y-2">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Email Analysis</h2>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Email Analysis
+            </h2>
             <p className="text-muted-foreground">
               AI-powered analysis of your job application emails
             </p>
@@ -368,7 +382,7 @@ export default function AIAnalysis() {
         </div>
 
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div className="flex gap-2">
               <Button
                 size="lg"
@@ -425,4 +439,4 @@ export default function AIAnalysis() {
       </Layout.Body>
     </Layout>
   );
-} 
+}

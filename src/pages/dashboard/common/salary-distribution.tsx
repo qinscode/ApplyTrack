@@ -4,9 +4,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface SalaryData {
   range: string;
@@ -19,7 +26,7 @@ interface SalaryDistributionProps {
 
 export function SalaryDistribution({ data }: SalaryDistributionProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   return (
     <Card className="md:col-span-2">
       <CardHeader>
@@ -55,4 +62,4 @@ export function SalaryDistribution({ data }: SalaryDistributionProps) {
       </CardContent>
     </Card>
   );
-} 
+}

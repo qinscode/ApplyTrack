@@ -5,9 +5,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import { Progress } from "@/components/ui/progress.tsx";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface StatusCount {
   status: string;
@@ -36,22 +36,16 @@ export function ApplicationFunnel({ statusCounts }: ApplicationFunnelProps) {
           <div key={status.status} className="space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="font-medium">
-                  {status.status}
-                </span>
+                <span className="font-medium">{status.status}</span>
                 <span className="text-sm text-muted-foreground">
                   ({status.count})
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm">
-                  {status.percentage}%
-                </span>
+                <span className="text-sm">{status.percentage}%</span>
                 <span
                   className={`flex items-center text-sm ${
-                    status.change >= 0
-                      ? "text-green-600"
-                      : "text-red-600"
+                    status.change >= 0 ? "text-green-600" : "text-red-600"
                   }`}
                 >
                   {status.change >= 0 ? (
@@ -67,9 +61,7 @@ export function ApplicationFunnel({ statusCounts }: ApplicationFunnelProps) {
               value={status.percentage}
               className="h-2"
               indicatorColor={`hsl(${
-                themesConfig.activeTheme.cssVars.light[
-                  `--chart-${index + 1}`
-                ]
+                themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]
               })`}
             />
           </div>
@@ -77,4 +69,4 @@ export function ApplicationFunnel({ statusCounts }: ApplicationFunnelProps) {
       </CardContent>
     </Card>
   );
-} 
+}

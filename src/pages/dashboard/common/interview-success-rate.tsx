@@ -4,8 +4,15 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+} from "@/components/ui/card.tsx";
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 interface InterviewData {
   name: string;
@@ -42,4 +49,4 @@ export function InterviewSuccessRate({ data }: InterviewSuccessRateProps) {
       </CardContent>
     </Card>
   );
-} 
+}

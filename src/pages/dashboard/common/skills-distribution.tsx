@@ -4,8 +4,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface SkillData {
   text: string;
@@ -18,10 +18,10 @@ interface SkillsDistributionProps {
 
 export function SkillsDistribution({ data }: SkillsDistributionProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   // 根据value值排序，使较大的值在前面
   const sortedData = [...data].sort((a, b) => b.value - a.value);
-  
+
   return (
     <Card>
       <CardHeader>
@@ -36,8 +36,10 @@ export function SkillsDistribution({ data }: SkillsDistributionProps) {
             {sortedData.map((skill, index) => {
               // 使用主题颜色，循环使用颜色
               const colorIndex = (index % 5) + 1;
-              const color = `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${colorIndex}`]})`;
-              
+              const color = `hsl(${
+                themesConfig.activeTheme.cssVars.light[`--chart-${colorIndex}`]
+              })`;
+
               return (
                 <div
                   key={skill.text}
@@ -57,4 +59,4 @@ export function SkillsDistribution({ data }: SkillsDistributionProps) {
       </CardContent>
     </Card>
   );
-} 
+}

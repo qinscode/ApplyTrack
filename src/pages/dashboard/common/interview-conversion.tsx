@@ -4,9 +4,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface InterviewConversionData {
   stage: string;
@@ -19,14 +26,12 @@ interface InterviewConversionProps {
 
 export function InterviewConversion({ data }: InterviewConversionProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Interview Conversion Funnel</CardTitle>
-        <CardDescription>
-          Success rate between interview stages
-        </CardDescription>
+        <CardDescription>Success rate between interview stages</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
@@ -44,4 +49,4 @@ export function InterviewConversion({ data }: InterviewConversionProps) {
       </CardContent>
     </Card>
   );
-} 
+}

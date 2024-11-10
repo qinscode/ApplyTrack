@@ -4,9 +4,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { PieChart, Pie, Tooltip, ResponsiveContainer } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import { Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface JobTypeData {
   type: string;
@@ -19,10 +19,12 @@ interface JobTypeDistributionProps {
 
 export function JobTypeDistribution({ data }: JobTypeDistributionProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   const chartData = data.map((item, index) => ({
     ...item,
-    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`
+    fill: `hsl(${
+      themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]
+    })`,
   }));
 
   return (
@@ -52,4 +54,4 @@ export function JobTypeDistribution({ data }: JobTypeDistributionProps) {
       </CardContent>
     </Card>
   );
-} 
+}

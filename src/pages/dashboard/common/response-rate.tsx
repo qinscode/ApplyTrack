@@ -4,9 +4,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface ResponseRateData {
   company_size: string;
@@ -20,7 +27,7 @@ interface ResponseRateProps {
 
 export function ResponseRate({ data }: ResponseRateProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   return (
     <Card>
       <CardHeader>
@@ -53,4 +60,4 @@ export function ResponseRate({ data }: ResponseRateProps) {
       </CardContent>
     </Card>
   );
-} 
+}

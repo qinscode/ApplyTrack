@@ -4,9 +4,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface LocationData {
   name: string;
@@ -19,19 +19,19 @@ interface LocationDistributionProps {
 
 export function LocationDistribution({ data }: LocationDistributionProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   const chartData = data.map((item, index) => ({
     ...item,
-    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`
+    fill: `hsl(${
+      themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]
+    })`,
   }));
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Location Distribution</CardTitle>
-        <CardDescription>
-          Job applications by location
-        </CardDescription>
+        <CardDescription>Job applications by location</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
@@ -55,4 +55,4 @@ export function LocationDistribution({ data }: LocationDistributionProps) {
       </CardContent>
     </Card>
   );
-} 
+}

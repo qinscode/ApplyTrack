@@ -8,13 +8,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
+} from "@/components/ui/card.tsx";
+import type { ChartConfig } from "@/components/ui/chart.tsx";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/ui/chart.tsx";
 
 export const description = "A bar chart with an active bar";
 

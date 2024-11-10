@@ -1,6 +1,6 @@
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 import {
   Card,
@@ -9,12 +9,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card.tsx";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/ui/chart.tsx";
 
 const chartData = [
   { day: "mon", applications: 18 },
@@ -28,7 +28,7 @@ const chartData = [
 
 export function DailyApplications() {
   const { themesConfig } = useThemesConfig();
-  
+
   const chartConfig = {
     applications: {
       label: "Applications",
@@ -122,4 +122,4 @@ export function DailyApplications() {
       </CardFooter>
     </Card>
   );
-} 
+}

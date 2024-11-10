@@ -4,9 +4,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+} from "@/components/ui/card.tsx";
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config.ts";
 
 interface WeeklyActivityData {
   week: string;
@@ -21,7 +28,7 @@ interface WeeklyActivitiesProps {
 
 export function WeeklyActivities({ data }: WeeklyActivitiesProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   return (
     <Card className="md:col-span-2">
       <CardHeader>
@@ -52,13 +59,7 @@ export function WeeklyActivities({ data }: WeeklyActivitiesProps) {
                   stopOpacity={0}
                 />
               </linearGradient>
-              <linearGradient
-                id="colorInterviews"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
+              <linearGradient id="colorInterviews" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
                   stopColor={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`}
@@ -70,13 +71,7 @@ export function WeeklyActivities({ data }: WeeklyActivitiesProps) {
                   stopOpacity={0}
                 />
               </linearGradient>
-              <linearGradient
-                id="colorOffers"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
+              <linearGradient id="colorOffers" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
                   stopColor={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-3"]})`}
@@ -118,4 +113,4 @@ export function WeeklyActivities({ data }: WeeklyActivitiesProps) {
       </CardContent>
     </Card>
   );
-} 
+}

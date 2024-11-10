@@ -7,7 +7,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Pie, PieChart, Cell, Area, AreaChart } from "recharts";
+import {
+  Bar,
+  BarChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Pie,
+  PieChart,
+  Cell,
+  Area,
+  AreaChart,
+} from "recharts";
 
 // 添加面试结果数据
 const interviewOutcomeData = [
@@ -79,9 +91,154 @@ export default function Reports() {
             </CardContent>
           </Card>
 
+          {/* 技能需求趋势 */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Skill Demand Trends</CardTitle>
+              <CardDescription>
+                Popularity of different skills over time
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <AreaChart data={skillTrendData}>
+                  <defs>
+                    <linearGradient id="colorReact" x1="0" y1="0" x2="0" y2="1">
+                      <stop
+                        offset="5%"
+                        stopColor="hsl(var(--purple-300))"
+                        stopOpacity={0.1}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="hsl(var(--purple-300))"
+                        stopOpacity={0}
+                      />
+                    </linearGradient>
+                    <linearGradient
+                      id="colorTypescript"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="5%"
+                        stopColor="hsl(var(--blue-300))"
+                        stopOpacity={0.1}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="hsl(var(--blue-300))"
+                        stopOpacity={0}
+                      />
+                    </linearGradient>
+                    <linearGradient id="colorNode" x1="0" y1="0" x2="0" y2="1">
+                      <stop
+                        offset="5%"
+                        stopColor="hsl(var(--green-300))"
+                        stopOpacity={0.1}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="hsl(var(--green-300))"
+                        stopOpacity={0}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="react"
+                    stroke="hsl(var(--purple-300))"
+                    fillOpacity={1}
+                    fill="url(#colorReact)"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="typescript"
+                    stroke="hsl(var(--blue-300))"
+                    fillOpacity={1}
+                    fill="url(#colorTypescript)"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="node"
+                    stroke="hsl(var(--green-300))"
+                    fillOpacity={1}
+                    fill="url(#colorNode)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {/* 薪资分布 */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Salary Distribution</CardTitle>
+                <CardDescription>
+                  Distribution of job offers by salary range
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={salaryDistributionData}
+                      dataKey="count"
+                      nameKey="range"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      label={({ name, value }) => `${name} (${value}%)`}
+                    >
+                      {salaryDistributionData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            {/* 工作地点分布 */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Work Location Type</CardTitle>
+                <CardDescription>
+                  Distribution of remote vs on-site positions
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={locationData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      label={({ name, value }) => `${name} (${value}%)`}
+                    >
+                      {locationData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
           {/* 其他图表... */}
         </div>
       </Layout.Body>
     </Layout>
   );
-} 
+}

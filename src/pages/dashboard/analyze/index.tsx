@@ -11,6 +11,9 @@ import { InterviewSuccessRate } from "@/components/dashboard/interview-success-r
 import { SalaryDistribution } from "@/components/dashboard/salary-distribution";
 import { LocationDistribution } from "@/components/dashboard/location-distribution";
 import { SkillsDistribution } from "@/components/dashboard/skills-distribution";
+import { ResponseRate } from "@/components/dashboard/response-rate";
+import { InterviewConversion } from "@/components/dashboard/interview-conversion";
+import { WeeklyActivities } from "@/components/dashboard/weekly-activities";
 
 interface StatusCount {
   status: string;
@@ -79,6 +82,29 @@ const skillsData = [
   { text: "Git", value: 8 },
 ];
 
+const responseRateData = [
+  { company_size: "Startup", response_rate: 65, avg_response_time: 3 },
+  { company_size: "Small", response_rate: 55, avg_response_time: 5 },
+  { company_size: "Medium", response_rate: 45, avg_response_time: 7 },
+  { company_size: "Large", response_rate: 35, avg_response_time: 10 },
+];
+
+const interviewConversionData = [
+  { stage: "Applied → Phone Screen", rate: 25 },
+  { stage: "Phone → Technical", rate: 60 },
+  { stage: "Technical → Onsite", rate: 70 },
+  { stage: "Onsite → Offer", rate: 40 },
+];
+
+const weeklyActivitiesData = [
+  { week: "Week 1", applications: 5, interviews: 2, offers: 0 },
+  { week: "Week 2", applications: 8, interviews: 3, offers: 1 },
+  { week: "Week 3", applications: 12, interviews: 4, offers: 0 },
+  { week: "Week 4", applications: 7, interviews: 5, offers: 2 },
+  { week: "Week 5", applications: 10, interviews: 3, offers: 1 },
+  { week: "Week 6", applications: 15, interviews: 6, offers: 1 },
+];
+
 export default function DashboardStats() {
   const [statusCounts] = useState<StatusCount[]>([
     { status: "Applied", count: 100, percentage: 100, change: 5.2 },
@@ -121,6 +147,13 @@ export default function DashboardStats() {
                     <LocationDistribution data={locationData} />
                     <SkillsDistribution data={skillsData} />
                   </div>
+
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <ResponseRate data={responseRateData} />
+                    <InterviewConversion data={interviewConversionData} />
+                  </div>
+
+                  <WeeklyActivities data={weeklyActivitiesData} />
                 </div>
               </div>
             </div>

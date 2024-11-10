@@ -14,16 +14,13 @@ interface ResponseRateData {
   avg_response_time: number;
 }
 
-interface ResponseRateAnalysisProps {
+interface ResponseRateProps {
   data: ResponseRateData[];
 }
 
-export function ResponseRateAnalysis({ data }: ResponseRateAnalysisProps) {
+export function ResponseRate({ data }: ResponseRateProps) {
   const { themesConfig } = useThemesConfig();
   
-  const chartColor1 = `hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`;
-  const chartColor2 = `hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`;
-
   return (
     <Card>
       <CardHeader>
@@ -38,25 +35,18 @@ export function ResponseRateAnalysis({ data }: ResponseRateAnalysisProps) {
             <XAxis dataKey="company_size" />
             <YAxis yAxisId="left" />
             <YAxis yAxisId="right" orientation="right" />
-            <Tooltip 
-              formatter={(value, name) => {
-                if (name === "response_rate") return `${value}%`;
-                return `${value} days`;
-              }}
-            />
+            <Tooltip />
             <Bar
               yAxisId="left"
               dataKey="response_rate"
-              fill={chartColor1}
-              name="Response Rate"
-              radius={[4, 4, 0, 0]}
+              fill={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`}
+              name="Response Rate (%)"
             />
             <Bar
               yAxisId="right"
               dataKey="avg_response_time"
-              fill={chartColor2}
-              name="Avg Response Time"
-              radius={[4, 4, 0, 0]}
+              fill={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`}
+              name="Avg Response Time (days)"
             />
           </BarChart>
         </ResponsiveContainer>

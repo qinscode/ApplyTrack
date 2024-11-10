@@ -137,7 +137,19 @@ const router = createBrowserRouter([
               Component: (await import("./pages/settings/account")).default,
             }),
           },
+          {
+            path: "email-tracking",
+            lazy: async () => ({
+              Component: (await import("./pages/settings/email-tracking")).default,
+            }),
+          },
         ],
+      },
+      {
+        path: "ai-analysis",
+        lazy: async () => ({
+          Component: (await import("./pages/ai-analysis")).default,
+        }),
       },
     ],
   },

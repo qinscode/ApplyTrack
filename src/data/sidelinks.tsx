@@ -13,6 +13,8 @@ import {
   IconSettings,
   IconMoodHappy,
   IconPencilPlus,
+  IconMail,
+  IconBrain,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
@@ -37,12 +39,12 @@ export function SidebarLinks() {
   };
 
   if (loading) {
-    return []; // or return a loading placeholder
+    return [];
   }
 
   if (error) {
     console.error("Error loading job counts:", error);
-    return []; // or return an error placeholder
+    return [];
   }
 
   const sidelinks: SideLink[] = [
@@ -127,10 +129,33 @@ export function SidebarLinks() {
       ],
     },
     {
+      title: "AI Analysis",
+      label: "Beta",
+      href: "/ai-analysis",
+      icon: <IconBrain size={18} />,
+    },
+    {
       title: "Settings",
       label: "",
       href: "/settings",
       icon: <IconSettings size={18} />,
+      sub: [
+        {
+          title: "Profile",
+          href: "/settings",
+          icon: <IconUsers size={18} />,
+        },
+        {
+          title: "Account",
+          href: "/settings/account",
+          icon: <IconSettings size={18} />,
+        },
+        {
+          title: "Email Tracking",
+          href: "/settings/email-tracking",
+          icon: <IconMail size={18} />,
+        },
+      ],
     },
   ];
 

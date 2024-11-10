@@ -25,6 +25,8 @@ import {
 import { IconArrowUpRight, IconArrowDownRight } from "@tabler/icons-react";
 import { ThemesSwitcher } from "@/components/theme/themes-selector.tsx";
 import { THEMES } from "@/lib/themes.ts";
+import { useTheme } from "@/components/theme/theme-provider"
+import { useThemesConfig } from "@/hooks/use-themes-config"
 
 interface StatusCount {
   status: string;
@@ -146,6 +148,8 @@ export default function DashboardStats() {
     { status: "Offered", count: 10, percentage: 10, change: 0.8 },
   ]);
 
+  const { themesConfig } = useThemesConfig()
+  
   return (
     <Layout>
       <PageHeader title="Application Analytics" />
@@ -170,7 +174,7 @@ export default function DashboardStats() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-8">
-                      {statusCounts.map((status) => (
+                      {statusCounts.map((status, index) => (
                         <div key={status.status} className="space-y-2">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -201,7 +205,11 @@ export default function DashboardStats() {
                               </span>
                             </div>
                           </div>
-                          <Progress value={status.percentage} className="h-2" />
+                          <Progress 
+                            value={status.percentage} 
+                            className="h-2" 
+                            indicatorColor={`hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`}
+                          />
                         </div>
                       ))}
                     </CardContent>
@@ -510,7 +518,7 @@ export default function DashboardStats() {
                     </Card>
                   </div>
 
-                  {/* 每周活动趋势 */}
+                  {/* 每周活动势 */}
                   <Card>
                     <CardHeader>
                       <CardTitle>Weekly Activities Overview</CardTitle>

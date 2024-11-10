@@ -4,7 +4,6 @@ import { useState } from "react";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { THEMES } from "@/lib/themes";
 import { ApplicationFunnel } from "@/components/dashboard/application-funnel";
-import { WeeklyApplications } from "@/components/dashboard/weekly-applications";
 import { MonthlyTrend } from "@/components/dashboard/monthly-trend";
 import { JobTypeDistribution } from "@/components/dashboard/job-type-distribution";
 import { InterviewSuccessRate } from "@/components/dashboard/interview-success-rate";
@@ -14,6 +13,7 @@ import { SkillsDistribution } from "@/components/dashboard/skills-distribution";
 import { ResponseRate } from "@/components/dashboard/response-rate";
 import { InterviewConversion } from "@/components/dashboard/interview-conversion";
 import { WeeklyActivities } from "@/components/dashboard/weekly-activities";
+import { DailyApplications } from "@/components/dashboard/daily-applications";
 
 interface StatusCount {
   status: string;
@@ -21,15 +21,6 @@ interface StatusCount {
   percentage: number;
   change: number;
 }
-
-const mockWeeklyData = [
-  { week: "Week 1", applications: 5 },
-  { week: "Week 2", applications: 8 },
-  { week: "Week 3", applications: 12 },
-  { week: "Week 4", applications: 7 },
-  { week: "Week 5", applications: 10 },
-  { week: "Week 6", applications: 15 },
-];
 
 const mockMonthlyData = [
   { month: "Jan", applications: 20, fill: "var(--color-january)" },
@@ -129,10 +120,9 @@ export default function DashboardStats() {
                 />
 
                 <div className="space-y-8 pr-20">
-                  <ApplicationFunnel statusCounts={statusCounts} />
-                  
-                  <div className="grid gap-8 md:grid-cols-2">
-                    <WeeklyApplications data={mockWeeklyData} />
+                  <div className="grid gap-8 md:grid-cols-3">
+                    <ApplicationFunnel statusCounts={statusCounts} />
+                    <DailyApplications />
                     <MonthlyTrend data={mockMonthlyData} />
                   </div>
 

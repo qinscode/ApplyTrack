@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { PieChart } from "lucide-react";
 import { Separator } from "@/components/ui/separator.tsx";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export function Announcement() {
   return (

@@ -1,35 +1,36 @@
-import { Link, Outlet, useLoaderData } from "react-router"
+import { Outlet, useLoaderData } from "react-router";
 
-import { Announcement } from "@/components/announcement"
-import { ThemesSwitcher } from "@/components/theme/themes-selector"
-import { Button } from "@/components/ui/button"
-import { THEMES } from "@/lib/themes"
+import { Announcement } from "@/components/announcement";
+import { ThemesSwitcher } from "@/components/theme/themes-selector";
+import { Button } from "@/components/ui/button";
+import { THEMES } from "@/lib/themes";
 
-import { ChartsNav } from "./components/charts-nav"
+import { ChartsNav } from "./components/charts-nav";
 import {
   PageActions,
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-} from "./components/page-header"
+} from "./components/page-header";
+import { Link } from "react-router-dom";
 
 export const clientLoader = async ({
   params,
 }: {
-  request: Request
-  params: { chartName: string }
+  request: Request;
+  params: { chartName: string };
 }) => {
-  const { chartName } = params
+  const { chartName } = params;
 
   return {
     chartName,
-  }
-}
+  };
+};
 
 export default function Layout() {
   const { chartName } = useLoaderData() as Awaited<
     ReturnType<typeof clientLoader>
-  >
+  >;
 
   return (
     <div className="relative">
@@ -44,7 +45,12 @@ export default function Layout() {
             <a href="#charts">Browse Charts</a>
           </Button>
           <Button asChild variant="ghost" size="sm">
-            <Link target="_blank" to="https://ui.shadcn.com/docs/components/chart">Documentation</Link>
+            <Link
+              target="_blank"
+              to="https://ui.shadcn.com/docs/components/chart"
+            >
+              Documentation
+            </Link>
           </Button>
         </PageActions>
       </PageHeader>
@@ -66,5 +72,5 @@ export default function Layout() {
         </div>
       </section>
     </div>
-  )
+  );
 }

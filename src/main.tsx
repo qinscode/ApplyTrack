@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import router from "@/router";
 import "@/index.css";
+import { RootProviders } from "@/providers/root-providers.tsx";
 
 // backup console.warn 和 console.error
 const originalWarn = console.warn;
@@ -28,11 +29,13 @@ console.error = function (message, ...args) {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
-        <Toaster />
-      </ThemeProvider>
-    </Provider>
+    <RootProviders>
+      <Provider store={store}>
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+          <RouterProvider router={router} />
+          <Toaster />
+        </ThemeProvider>
+      </Provider>
+    </RootProviders>
   </React.StrictMode>
 );

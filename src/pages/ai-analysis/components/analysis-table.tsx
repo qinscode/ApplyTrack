@@ -44,7 +44,6 @@ export function AnalysisTable<TData, TValue>({
   currentPage,
   totalCount,
   onPageChange,
-  onDataChange,
   onPageSizeChange,
   onSearch,
   onSort,
@@ -160,4 +159,4 @@ export function AnalysisTable<TData, TValue>({
       <DataTablePagination table={table} onPageSizeChange={onPageSizeChange} />
     </div>
   );
-} 
+}

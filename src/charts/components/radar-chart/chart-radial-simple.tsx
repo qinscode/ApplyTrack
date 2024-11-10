@@ -1,5 +1,5 @@
-import { TrendingUp } from "lucide-react"
-import { RadialBar, RadialBarChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { RadialBar, RadialBarChart } from "recharts";
 
 import {
   Card,
@@ -8,17 +8,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/ui/card"
-import type {
-  ChartConfig,
-} from "@/ui/chart"
+} from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A radial chart"
+export const description = "A radial chart";
 
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -26,7 +24,7 @@ const chartData = [
   { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
   { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
   { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+];
 
 const chartConfig = {
   visitors: {
@@ -52,7 +50,7 @@ const chartConfig = {
     label: "Other",
     color: "hsl(var(--chart-5))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Component() {
   return (
@@ -84,5 +82,5 @@ export function Component() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

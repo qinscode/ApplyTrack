@@ -1,7 +1,6 @@
 import { Layout } from "@/components/custom/layout";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/custom/button";
-import ThemeSwitch from "@/components/theme-switch";
-import { UserNav } from "@/components/user-nav";
 import {
   Card,
   CardContent,
@@ -52,21 +51,8 @@ export default function Resumes() {
 
   return (
     <Layout>
+      <PageHeader title="Resume Management" />
       <Layout.Body>
-        <div className="mb-2 flex items-center justify-between space-y-2">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">Resume Management</h2>
-            <p className="text-muted-foreground">
-              Manage and track different versions of your resumes
-            </p>
-          </div>
-
-          <div className="ml-auto flex items-center space-x-4">
-            <ThemeSwitch />
-            <UserNav />
-          </div>
-        </div>
-
         <div className="space-y-4">
           <Button 
             className="w-full sm:w-auto"

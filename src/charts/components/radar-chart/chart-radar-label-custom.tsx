@@ -1,5 +1,5 @@
-import { TrendingUp } from "lucide-react"
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 
 import {
   Card,
@@ -8,17 +8,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/ui/card"
-import type {
-  ChartConfig,
-} from "@/ui/chart"
+} from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A radar chart with a custom label"
+export const description = "A radar chart with a custom label";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -27,7 +25,7 @@ const chartData = [
   { month: "April", desktop: 73, mobile: 190 },
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
-]
+];
 
 const chartConfig = {
   desktop: {
@@ -38,7 +36,7 @@ const chartConfig = {
     label: "Mobile",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Component() {
   return (
@@ -70,7 +68,7 @@ export function Component() {
             <PolarAngleAxis
               dataKey="month"
               tick={({ x, y, textAnchor, value, index, ...props }) => {
-                const data = chartData[index]
+                const data = chartData[index];
 
                 return (
                   <text
@@ -93,7 +91,7 @@ export function Component() {
                       {data.month}
                     </tspan>
                   </text>
-                )
+                );
               }}
             />
 
@@ -116,5 +114,5 @@ export function Component() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

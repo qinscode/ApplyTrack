@@ -71,9 +71,9 @@ export function Overview() {
         />
         <Bar
           dataKey="total"
-          fill="currentColor"
           radius={[4, 4, 0, 0]}
           className="fill-primary"
+          fill="hsl(var(--primary))"
         />
       </BarChart>
     </ResponsiveContainer>

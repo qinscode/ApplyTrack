@@ -1,6 +1,5 @@
 import { Layout } from "@/components/custom/layout";
-import ThemeSwitch from "@/components/theme-switch";
-import { UserNav } from "@/components/user-nav";
+import { PageHeader } from "@/components/page-header";
 import {
   Card,
   CardContent,
@@ -135,21 +134,8 @@ export default function DashboardStats() {
 
   return (
     <Layout>
+      <PageHeader title="Application Analytics" />
       <Layout.Body>
-        <div className="mb-2 flex items-center justify-between space-y-2">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">Application Analytics</h2>
-            <p className="text-muted-foreground">
-              Track your job application funnel and trends
-            </p>
-          </div>
-
-          <div className="ml-auto flex items-center space-x-4">
-            <ThemeSwitch />
-            <UserNav />
-          </div>
-        </div>
-
         <div className="grid gap-4">
           {/* Application Funnel */}
           <Card>

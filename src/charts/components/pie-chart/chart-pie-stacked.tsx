@@ -1,6 +1,6 @@
-import { TrendingUp } from "lucide-react"
-import * as React from "react"
-import { Pie, PieChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import * as React from "react";
+import { Pie, PieChart } from "recharts";
 
 import {
   Card,
@@ -9,11 +9,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/ui/card"
-import type { ChartConfig } from "@/ui/chart"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/ui/chart"
+} from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
-export const description = "A pie chart with stacked sections"
+export const description = "A pie chart with stacked sections";
 
 const desktopData = [
   { month: "january", desktop: 186, fill: "var(--color-january)" },
@@ -21,7 +25,7 @@ const desktopData = [
   { month: "march", desktop: 237, fill: "var(--color-march)" },
   { month: "april", desktop: 173, fill: "var(--color-april)" },
   { month: "may", desktop: 209, fill: "var(--color-may)" },
-]
+];
 
 const mobileData = [
   { month: "january", mobile: 80, fill: "var(--color-january)" },
@@ -29,7 +33,7 @@ const mobileData = [
   { month: "march", mobile: 120, fill: "var(--color-march)" },
   { month: "april", mobile: 190, fill: "var(--color-april)" },
   { month: "may", mobile: 130, fill: "var(--color-may)" },
-]
+];
 
 const chartConfig = {
   visitors: {
@@ -61,7 +65,7 @@ const chartConfig = {
     label: "May",
     color: "hsl(var(--chart-5))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Component() {
   return (
@@ -77,7 +81,7 @@ export function Component() {
         >
           <PieChart>
             <ChartTooltip
-              content={(
+              content={
                 <ChartTooltipContent
                   labelKey="visitors"
                   nameKey="month"
@@ -85,9 +89,10 @@ export function Component() {
                   labelFormatter={(_, payload) =>
                     chartConfig[
                       payload?.[0].dataKey as keyof typeof chartConfig
-                    ].label}
+                    ].label
+                  }
                 />
-              )}
+              }
             />
             <Pie data={desktopData} dataKey="desktop" outerRadius={60} />
             <Pie
@@ -108,5 +113,5 @@ export function Component() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

@@ -1,11 +1,9 @@
 import { Layout } from "@/components/custom/layout";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/custom/button";
-import ThemeSwitch from "@/components/theme-switch";
-import { UserNav } from "@/components/user-nav";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -90,21 +88,8 @@ export default function QABank() {
 
   return (
     <Layout>
+      <PageHeader title="Interview Q&A Bank" />
       <Layout.Body>
-        <div className="mb-2 flex items-center justify-between space-y-2">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">Interview Q&A Bank</h2>
-            <p className="text-muted-foreground">
-              Manage and practice your interview questions
-            </p>
-          </div>
-
-          <div className="ml-auto flex items-center space-x-4">
-            <ThemeSwitch />
-            <UserNav />
-          </div>
-        </div>
-
         <div className="space-y-4">
           <Button className="w-full sm:w-auto">
             <IconPlus className="mr-2" />

@@ -1,5 +1,5 @@
-import { GitCommitVertical, TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { GitCommitVertical, TrendingUp } from "lucide-react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,
@@ -8,17 +8,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/ui/card"
-import type {
-  ChartConfig,
-} from "@/ui/chart"
+} from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A line chart with custom dots"
+export const description = "A line chart with custom dots";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -27,7 +25,7 @@ const chartData = [
   { month: "April", desktop: 73, mobile: 190 },
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
-]
+];
 
 const chartConfig = {
   desktop: {
@@ -38,7 +36,7 @@ const chartConfig = {
     label: "Mobile",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Component() {
   return (
@@ -75,7 +73,7 @@ export function Component() {
               stroke="var(--color-desktop)"
               strokeWidth={2}
               dot={({ cx, cy, payload }) => {
-                const r = 24
+                const r = 24;
                 return (
                   <GitCommitVertical
                     key={payload.month}
@@ -86,7 +84,7 @@ export function Component() {
                     fill="hsl(var(--background))"
                     stroke="var(--color-desktop)"
                   />
-                )
+                );
               }}
             />
           </LineChart>
@@ -101,5 +99,5 @@ export function Component() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

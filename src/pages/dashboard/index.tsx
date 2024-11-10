@@ -1,22 +1,24 @@
-import { Layout } from "@/components/custom/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ThemeSwitch from "@/components/theme-switch";
-import { UserNav } from "@/components/user-nav";
-import { Overview } from "./components/overview";
+import { DirectionsRunRounded } from "@mui/icons-material";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import { RecentlyAppliedJobs } from "./components/RecentlyAppliedJobs.tsx";
 import SwitchAccessShortcutAddRoundedIcon from "@mui/icons-material/SwitchAccessShortcutAddRounded";
 import { useEffect, useState } from "react";
+
 import api from "@/api/axios.ts";
-import { DirectionsRunRounded } from "@mui/icons-material";
+import { Layout } from "@/components/custom/layout";
+import { PageHeader } from "@/components/page-header";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import { Overview } from "./components/overview";
+import { RecentlyAppliedJobs } from "./components/RecentlyAppliedJobs.tsx";
 
 export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
   const [appliedJobs, setAppliedJobs] = useState(0);
   const [newJobs, setNewJobs] = useState(0);
   const [interviewedJobs, setInterviewedJobs] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,16 +48,11 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
+
   return (
     <Layout>
+      <PageHeader title="Dashboard" />
       <Layout.Body>
-        <div className="mb-2 flex items-center justify-between space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-          <div className="flex items-center space-x-2">
-            <ThemeSwitch />
-            <UserNav />
-          </div>
-        </div>
         <Tabs
           orientation="vertical"
           defaultValue="overview"
@@ -75,7 +72,6 @@ export default function Dashboard() {
                   <CardTitle className="text-sm font-medium">
                     Today's Jobs in Seek
                   </CardTitle>
-
                   <DirectionsRunRounded style={{ fontSize: 20 }} />
                 </CardHeader>
                 <CardContent>
@@ -102,7 +98,6 @@ export default function Dashboard() {
                   <CardTitle className="text-sm font-medium">
                     Interviewed
                   </CardTitle>
-
                   <ForumOutlinedIcon style={{ fontSize: 20 }} />
                 </CardHeader>
                 <CardContent>

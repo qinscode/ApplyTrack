@@ -1,5 +1,5 @@
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
 import {
   Card,
@@ -8,11 +8,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/ui/card"
-import type { ChartConfig } from "@/ui/chart"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/ui/chart"
+} from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
-export const description = "A bar chart with an active bar"
+export const description = "A bar chart with an active bar";
 
 const chartData = [
   { browser: "chrome", visitors: 187, fill: "var(--color-chrome)" },
@@ -20,7 +24,7 @@ const chartData = [
   { browser: "firefox", visitors: 275, fill: "var(--color-firefox)" },
   { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
   { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+];
 
 const chartConfig = {
   visitors: {
@@ -46,7 +50,7 @@ const chartConfig = {
     label: "Other",
     color: "hsl(var(--chart-5))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Component() {
   return (
@@ -65,7 +69,8 @@ export function Component() {
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) =>
-                chartConfig[value as keyof typeof chartConfig]?.label}
+                chartConfig[value as keyof typeof chartConfig]?.label
+              }
             />
             <ChartTooltip
               cursor={false}
@@ -98,5 +103,5 @@ export function Component() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { Bar, BarChart, XAxis } from "recharts"
+import { Bar, BarChart, XAxis } from "recharts";
 
 import {
   Card,
@@ -6,17 +6,15 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/ui/card"
-import type {
-  ChartConfig,
-} from "@/ui/chart"
+} from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A stacked bar chart with a legend"
+export const description = "A stacked bar chart with a legend";
 
 const chartData = [
   { date: "2024-07-15", running: 450, swimming: 300 },
@@ -25,7 +23,7 @@ const chartData = [
   { date: "2024-07-18", running: 140, swimming: 550 },
   { date: "2024-07-19", running: 600, swimming: 350 },
   { date: "2024-07-20", running: 480, swimming: 400 },
-]
+];
 
 const chartConfig = {
   running: {
@@ -36,7 +34,7 @@ const chartConfig = {
     label: "Swimming",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function Component() {
   return (
@@ -53,9 +51,11 @@ export function Component() {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => new Date(value).toLocaleDateString("en-US", {
-                weekday: "short",
-              })}
+              tickFormatter={(value) =>
+                new Date(value).toLocaleDateString("en-US", {
+                  weekday: "short",
+                })
+              }
             />
             <Bar
               dataKey="running"
@@ -70,15 +70,17 @@ export function Component() {
               radius={[4, 4, 0, 0]}
             />
             <ChartTooltip
-              content={(
+              content={
                 <ChartTooltipContent
-                  labelFormatter={(value) => new Date(value).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+                  labelFormatter={(value) =>
+                    new Date(value).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  }
                 />
-              )}
+              }
               cursor={false}
               defaultIndex={1}
             />
@@ -86,5 +88,5 @@ export function Component() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

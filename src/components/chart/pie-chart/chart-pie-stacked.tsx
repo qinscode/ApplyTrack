@@ -1,5 +1,4 @@
 import { TrendingUp } from "lucide-react";
-import * as React from "react";
 import { Pie, PieChart } from "recharts";
 
 import {

@@ -45,12 +45,9 @@ export default function Sidebar({
         } w-full bg-black md:hidden`}
       />
 
-      <Layout fixed className={navOpened ? "h-svh" : ""}>
+      <Layout fixed>
         {/* Header */}
-        <Layout.Header
-          sticky
-          className="z-50 flex justify-between px-4 py-3 shadow-sm md:px-4"
-        >
+        <div className="flex h-14 sm:h-16 shrink-0 items-center justify-between border-b bg-background px-4 py-3 shadow-sm md:px-4">
           <div className={`flex items-center ${!isCollapsed ? "gap-2" : ""}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +103,7 @@ export default function Sidebar({
           >
             {navOpened ? <IconX /> : <IconMenu2 />}
           </Button>
-        </Layout.Header>
+        </div>
 
         {/* Navigation links */}
         <Nav

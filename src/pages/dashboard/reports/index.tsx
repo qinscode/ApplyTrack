@@ -1,5 +1,4 @@
 import { Layout } from "@/components/custom/layout";
-import { PageHeader } from "@/components/page-header";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { THEMES } from "@/lib/themes";
 import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
@@ -45,7 +44,24 @@ const locationData = [
 export default function Reports() {
   return (
     <Layout>
-      <PageHeader title="Job Market Reports" />
+      <Layout.Header sticky title="Job Market Reports" className="border-b bg-background/80 backdrop-blur-sm">
+        <div className="ml-auto flex flex-1 items-center space-x-2 px-2 sm:px-4 md:max-w-96 lg:max-w-lg">
+          <Search />
+          <Link to="https://github.com/TinsFox/shadcnui-boilerplate" target="_blank">
+            <Button variant="ghost" size="icon">
+              <Icons.gitHub className="size-5" />
+            </Button>
+          </Link>
+          <Link to="https://shadcnui-boilerplate.pages.dev" target="_blank">
+            <Button variant="ghost" size="icon">
+              <CircleHelp className="size-5" />
+            </Button>
+          </Link>
+          <ThemeSwitch />
+          <ThemeCustomizer />
+          <UserNav />
+        </div>
+      </Layout.Header>
       <Layout.Body>
         <div className="relative grid gap-4">
           <section id="charts" className="scroll-mt-20">

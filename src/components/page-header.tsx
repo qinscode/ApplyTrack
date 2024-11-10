@@ -13,14 +13,14 @@ interface PageHeaderProps {
 
 export function PageHeader({ title }: PageHeaderProps) {
   return (
-    <div className="sticky top-0 z-10">
-      <header className="flex h-14 w-full shrink-0 items-center justify-between border-b bg-background/80 px-2 backdrop-blur-sm sm:h-16 sm:px-4">
-        {/* 左侧区域 */}
+    <header className="sticky top-0 z-10">
+      <div className="flex h-14 w-full shrink-0 items-center justify-between border-b bg-background/80 px-2 backdrop-blur-sm sm:h-16 sm:px-4">
+        {/* Left side */}
         <div className="flex items-center gap-2">
           {title && <h1 className="text-2xl font-bold tracking-tight">{title}</h1>}
         </div>
 
-        {/* 右侧区域 */}
+        {/* Right side */}
         <div className="ml-auto flex flex-1 items-center space-x-2 px-2 sm:px-4 md:max-w-96 lg:max-w-lg">
           <Search />
           <Link
@@ -40,7 +40,7 @@ export function PageHeader({ title }: PageHeaderProps) {
           <ThemeCustomizer />
           <UserNav />
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 } 

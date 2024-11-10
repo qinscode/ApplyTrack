@@ -19,6 +19,8 @@ import {
   IconFiles,
   IconClipboardCheck,
   IconQuestionMark,
+  IconChartBar,
+  IconReportAnalytics,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
@@ -57,6 +59,23 @@ export function SidebarLinks() {
       label: "",
       href: "/",
       icon: <IconLayoutDashboard size={18} />,
+      sub: [
+        {
+          title: "Overview",
+          href: "/dashboard",
+          icon: <IconLayoutDashboard size={18} />,
+        },
+        {
+          title: "Analytics",
+          href: "/dashboard/stats",
+          icon: <IconChartBar size={18} />,
+        },
+        {
+          title: "Reports",
+          href: "/dashboard/reports",
+          icon: <IconReportAnalytics size={18} />,
+        },
+      ],
     },
     {
       title: "Add Job",

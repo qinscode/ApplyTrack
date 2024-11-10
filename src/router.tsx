@@ -225,6 +225,29 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "dashboard",
+        children: [
+          {
+            index: true,
+            lazy: async () => ({
+              Component: (await import("./pages/dashboard")).default,
+            }),
+          },
+          {
+            path: "stats",
+            lazy: async () => ({
+              Component: (await import("./pages/dashboard/stats")).default,
+            }),
+          },
+          {
+            path: "reports",
+            lazy: async () => ({
+              Component: (await import("./pages/dashboard/reports")).default,
+            }),
+          },
+        ],
+      },
     ],
   },
 

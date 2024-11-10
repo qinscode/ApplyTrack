@@ -21,6 +21,7 @@ import {
   IconQuestionMark,
   IconChartBar,
   IconReportAnalytics,
+  IconTestPipe,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
@@ -221,6 +222,11 @@ export function SidebarLinks() {
           icon: <IconQuestionMark size={18} />,
         },
       ],
+    },
+    {
+      title: "Test",
+      icon: <IconTestPipe size={18} />,
+      href: "/test",
     },
   ];
 

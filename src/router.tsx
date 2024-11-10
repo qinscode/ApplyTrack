@@ -151,6 +151,80 @@ const router = createBrowserRouter([
           Component: (await import("./pages/ai-analysis")).default,
         }),
       },
+      {
+        path: "jobs/add",
+        lazy: async () => ({
+          Component: (await import("./pages/jobs/jobs_page/AddJob")).default,
+        }),
+      },
+      {
+        path: "documents",
+        children: [
+          {
+            path: "resumes",
+            children: [
+              {
+                index: true,
+                lazy: async () => ({
+                  Component: (await import("./pages/documents/resumes")).default,
+                }),
+              },
+              {
+                path: "create",
+                lazy: async () => ({
+                  Component: (await import("./pages/documents/resumes/create")).default,
+                }),
+              },
+              {
+                path: ":id/edit",
+                lazy: async () => ({
+                  Component: (await import("./pages/documents/resumes/edit")).default,
+                }),
+              },
+            ],
+          },
+          {
+            path: "cover-letters",
+            children: [
+              {
+                index: true,
+                lazy: async () => ({
+                  Component: (await import("./pages/documents/cover-letters")).default,
+                }),
+              },
+              {
+                path: "create",
+                lazy: async () => ({
+                  Component: (await import("./pages/documents/cover-letters/create")).default,
+                }),
+              },
+              {
+                path: ":id/edit",
+                lazy: async () => ({
+                  Component: (await import("./pages/documents/cover-letters/edit")).default,
+                }),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "interview",
+        children: [
+          {
+            path: "checklists",
+            lazy: async () => ({
+              Component: (await import("./pages/interview/checklists")).default,
+            }),
+          },
+          {
+            path: "qa-bank",
+            lazy: async () => ({
+              Component: (await import("./pages/interview/qa-bank")).default,
+            }),
+          },
+        ],
+      },
     ],
   },
 

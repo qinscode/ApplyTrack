@@ -30,17 +30,28 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
   {
     accessorKey: "email_subject",
     header: "Email Subject",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="font-medium">{row.getValue("email_subject")}</span>
-        <span className="text-xs text-muted-foreground">
-          From: {row.original.email_sender}
-        </span>
-        <span className="text-xs text-muted-foreground">
-          Date: {new Date(row.original.email_date).toLocaleString()}
-        </span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const isNew = (new Date().getTime() - new Date(row.original.last_analyzed).getTime()) < 5 * 60 * 1000;
+      
+      return (
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-medium">{row.getValue("email_subject")}</span>
+            {isNew && (
+              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+                New
+              </Badge>
+            )}
+          </div>
+          <span className="text-xs text-muted-foreground">
+            From: {row.original.email_sender}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            Date: {new Date(row.original.email_date).toLocaleString()}
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "job_title",
@@ -93,7 +104,7 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
 
       if (!hasChanged) {
         return (
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs whitespace-nowrap">
             Up to date
           </Badge>
         );

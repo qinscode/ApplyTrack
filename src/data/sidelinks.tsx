@@ -15,6 +15,10 @@ import {
   IconPencilPlus,
   IconMail,
   IconBrain,
+  IconFileText,
+  IconFiles,
+  IconClipboardCheck,
+  IconQuestionMark,
 } from "@tabler/icons-react";
 import { useJobStatusCounts } from "@/hooks/useTotalJobsCount.ts";
 
@@ -53,6 +57,12 @@ export function SidebarLinks() {
       label: "",
       href: "/",
       icon: <IconLayoutDashboard size={18} />,
+    },
+    {
+      title: "Add Job",
+      label: "",
+      href: "/jobs/add",
+      icon: <IconPlus size={18} />,
     },
     {
       title: "All jobs",
@@ -135,6 +145,24 @@ export function SidebarLinks() {
       icon: <IconBrain size={18} />,
     },
     {
+      title: "Documents",
+      label: "",
+      href: "/documents",
+      icon: <IconFiles size={18} />,
+      sub: [
+        {
+          title: "Resumes",
+          href: "/documents/resumes",
+          icon: <IconFileText size={18} />,
+        },
+        {
+          title: "Cover Letters",
+          href: "/documents/cover-letters",
+          icon: <IconFileText size={18} />,
+        },
+      ],
+    },
+    {
       title: "Settings",
       label: "",
       href: "/settings",
@@ -154,6 +182,24 @@ export function SidebarLinks() {
           title: "Email Tracking",
           href: "/settings/email-tracking",
           icon: <IconMail size={18} />,
+        },
+      ],
+    },
+    {
+      title: "Interview",
+      label: "",
+      href: "/interview",
+      icon: <IconClipboardCheck size={18} />,
+      sub: [
+        {
+          title: "Checklists",
+          href: "/interview/checklists",
+          icon: <IconClipboardCheck size={18} />,
+        },
+        {
+          title: "Q&A Bank",
+          href: "/interview/qa-bank",
+          icon: <IconQuestionMark size={18} />,
         },
       ],
     },

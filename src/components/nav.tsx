@@ -20,7 +20,11 @@ import {
 import { cn } from "@/lib/utils";
 import useCheckActiveNav from "@/hooks/use-check-active-nav";
 import { SideLink } from "@/data/sidelinks";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean;
@@ -37,9 +41,9 @@ export default function Nav({
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
 
   const toggleItem = (title: string) => {
-    setOpenItems(prev => ({
+    setOpenItems((prev) => ({
       ...prev,
-      [title]: !prev[title]
+      [title]: !prev[title],
     }));
   };
 
@@ -69,7 +73,7 @@ export default function Nav({
             <div
               className={cn(
                 buttonVariants({ variant: "ghost", size: "sm" }),
-                "h-12 w-full justify-between rounded-none px-6 cursor-pointer select-none"
+                "h-12 w-full cursor-pointer select-none justify-between rounded-none px-6"
               )}
               onMouseDown={(e) => e.preventDefault()}
             >
@@ -161,6 +165,7 @@ function NavLink({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
   return (
     <div>

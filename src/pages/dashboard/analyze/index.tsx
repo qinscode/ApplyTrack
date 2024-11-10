@@ -116,7 +116,6 @@ export default function DashboardStats() {
   return (
     <Layout>
       <Layout.Header
-        sticky
         title="Application Analytics"
         className="border-b bg-background/80 backdrop-blur-sm"
       >

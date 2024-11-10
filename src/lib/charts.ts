@@ -21,5 +21,5 @@ export function themeColorsToCssVariables(
 }
 
 export function themeColorNameToCssVariable(name: string) {
-  return `--${name.replaceAll(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`
+  return `--${name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`
 }

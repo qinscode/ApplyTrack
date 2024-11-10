@@ -5,7 +5,6 @@ import { UserNav } from "@/components/user-nav";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
-import { Job } from "@/types";
 import api from "@/api/axios";
 import {
   Card,
@@ -125,7 +124,10 @@ export default function AddJob() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
@@ -134,7 +136,10 @@ export default function AddJob() {
                       <FormItem>
                         <FormLabel>Job Title</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g. Frontend Developer" {...field} />
+                          <Input
+                            placeholder="e.g. Frontend Developer"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -283,4 +288,4 @@ export default function AddJob() {
       </Layout.Body>
     </Layout>
   );
-} 
+}

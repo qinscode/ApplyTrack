@@ -16,8 +16,19 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A simple area chart";
-export const A = 1;
+// 定义数据类型接口
+interface MonthlyData {
+  month: string;
+  desktop: number;
+}
+
+interface MonthlyTrendProps {
+  data: MonthlyData[];
+  title?: string;
+  description?: string;
+  changePercentage?: number;
+  dateRange?: string;
+}
 
 const chartConfig = {
   desktop: {
@@ -26,32 +37,39 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function MonthlyTrend(data) {
+export function MonthlyTrend({
+  data,
+  title = "Monthly Trend",
+  description = "Showing total visitors for the last 6 months",
+  changePercentage = 5.2,
+  dateRange = "January - June 2024",
+}: MonthlyTrendProps) {
   return (
-    <Card>
+    <Card className="flex h-full flex-col">
       <CardHeader>
-        <CardTitle>Area Chart</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-1 items-center justify-center">
         <ChartContainer config={chartConfig}>
           <AreaChart
-            accessibilityLayer
             data={data}
             margin={{
               left: 12,
               right: 12,
+              top: 12,
+              bottom: 12,
             }}
+            height={250}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" />
             <XAxis
               dataKey="month"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
+              fontSize={12}
             />
             <ChartTooltip
               cursor={false}
@@ -59,10 +77,11 @@ export function MonthlyTrend(data) {
             />
             <Area
               dataKey="desktop"
-              type="natural"
+              type="monotone"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
               stroke="var(--color-desktop)"
+              strokeWidth={2}
             />
           </AreaChart>
         </ChartContainer>
@@ -71,10 +90,12 @@ export function MonthlyTrend(data) {
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="size-4" />
+              {changePercentage > 0 ? "Trending up" : "Trending down"} by{" "}
+              {Math.abs(changePercentage)}% this month{" "}
+              <TrendingUp className="size-4" />
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
+            <div className="mb-4 flex items-center gap-2 leading-none text-muted-foreground">
+              {dateRange}
             </div>
           </div>
         </div>

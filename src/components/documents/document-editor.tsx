@@ -40,7 +40,9 @@ const documentSchema = z.object({
 interface DocumentEditorProps {
   type: "resume" | "cover-letter";
   initialData?: z.infer<typeof documentSchema> & { content?: string };
-  onSave: (data: z.infer<typeof documentSchema> & { content: string }) => Promise<void>;
+  onSave: (
+    data: z.infer<typeof documentSchema> & { content: string }
+  ) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -57,7 +59,12 @@ const templates = {
   ],
 };
 
-export function DocumentEditor({ type, initialData, onSave, onCancel }: DocumentEditorProps) {
+export function DocumentEditor({
+  type,
+  initialData,
+  onSave,
+  onCancel,
+}: DocumentEditorProps) {
   const editorRef = useRef<any>(null);
   const form = useForm<z.infer<typeof documentSchema>>({
     resolver: zodResolver(documentSchema),
@@ -73,7 +80,9 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
       await onSave({ ...values, content });
       toast({
         title: "Success",
-        description: `${type === "resume" ? "Resume" : "Cover Letter"} saved successfully.`,
+        description: `${
+          type === "resume" ? "Resume" : "Cover Letter"
+        } saved successfully.`,
       });
     } catch (error) {
       toast({
@@ -88,7 +97,8 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
     <Card>
       <CardHeader>
         <CardTitle>
-          {initialData ? "Edit" : "Create"} {type === "resume" ? "Resume" : "Cover Letter"}
+          {initialData ? "Edit" : "Create"}{" "}
+          {type === "resume" ? "Resume" : "Cover Letter"}
         </CardTitle>
         <CardDescription>
           {initialData
@@ -98,7 +108,10 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-6"
+          >
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -107,7 +120,10 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Software Engineer Resume" {...field} />
+                      <Input
+                        placeholder="e.g. Software Engineer Resume"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,7 +178,10 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Template</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a template" />
@@ -186,17 +205,33 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
               <FormLabel>Content</FormLabel>
               <Editor
                 apiKey="your-tinymce-api-key"
-                onInit={(evt, editor) => (editorRef.current = editor)}
+                onInit={(_evt, editor) => (editorRef.current = editor)}
                 initialValue={initialData?.content || ""}
                 init={{
                   height: 500,
                   menubar: true,
                   plugins: [
-                    "advlist", "autolink", "lists", "link", "image", "charmap", "preview",
-                    "anchor", "searchreplace", "visualblocks", "code", "fullscreen",
-                    "insertdatetime", "media", "table", "code", "help", "wordcount"
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "code",
+                    "help",
+                    "wordcount",
                   ],
-                  toolbar: "undo redo | blocks | " +
+                  toolbar:
+                    "undo redo | blocks | " +
                     "bold italic forecolor | alignleft aligncenter " +
                     "alignright alignjustify | bullist numlist outdent indent | " +
                     "removeformat | help",
@@ -208,13 +243,11 @@ export function DocumentEditor({ type, initialData, onSave, onCancel }: Document
               <Button type="button" variant="outline" onClick={onCancel}>
                 Cancel
               </Button>
-              <Button type="submit">
-                {initialData ? "Update" : "Create"}
-              </Button>
+              <Button type="submit">{initialData ? "Update" : "Create"}</Button>
             </div>
           </form>
         </Form>
       </CardContent>
     </Card>
   );
-} 
+}

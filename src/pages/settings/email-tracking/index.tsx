@@ -2,7 +2,7 @@ import { Layout } from "@/components/custom/layout";
 import { Button } from "@/components/custom/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { IconMail, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
 import {
   Card,
   CardContent,
@@ -73,7 +73,7 @@ export default function EmailTracking() {
   const removeAccount = async (id: number) => {
     try {
       await api.delete(`/email-tracking/accounts/${id}`);
-      setAccounts(accounts.filter(account => account.id !== id));
+      setAccounts(accounts.filter((account) => account.id !== id));
       toast({
         title: "Account removed",
         description: "Email account has been disconnected.",
@@ -89,7 +89,7 @@ export default function EmailTracking() {
 
   const syncAccount = async (id: number) => {
     try {
-      const account = accounts.find(a => a.id === id);
+      const account = accounts.find((a) => a.id === id);
       if (account) {
         account.status = "syncing";
         setAccounts([...accounts]);
@@ -103,7 +103,7 @@ export default function EmailTracking() {
         });
       }
     } catch (error) {
-      const account = accounts.find(a => a.id === id);
+      const account = accounts.find((a) => a.id === id);
       if (account) {
         account.status = "error";
         setAccounts([...accounts]);
@@ -123,7 +123,8 @@ export default function EmailTracking() {
           <div>
             <h3 className="text-lg font-medium">Email Tracking</h3>
             <p className="text-sm text-muted-foreground">
-              Connect your email accounts to automatically track job application statuses.
+              Connect your email accounts to automatically track job application
+              statuses.
             </p>
           </div>
 
@@ -167,12 +168,16 @@ export default function EmailTracking() {
                 <CardHeader>
                   <CardTitle>Add Email Account</CardTitle>
                   <CardDescription>
-                    Enter your email credentials to start tracking job applications.
+                    Enter your email credentials to start tracking job
+                    applications.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="space-y-4"
+                    >
                       <FormField
                         control={form.control}
                         name="email"
@@ -180,7 +185,10 @@ export default function EmailTracking() {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="your.email@example.com" {...field} />
+                              <Input
+                                placeholder="your.email@example.com"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -196,7 +204,8 @@ export default function EmailTracking() {
                               <Input type="password" {...field} />
                             </FormControl>
                             <FormDescription>
-                              For Gmail, use an App Password instead of your regular password.
+                              For Gmail, use an App Password instead of your
+                              regular password.
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -230,4 +239,4 @@ export default function EmailTracking() {
       </Layout.Body>
     </Layout>
   );
-} 
+}

@@ -59,7 +59,6 @@ export default function Dashboard() {
   return (
     <Layout>
       <Layout.Header
-        sticky
         title="Dashboard"
         className="border-b bg-background/80 backdrop-blur-sm"
       >

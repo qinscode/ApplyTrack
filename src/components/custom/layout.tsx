@@ -90,7 +90,7 @@ const Body = React.forwardRef<
       ref={ref}
       data-layout="body"
       className={cn(
-        "h-[calc(100%-3.5rem)] overflow-auto px-4 pt-14 sm:h-[calc(100%-4rem)] sm:pt-16 md:px-8",
+        "h-[calc(100%-3.5rem)] overflow-auto px-8 pt-20 sm:h-[calc(100%-4rem)]",
         className
       )}
       {...props}

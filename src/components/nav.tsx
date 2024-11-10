@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { IconChevronDown } from "@tabler/icons-react";
 import { Button, buttonVariants } from "./custom/button";
+import { useState } from "react";
 
 import {
   DropdownMenu,
@@ -19,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import useCheckActiveNav from "@/hooks/use-check-active-nav";
 import { SideLink } from "@/data/sidelinks";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean;
@@ -32,6 +34,15 @@ export default function Nav({
   className,
   closeNav,
 }: NavProps) {
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+
+  const toggleItem = (title: string) => {
+    setOpenItems(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }));
+  };
+
   const renderLink = ({ sub, ...rest }: SideLink) => {
     const key = `${rest.title}-${rest.href}`;
     if (isCollapsed && sub)
@@ -49,11 +60,51 @@ export default function Nav({
 
     if (sub)
       return (
-        <NavLinkDropdown {...rest} sub={sub} key={key} closeNav={closeNav} />
+        <Collapsible
+          key={key}
+          open={openItems[rest.title]}
+          onOpenChange={() => toggleItem(rest.title)}
+        >
+          <CollapsibleTrigger asChild>
+            <div
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "sm" }),
+                "h-12 w-full justify-between rounded-none px-6 cursor-pointer select-none"
+              )}
+              onMouseDown={(e) => e.preventDefault()}
+            >
+              <div className="flex items-center">
+                <div className="mr-2">{rest.icon}</div>
+                {rest.title}
+                {rest.label && (
+                  <div className="ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground">
+                    {rest.label}
+                  </div>
+                )}
+              </div>
+              <IconChevronDown
+                className={cn(
+                  "h-4 w-4 transition-transform",
+                  openItems[rest.title] && "rotate-180"
+                )}
+              />
+            </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="collapsibleDropdown">
+            <ul>
+              {sub.map((sublink) => (
+                <li key={sublink.title} className="my-1 ml-8">
+                  <NavLink {...sublink} subLink closeNav={closeNav} />
+                </li>
+              ))}
+            </ul>
+          </CollapsibleContent>
+        </Collapsible>
       );
 
     return <NavLink {...rest} key={key} closeNav={closeNav} />;
   };
+
   return (
     <div
       data-collapsed={isCollapsed}

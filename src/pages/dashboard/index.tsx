@@ -19,6 +19,7 @@ import ThemeSwitch from "@/components/theme-switch.tsx";
 import { ThemeCustomizer } from "@/components/theme/theme-customizer.tsx";
 import { UserNav } from "@/components/user-nav.tsx";
 import { Icons } from "@/components/icons.tsx";
+import { CareerGoals } from "@/components/dashboard/career-goals";
 
 export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
@@ -158,14 +159,17 @@ export default function Dashboard() {
                   <Index />
                 </CardContent>
               </Card>
-              <Card className="col-span-1 lg:col-span-3">
-                <CardHeader>
-                  <CardTitle>Recent Response</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <RecentlyAppliedJobs />
-                </CardContent>
-              </Card>
+              <div className="col-span-1 flex flex-col gap-4 lg:col-span-3">
+                <CareerGoals onEdit={() => console.log('Edit goals clicked')} />
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Response</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <RecentlyAppliedJobs />
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

@@ -8,7 +8,14 @@ import { AppliedJobs } from "@/pages/dashboard/overview/AppliedJobs.tsx";
 import { NewJobs } from "@/pages/dashboard/overview/NewJobs.tsx";
 import { DailyApplications } from "@/pages/dashboard/common/daily-applications.tsx";
 import { MonthlyTrend } from "@/pages/dashboard/overview/MonthlyTrend.tsx";
+import { ApplicationFunnel } from "@/pages/dashboard/common/application-funnel.tsx";
 
+interface StatusCount {
+  status: string;
+  count: number;
+  percentage: number;
+  change: number;
+}
 export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
   const [appliedJobs, setAppliedJobs] = useState(0);
@@ -20,6 +27,14 @@ export default function Dashboard() {
     newJobs;
     interviewedJobs;
   }
+
+  const [statusCounts] = useState<StatusCount[]>([
+    { status: "Applied", count: 100, percentage: 100, change: 5.2 },
+    { status: "Reviewed", count: 75, percentage: 75, change: 3.1 },
+    { status: "Interviewing", count: 45, percentage: 45, change: -2.3 },
+    { status: "Technical Assessment", count: 30, percentage: 30, change: 1.5 },
+    { status: "Offered", count: 10, percentage: 10, change: 0.8 },
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,19 +74,16 @@ export default function Dashboard() {
       />
       <Layout.Body>
         <div className="space-y-8 pr-20">
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <TotalJobs totalCount={totalJobs} />
             <AppliedJobs appliedCount={appliedJobs} />
             <NewJobs />
             <DailyApplications />
           </div>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-            <div className="col-span-1 lg:col-span-2">
-              <MonthlyTrend />
-            </div>
-            <div className="col-span-1 lg:col-span-2">
-              <RecentlyAppliedJobs />
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <MonthlyTrend />
+            <RecentlyAppliedJobs />
+            <ApplicationFunnel statusCounts={statusCounts} />
           </div>
         </div>
       </Layout.Body>

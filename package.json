@@ -6,10 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:analyze": "vite build && node scripts/analyze-chunks.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "format:check": "prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check-chunks": "node scripts/analyze-chunks.js",
+
+    "analyze": "vite build --mode analyze",
+    "analyze:view": "vite build --mode analyze && open dist/stats.html"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -43,6 +48,7 @@
     "@tanstack/react-query": "^5.59.20",
     "@tanstack/react-table": "^8.16.0",
     "@tinymce/tinymce-react": "^5.1.1",
+    "@vitejs/plugin-react": "^4.3.3",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -73,23 +79,30 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "@types/react-syntax-highlighter": "^15.5.11",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
-    "@vitejs/plugin-react-swc": "^3.6.0",
-    "autoprefixer": "^10.4.19",
+    "@vitejs/plugin-react-swc": "^3.7.1",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^7.0.6",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.48",
+    "postcss-import": "^16.1.0",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "0.4.1",
-    "tailwindcss": "^3.4.13",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "tailwindcss": "^3.4.14",
+    "terser": "^5.36.0",
     "typescript": "5.3.x",
-    "vite": "^5.2.9"
+    "vite": "^5.4.10",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-pwa": "^0.20.5"
   },
   "prettier": {
     "plugins": [

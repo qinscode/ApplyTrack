@@ -6,15 +6,6 @@ import { SkillTrends } from "@/components/reports/skill-trends";
 import { WorkLocationTypes } from "@/components/reports/work-location-types";
 import { SalaryDistribution } from "@/components/reports/salary-distribution";
 
-import { Search } from "@/components/search.tsx";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/custom/button.tsx";
-import { CircleHelp } from "lucide-react";
-import ThemeSwitch from "@/components/theme-switch.tsx";
-import { ThemeCustomizer } from "@/components/theme/theme-customizer.tsx";
-import { UserNav } from "@/components/user-nav.tsx";
-import { Icons } from "@/components/icons.tsx";
-
 // 添加面试结果数据
 const interviewOutcomeData = [
   { stage: "Phone Screen", passed: 80, total: 100 },
@@ -56,27 +47,7 @@ export default function Reports() {
       <Layout.Header
         title="Job Market Reports"
         className="border-b bg-background/80 backdrop-blur-sm"
-      >
-        <div className="ml-auto flex flex-1 items-center space-x-2 px-2 sm:px-4 md:max-w-96 lg:max-w-lg">
-          <Search />
-          <Link
-            to="https://github.com/TinsFox/shadcnui-boilerplate"
-            target="_blank"
-          >
-            <Button variant="ghost" size="icon">
-              <Icons.gitHub className="size-5" />
-            </Button>
-          </Link>
-          <Link to="https://shadcnui-boilerplate.pages.dev" target="_blank">
-            <Button variant="ghost" size="icon">
-              <CircleHelp className="size-5" />
-            </Button>
-          </Link>
-          <ThemeSwitch />
-          <ThemeCustomizer />
-          <UserNav />
-        </div>
-      </Layout.Header>
+      ></Layout.Header>
       <Layout.Body>
         <div className="relative grid gap-4">
           <section id="charts" className="scroll-mt-20">

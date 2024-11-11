@@ -1,5 +1,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Search } from "@/components/search.tsx";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/custom/button.tsx";
+import { Icons } from "@/components/icons.tsx";
+import { CircleHelp } from "lucide-react";
+import ThemeSwitch from "@/components/theme-switch.tsx";
+import { ThemeCustomizer } from "@/components/theme/theme-customizer.tsx";
+import { UserNav } from "@/components/user-nav.tsx";
 
 const LayoutContext = React.createContext<{
   offset: number;
@@ -69,6 +77,25 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
           <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
         )}
         {props.children}
+        <div className="ml-auto flex flex-1 items-center space-x-2 px-2 sm:px-4 md:max-w-96 lg:max-w-lg">
+          <Search />
+          <Link
+            to="https://github.com/TinsFox/shadcnui-boilerplate"
+            target="_blank"
+          >
+            <Button variant="ghost" size="icon">
+              <Icons.gitHub className="size-5" />
+            </Button>
+          </Link>
+          <Link to="https://shadcnui-boilerplate.pages.dev" target="_blank">
+            <Button variant="ghost" size="icon">
+              <CircleHelp className="size-5" />
+            </Button>
+          </Link>
+          <ThemeSwitch />
+          <ThemeCustomizer />
+          <UserNav />
+        </div>
       </div>
     );
   }

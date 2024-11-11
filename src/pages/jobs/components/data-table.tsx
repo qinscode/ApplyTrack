@@ -1,8 +1,6 @@
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -10,8 +8,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
   Row,
+  SortingState,
+  useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -38,6 +38,7 @@ interface DataTableProps<TData extends Job, TValue> {
   onPageSizeChange: (pageSize: number) => void;
   onSearch: (term: string) => void;
   onSort: (column: string, descending: boolean) => void;
+  onAddNewJob?: () => void;
 }
 
 export function DataTable<TData extends Job, TValue>({
@@ -51,6 +52,7 @@ export function DataTable<TData extends Job, TValue>({
   onPageSizeChange,
   onSearch,
   onSort,
+  onAddNewJob,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -129,7 +131,11 @@ export function DataTable<TData extends Job, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} onSearch={onSearch} />
+      <DataTableToolbar
+        table={table}
+        onSearch={onSearch}
+        onAddNewJob={onAddNewJob}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

@@ -1,76 +1,66 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
-import { useCallback, useState } from "react";
-import debounce from "lodash/debounce";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/custom/button";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { statuses } from "../data/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { AddJobDialog } from "./add-job-dialog";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   onSearch: (term: string) => void;
+  onAddNewJob?: (jobData: any) => void;
 }
 
 export function DataTableToolbar<TData>({
   table,
   onSearch,
+  onAddNewJob,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0;
-  const [searchValue, setSearchValue] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  // 使用 useCallback 和 debounce 来创建防抖的搜索函数
-  const debouncedSearch = useCallback(
-    debounce((value: string) => {
-      onSearch(value);
-    }, 300),
-    [onSearch]
-  );
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchValue(value);
-    debouncedSearch(value);
-  };
-
-  const handleReset = () => {
-    table.resetColumnFilters();
-    setSearchValue("");
-    onSearch("");
+  const handleSubmit = (jobData: any) => {
+    onAddNewJob?.(jobData);
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
-        <Input
-          placeholder="Search jobs..."
-          value={searchValue}
-          onChange={handleSearchChange}
-          className="h-8 w-[150px] lg:w-[250px]"
-        />
-        <div className="flex gap-x-2">
-          {table.getColumn("status") && (
-            <DataTableFacetedFilter
-              column={table.getColumn("status")}
-              title="Status"
-              options={statuses}
-            />
-          )}
+    <>
+      <div className="flex items-center justify-between">
+        <div className="flex flex-1 items-center space-x-2">
+          <Input
+            placeholder="Search jobs..."
+            value={table.getState().globalFilter}
+            onChange={(event) => onSearch(event.target.value)}
+            className="h-8 w-[150px] lg:w-[250px]"
+          />
         </div>
-        {(isFiltered || searchValue) && (
+        <div className="flex items-center space-x-2">
           <Button
-            variant="ghost"
-            onClick={handleReset}
-            className="h-8 px-2 lg:px-3"
+            variant="outline"
+            size="sm"
+            className="h-8 border-dashed"
+            onClick={() => setDialogOpen(true)}
           >
-            Reset
-            <Cross2Icon className="ml-2 h-4 w-4" />
+            <Plus className="mr-2 h-4 w-4" />
+            Add New Job
           </Button>
-        )}
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={statuses}
+          />
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
-      <DataTableViewOptions table={table} />
-    </div>
+
+      <AddJobDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onSubmit={handleSubmit}
+      />
+    </>
   );
 }

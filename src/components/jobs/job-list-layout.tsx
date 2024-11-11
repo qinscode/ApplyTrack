@@ -17,6 +17,7 @@ interface JobListLayoutProps {
   onSearch: (term: string) => void;
   onSort: (column: string, descending: boolean) => void;
   onRetry: () => void;
+  onAddNewJob?: () => void;
 }
 
 export function JobListLayout({
@@ -33,6 +34,17 @@ export function JobListLayout({
   onSort,
   onRetry,
 }: JobListLayoutProps) {
+  const handleAddNewJob = async () => {
+    // 处理添加新工作的逻辑
+    try {
+      // 调用 API 保存新工作
+      // 刷新数据
+      // 显示成功消息
+    } catch (error) {
+      // 处理错误
+    }
+  };
+
   return (
     <Layout>
       <Layout.Header
@@ -63,6 +75,7 @@ export function JobListLayout({
               onPageChange={onPageChange}
               onDataChange={onDataChange}
               onPageSizeChange={onPageSizeChange}
+              onAddNewJob={handleAddNewJob}
             />
           )}
         </div>

@@ -1,7 +1,9 @@
 import { JobListLayout } from "@/components/jobs/job-list-layout";
 import { useJobByStatus } from "@/hooks/useJobByStatus";
+import { useRouter } from "next/router";
 
 export default function OfferedJobs() {
+  const router = useRouter();
   const {
     jobs,
     error,
@@ -15,6 +17,10 @@ export default function OfferedJobs() {
     handleSort,
     fetchJobs
   } = useJobByStatus("Offered");
+
+  const handleAddNewJob = () => {
+    router.push('/jobs/new');
+  };
 
   return (
     <JobListLayout
@@ -31,6 +37,7 @@ export default function OfferedJobs() {
       onSearch={handleSearch}
       onSort={handleSort}
       onRetry={fetchJobs}
+      onAddNewJob={handleAddNewJob}
     />
   );
 }

@@ -16,27 +16,23 @@ import { DailyApplications } from "@/pages/dashboard/common/daily-applications.t
 import { MonthlyTrend } from "@/pages/dashboard/overview/MonthlyTrend.tsx";
 import { ApplicationFunnel } from "@/pages/dashboard/common/application-funnel.tsx";
 import { JobTypeDistribution } from "@/pages/dashboard/common/job-type-distribution.tsx";
-import { InterviewSuccessRate } from "@/pages/dashboard/common/interview-success-rate.tsx";
 import { SalaryDistribution } from "@/pages/dashboard/common/salary-distribution.tsx";
 import { LocationDistribution } from "@/pages/dashboard/common/location-distribution.tsx";
 import { SkillsDistribution } from "@/pages/dashboard/common/skills-distribution.tsx";
 import { ResponseRate } from "@/pages/dashboard/common/response-rate.tsx";
-import { InterviewConversion } from "@/pages/dashboard/common/interview-conversion.tsx";
 import { WeeklyActivities } from "@/pages/dashboard/common/weekly-activities.tsx";
 
 // Data imports
 import {
-  mockMonthlyData,
-  workTypeData,
-  interviewData,
-  salaryData,
   locationData,
-  skillsData,
+  mockMonthlyData,
   responseRateData,
-  interviewConversionData,
-  weeklyActivitiesData,
+  salaryData,
+  skillsData,
+  type StatusCount,
   statusCountsData,
-  type StatusCount
+  weeklyActivitiesData,
+  workTypeData,
 } from "./data/mock-data";
 
 export default function Dashboard() {
@@ -89,7 +85,7 @@ export default function Dashboard() {
         className="border-b bg-background/80 backdrop-blur-sm"
       />
       <Layout.Body>
-        <div className="relative space-y-12 pr-20">
+        <div className="relative space-y-2 pr-20">
           <ThemesSwitcher
             themes={THEMES}
             className="fixed right-8 top-20 z-50 rounded-lg bg-background/95 p-2 shadow-md backdrop-blur supports-[backdrop-filter]:bg-background/60"
@@ -98,8 +94,12 @@ export default function Dashboard() {
           {/* Key Metrics Section */}
           <div className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">Key Metrics</h2>
-              <p className="text-sm text-muted-foreground">Track your job search progress with real-time metrics</p>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Key Metrics
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Track your job search progress with real-time metrics
+              </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <TotalJobs totalCount={totalJobs} />
@@ -112,8 +112,12 @@ export default function Dashboard() {
           {/* Application Overview Section */}
           <div className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">Application Overview</h2>
-              <p className="text-sm text-muted-foreground">Visualize your application pipeline and recent activities</p>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Application Overview
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Visualize your application pipeline and recent activities
+              </p>
             </div>
             <div className="grid gap-8 md:grid-cols-3">
               <ApplicationFunnel statusCounts={statusCounts} />
@@ -122,23 +126,15 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Interview Analytics Section */}
-          <div className="space-y-6">
-            <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">Interview Analytics</h2>
-              <p className="text-sm text-muted-foreground">Monitor your interview performance and conversion rates</p>
-            </div>
-            <div className="grid gap-8 md:grid-cols-2">
-              <InterviewSuccessRate data={interviewData} />
-              <InterviewConversion data={interviewConversionData} />
-            </div>
-          </div>
-
           {/* Job Market Insights Section */}
           <div className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">Market Insights</h2>
-              <p className="text-sm text-muted-foreground">Understand job market trends and opportunities</p>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Market Insights
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Understand job market trends and opportunities
+              </p>
             </div>
             <div className="grid gap-8 md:grid-cols-2">
               <JobTypeDistribution data={workTypeData} />
@@ -153,8 +149,12 @@ export default function Dashboard() {
           {/* Detailed Analytics Section */}
           <div className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">Detailed Analytics</h2>
-              <p className="text-sm text-muted-foreground">Deep dive into your application metrics and weekly progress</p>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Detailed Analytics
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Deep dive into your application metrics and weekly progress
+              </p>
             </div>
             <div className="grid gap-8 md:grid-cols-2">
               <ResponseRate data={responseRateData} />

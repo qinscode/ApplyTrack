@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -63,12 +58,10 @@ export function CareerGoals() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center text-lg font-medium">
-                <span>Next Career Goal: </span>
-                <span>{goals.goalType}</span>
-              </div>
-            </div>
+            <CardTitle className="flex items-center text-xl font-bold">
+              <span>Next Career Goal :</span>
+              <span className="mx-3">{goals.goalType}</span>
+            </CardTitle>
           </div>
           <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
             <PencilIcon className="h-4 w-4" />
@@ -89,7 +82,9 @@ export function CareerGoals() {
                 Target Date
               </div>
               <div className="mt-1 text-sm">
-                {goals.targetDate ? new Date(goals.targetDate).toLocaleDateString() : "Not set"}
+                {goals.targetDate
+                  ? new Date(goals.targetDate).toLocaleDateString()
+                  : "Not set"}
               </div>
             </div>
             <div>
@@ -117,7 +112,9 @@ export function CareerGoals() {
               <Label>Goal Type</Label>
               <Select
                 value={goals.goalType}
-                onValueChange={(value) => setGoals({ ...goals, goalType: value })}
+                onValueChange={(value) =>
+                  setGoals({ ...goals, goalType: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select your goal" />
@@ -136,7 +133,9 @@ export function CareerGoals() {
               <Input
                 id="targetTitle"
                 value={goals.targetTitle}
-                onChange={(e) => setGoals({ ...goals, targetTitle: e.target.value })}
+                onChange={(e) =>
+                  setGoals({ ...goals, targetTitle: e.target.value })
+                }
                 placeholder="e.g. Senior Software Engineer"
               />
             </div>
@@ -146,7 +145,9 @@ export function CareerGoals() {
                 id="targetDate"
                 type="date"
                 value={goals.targetDate}
-                onChange={(e) => setGoals({ ...goals, targetDate: e.target.value })}
+                onChange={(e) =>
+                  setGoals({ ...goals, targetDate: e.target.value })
+                }
               />
             </div>
             <div className="space-y-2">
@@ -161,7 +162,9 @@ export function CareerGoals() {
                     placeholder="Min"
                     value={goals.salaryMin || ""}
                     className="pl-6"
-                    onChange={(e) => setGoals({ ...goals, salaryMin: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setGoals({ ...goals, salaryMin: Number(e.target.value) })
+                    }
                   />
                 </div>
                 <span className="text-muted-foreground">to</span>
@@ -174,7 +177,9 @@ export function CareerGoals() {
                     placeholder="Max"
                     value={goals.salaryMax || ""}
                     className="pl-6"
-                    onChange={(e) => setGoals({ ...goals, salaryMax: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setGoals({ ...goals, salaryMax: Number(e.target.value) })
+                    }
                   />
                 </div>
               </div>
@@ -190,4 +195,4 @@ export function CareerGoals() {
       </Dialog>
     </>
   );
-} 
+}

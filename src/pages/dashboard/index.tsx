@@ -90,6 +90,11 @@ export default function Dashboard() {
           className="space-y-4"
         >
           <TabsContent value="overview" className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
+              <div className="col-span-1 lg:col-span-3">
+                <CareerGoals />
+              </div>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -151,16 +156,17 @@ export default function Dashboard() {
               </Card>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-              <Card className="col-span-1 lg:col-span-4">
-                <CardHeader>
-                  <CardTitle>Jobs Overview</CardTitle>
-                </CardHeader>
-                <CardContent className="pl-2">
-                  <Index />
-                </CardContent>
-              </Card>
-              <div className="col-span-1 flex flex-col gap-4 lg:col-span-3">
-                <CareerGoals onEdit={() => console.log('Edit goals clicked')} />
+              <div className="col-span-1 lg:col-span-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Jobs Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pl-2">
+                    <Index />
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="col-span-1 lg:col-span-3">
                 <Card>
                   <CardHeader>
                     <CardTitle>Recent Response</CardTitle>

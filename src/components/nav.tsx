@@ -28,7 +28,7 @@ import {
 
 // 添加字体大小常量
 const FONT_SIZES = {
-  base: "text-base",
+  base: "text-sm",
   label: "text-[0.625rem]",
   small: "text-xs",
 } as const;

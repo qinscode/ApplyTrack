@@ -26,6 +26,13 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 
+// 添加字体大小常量
+const FONT_SIZES = {
+  base: "text-base",
+  label: "text-[0.625rem]",
+  small: "text-xs",
+} as const;
+
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean;
   links: SideLink[];
@@ -73,7 +80,8 @@ export default function Nav({
             <div
               className={cn(
                 buttonVariants({ variant: "ghost", size: "sm" }),
-                "h-12 w-full cursor-pointer select-none justify-between rounded-none px-6"
+                "h-12 w-full cursor-pointer select-none justify-between rounded-none px-6",
+                FONT_SIZES.base
               )}
               onMouseDown={(e) => e.preventDefault()}
             >
@@ -81,7 +89,12 @@ export default function Nav({
                 <div className="mr-2">{rest.icon}</div>
                 {rest.title}
                 {rest.label && (
-                  <div className="ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground">
+                  <div
+                    className={cn(
+                      "ml-2 inline-flex rounded-lg bg-primary px-1.5 text-primary-foreground",
+                      FONT_SIZES.label
+                    )}
+                  >
                     {rest.label}
                   </div>
                 )}
@@ -97,7 +110,10 @@ export default function Nav({
           <CollapsibleContent className="collapsibleDropdown">
             <ul>
               {sub.map((sublink) => (
-                <li key={sublink.title} className="my-1 ml-8">
+                <li
+                  key={sublink.title}
+                  className={cn("my-1 ml-8", FONT_SIZES.base)}
+                >
                   <NavLink {...sublink} subLink closeNav={closeNav} />
                 </li>
               ))}
@@ -150,6 +166,7 @@ function NavLink({
           size: "sm",
         }),
         "h-12 justify-start text-wrap rounded-none px-6",
+        FONT_SIZES.base,
         subLink && "h-10 w-full border-l border-l-slate-500 px-2"
       )}
       aria-current={checkActiveNav(href) ? "page" : undefined}
@@ -157,7 +174,12 @@ function NavLink({
       <div className="mr-2">{icon}</div>
       {title}
       {label && (
-        <div className="ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground">
+        <div
+          className={cn(
+            "ml-2 inline-flex rounded-lg bg-primary px-1.5 text-primary-foreground",
+            FONT_SIZES.label
+          )}
+        >
           {label}
         </div>
       )}
@@ -185,7 +207,10 @@ function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
           <span className="sr-only">{title}</span>
         </Link>
       </TooltipTrigger>
-      <TooltipContent side="right" className="flex items-center gap-4">
+      <TooltipContent
+        side="right"
+        className={cn("flex items-center gap-4", FONT_SIZES.base)}
+      >
         {title}
         {label && (
           <span className="ml-auto text-muted-foreground">{label}</span>
@@ -216,7 +241,10 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <TooltipContent side="right" className="flex items-center gap-4">
+        <TooltipContent
+          side="right"
+          className={cn("flex items-center gap-4", FONT_SIZES.base)}
+        >
           {title}{" "}
           {label && (
             <span className="ml-auto text-muted-foreground">{label}</span>
@@ -228,7 +256,7 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
         </TooltipContent>
       </Tooltip>
       <DropdownMenuContent side="right" align="start" sideOffset={4}>
-        <DropdownMenuLabel>
+        <DropdownMenuLabel className={FONT_SIZES.base}>
           {title} {label ? `(${label})` : ""}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -236,10 +264,15 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
           <DropdownMenuItem key={`${title}-${href}`} asChild>
             <Link
               to={href}
-              className={`${checkActiveNav(href) ? "bg-secondary" : ""}`}
+              className={cn(
+                checkActiveNav(href) ? "bg-secondary" : "",
+                FONT_SIZES.base
+              )}
             >
               {icon} <span className="ml-2 max-w-52 text-wrap">{title}</span>
-              {label && <span className="ml-auto text-xs">{label}</span>}
+              {label && (
+                <span className={cn("ml-auto", FONT_SIZES.small)}>{label}</span>
+              )}
             </Link>
           </DropdownMenuItem>
         ))}

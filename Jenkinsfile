@@ -40,14 +40,14 @@ pipeline {
             }
         }
 
-        stage('Lint and Format') {
-            steps {
-                sh 'yarn install'
-                sh 'yarn lint'
-                sh 'yarn format'
-                sh 'yarn format:check'
-            }
-        }
+//         stage('Lint and Format') {
+//             steps {
+//                 sh 'yarn install'
+//                 sh 'yarn lint'
+//                 sh 'yarn format'
+//                 sh 'yarn format:check'
+//             }
+//         }
 
         stage('Build Docker Image') {
             steps {

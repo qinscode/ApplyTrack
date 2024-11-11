@@ -78,7 +78,7 @@ export function TotalJobs({ totalCount = 0 }) {
                           y={(viewBox.cy || 0) + 4}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Jobs
                         </tspan>
                       </text>
                     );

@@ -83,7 +83,7 @@ export function AppliedJobs({ appliedCount = 0 }) {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Jobs
                         </tspan>
                       </text>
                     );

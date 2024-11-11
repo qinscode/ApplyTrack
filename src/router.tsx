@@ -152,12 +152,7 @@ const router = createBrowserRouter([
           Component: (await import("./pages/ai-analysis")).default,
         }),
       },
-      {
-        path: "jobs/add",
-        lazy: async () => ({
-          Component: (await import("./pages/jobs/jobs_page/AddJob")).default,
-        }),
-      },
+
       {
         path: "documents",
         children: [

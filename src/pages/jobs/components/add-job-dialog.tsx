@@ -25,10 +25,15 @@ interface AddJobDialogProps {
   onSubmit: (jobData: any) => void;
 }
 
-export function AddJobDialog({ open, onOpenChange, onSubmit }: AddJobDialogProps) {
+export function AddJobDialog({
+  open,
+  onOpenChange,
+  onSubmit,
+}: AddJobDialogProps) {
   const [formData, setFormData] = useState({
     title: "",
     company: "",
+    status: "New",
     workType: "Full Time",
     jobType: "Permanent",
     salaryRange: "",
@@ -77,6 +82,31 @@ export function AddJobDialog({ open, onOpenChange, onSubmit }: AddJobDialogProps
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, status: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="New">New</SelectItem>
+                    <SelectItem value="Pending">Pending</SelectItem>
+                    <SelectItem value="Applied">Applied</SelectItem>
+                    <SelectItem value="Archived">Archived</SelectItem>
+                    <SelectItem value="Reviewed">Reviewed</SelectItem>
+                    <SelectItem value="Interviewing">Interviewing</SelectItem>
+                    <SelectItem value="Assessment">Assessment</SelectItem>
+                    <SelectItem value="Offered">Offered</SelectItem>
+                    <SelectItem value="Ghosting">Ghosting</SelectItem>
+                    <SelectItem value="Rejected">Rejected</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-2">
                 <Label htmlFor="workType">Work Type</Label>
                 <Select
                   value={formData.workType}
@@ -94,24 +124,24 @@ export function AddJobDialog({ open, onOpenChange, onSubmit }: AddJobDialogProps
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="jobType">Job Type</Label>
-                <Select
-                  value={formData.jobType}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, jobType: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Permanent">Permanent</SelectItem>
-                    <SelectItem value="Temporary">Temporary</SelectItem>
-                    <SelectItem value="Internship">Internship</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="jobType">Job Type</Label>
+              <Select
+                value={formData.jobType}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, jobType: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Permanent">Permanent</SelectItem>
+                  <SelectItem value="Temporary">Temporary</SelectItem>
+                  <SelectItem value="Internship">Internship</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="salaryRange">Salary Range</Label>
@@ -153,7 +183,11 @@ export function AddJobDialog({ open, onOpenChange, onSubmit }: AddJobDialogProps
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Cancel
             </Button>
             <Button type="submit">Add Job</Button>
@@ -162,4 +196,4 @@ export function AddJobDialog({ open, onOpenChange, onSubmit }: AddJobDialogProps
       </DialogContent>
     </Dialog>
   );
-} 
+}

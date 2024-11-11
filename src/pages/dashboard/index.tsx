@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import api from "@/api/axios.ts";
 import { Layout } from "@/components/custom/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 
 import { Index } from "./overview";
 import { RecentlyAppliedJobs } from "./overview/RecentlyAppliedJobs.tsx";
@@ -88,13 +88,6 @@ export default function Dashboard() {
           defaultValue="overview"
           className="space-y-4"
         >
-          <div className="w-full overflow-x-auto pb-2">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="reports">Reports</TabsTrigger>
-            </TabsList>
-          </div>
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Card>

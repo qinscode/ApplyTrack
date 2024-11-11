@@ -16,16 +16,18 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A bar chart with a label";
+interface MonthlyData {
+  month: string;
+  desktop: number;
+}
 
 // 添加一个获取最近6个月的辅助函数
-function getLastSixMonths() {
-  const months = [];
+function getLastSixMonths(): MonthlyData[] {
+  const months: MonthlyData[] = [];
   const today = new Date();
 
   for (let i = 5; i >= 0; i--) {
     const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-    // @ts-ignore
     months.push({
       month: d.toLocaleString("default", { month: "long" }),
       desktop: Math.floor(Math.random() * (350 - 50) + 50), // 生成随机数据用于演示

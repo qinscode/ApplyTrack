@@ -1,5 +1,5 @@
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
@@ -8,37 +8,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
+} from "@/components/ui/card.tsx";
+import type { ChartConfig } from "@/components/ui/chart.tsx";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/ui/chart.tsx";
 
-interface MonthlyData {
+export interface MonthlyData {
   month: string;
   desktop: number;
 }
 
-// 添加一个获取最近6个月的辅助函数
-function getLastSixMonths(): MonthlyData[] {
-  const months: MonthlyData[] = [];
-  const today = new Date();
-
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-    months.push({
-      month: d.toLocaleString("default", { month: "long" }),
-      desktop: Math.floor(Math.random() * (350 - 50) + 50), // 生成随机数据用于演示
-    });
-  }
-
-  return months;
+interface MonthlyTrendProps {
+  data: MonthlyData[];
 }
-
-// 使用动态生成的数据替换原来的静态数据
-const chartData = getLastSixMonths();
 
 const chartConfig = {
   desktop: {
@@ -47,51 +32,75 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function MonthlyTrend() {
+export function MonthlyTrend({ data }: MonthlyTrendProps) {
   return (
-    <Card>
+    <Card className="flex h-full flex-col">
       <CardHeader>
-        <CardTitle>Monthly Job Trend</CardTitle>
-        <CardDescription>Last 6 Months</CardDescription>
+        <CardTitle>Monthly Trend</CardTitle>
+        <CardDescription>Showing total applications for the last 6 months</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 20,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
+      <CardContent className="flex flex-1 items-center">
+        <div className="w-full">
+          <ChartContainer config={chartConfig}>
+            <AreaChart
+              data={data}
+              margin={{
+                left: 12,
+                right: 12,
+                top: 12,
+                bottom: 12,
+              }}
+              width={500}
+            >
+              <defs>
+                <linearGradient id="colorDesktop" x1="0" y1="0" x2="0" y2="1">
+                  <stop 
+                    offset="5%" 
+                    stopColor="var(--color-desktop)" 
+                    stopOpacity={0.8}
+                  />
+                  <stop 
+                    offset="95%" 
+                    stopColor="var(--color-desktop)" 
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} strokeDasharray="3 3" />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => value.slice(0, 3)}
                 fontSize={12}
               />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="size-4" />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="line" />}
+              />
+              <Area
+                dataKey="desktop"
+                type="monotone"
+                fill="url(#colorDesktop)"
+                fillOpacity={1}
+                stroke="var(--color-desktop)"
+                strokeWidth={2}
+              />
+            </AreaChart>
+          </ChartContainer>
         </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total new jobs for the last 6 months
+      </CardContent>
+      <CardFooter>
+        <div className="flex w-full items-start gap-2 text-sm">
+          <div className="grid gap-2">
+            <div className="flex items-center gap-2 font-medium leading-none">
+              Trending up by 5.2% this month <TrendingUp className="size-4" />
+            </div>
+            <div className="mb-4 flex items-center gap-2 leading-none text-muted-foreground">
+              January - June 2024
+            </div>
+          </div>
         </div>
       </CardFooter>
     </Card>

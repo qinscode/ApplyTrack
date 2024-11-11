@@ -122,7 +122,7 @@ export default function DashboardStats() {
                 />
 
                 <div className="space-y-8 pr-20">
-                  <div className="grid gap-8 md:grid-cols-3">
+                  <div className="grid gap-8 ">
                     <ApplicationFunnel statusCounts={statusCounts} />
                     <DailyApplications />
                     <MonthlyTrend data={mockMonthlyData} />

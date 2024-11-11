@@ -39,7 +39,7 @@ export function RecentlyAppliedJobs() {
 
   return (
     <Card className="flex h-full flex-col">
-      <CardHeader className="pb-2">
+      <CardHeader>
         <CardTitle>Recent Response</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">

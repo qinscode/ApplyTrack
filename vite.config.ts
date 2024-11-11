@@ -68,7 +68,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     plugins,
 
     server: {
-      port: 3000,
+      port: 5173,
       open: true,
       cors: true,
       proxy: {

@@ -147,6 +147,12 @@ interface NavLinkProps extends SideLink {
   closeNav: () => void;
 }
 
+// 添加一个转换函数
+const transformTitle = (title: string) => {
+  if (title === "TechnicalAssessment") return "Assessment";
+  return title;
+};
+
 function NavLink({
   title,
   icon,
@@ -172,7 +178,7 @@ function NavLink({
       aria-current={checkActiveNav(href) ? "page" : undefined}
     >
       <div className="mr-2">{icon}</div>
-      {title}
+      {transformTitle(title)}
       {label && (
         <div
           className={cn(

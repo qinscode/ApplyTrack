@@ -41,7 +41,7 @@ export function DataTableToolbar<TData>({
           <Button
             variant="outline"
             size="sm"
-            className="h-8 border-dashed"
+            className="ml-auto hidden h-8 lg:flex"
             onClick={() => setDialogOpen(true)}
           >
             <Plus className="mr-2 h-4 w-4" />

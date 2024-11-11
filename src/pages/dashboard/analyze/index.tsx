@@ -132,8 +132,9 @@ export default function DashboardStats() {
                     <JobTypeDistribution data={workTypeData} />
                     <InterviewSuccessRate data={interviewData} />
                   </div>
-
-                  <SalaryDistribution data={salaryData} />
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <SalaryDistribution data={salaryData} />
+                  </div>
 
                   <div className="grid gap-8 md:grid-cols-2">
                     <LocationDistribution data={locationData} />

@@ -20,26 +20,26 @@ import { ChartContainer } from "@/components/ui/chart";
 
 export const description = "A radial chart with text";
 
-const chartData = [
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-];
+export function AppliedJobs({ appliedCount = 0 }) {
+  const chartData = [
+    { browser: "applied", visitors: appliedCount, fill: "var(--color-safari)" },
+  ];
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
+  const chartConfig = {
+    visitors: {
+      label: "Applied",
+    },
+    safari: {
+      label: "Applied Jobs",
+      color: "hsl(var(--chart-2))",
+    },
+  } satisfies ChartConfig;
 
-export function AppliedJobs() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Applied Jobs</CardTitle>
+        <CardDescription>Application Progress</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -97,10 +97,10 @@ export function AppliedJobs() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="size-4" />
+          {appliedCount > 0 ? "Active Applications" : "No applications yet"}
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Total jobs you've applied to
         </div>
       </CardFooter>
     </Card>

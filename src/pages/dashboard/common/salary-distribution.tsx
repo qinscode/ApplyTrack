@@ -28,7 +28,7 @@ export function SalaryDistribution({ data }: SalaryDistributionProps) {
   const { themesConfig } = useThemesConfig();
 
   return (
-    <Card className="md:col-span-2">
+    <Card className="md:col-span-1">
       <CardHeader>
         <CardTitle>Salary Range Distribution</CardTitle>
         <CardDescription>

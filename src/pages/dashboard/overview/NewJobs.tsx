@@ -26,73 +26,95 @@ import {
 
 export const description = "An interactive pie chart";
 
-const desktopData = [
-  { month: "january", desktop: 186, fill: "var(--color-january)" },
-  { month: "february", desktop: 305, fill: "var(--color-february)" },
-  { month: "march", desktop: 237, fill: "var(--color-march)" },
-  { month: "april", desktop: 173, fill: "var(--color-april)" },
-  { month: "may", desktop: 209, fill: "var(--color-may)" },
-];
-
 const chartConfig = {
   visitors: {
-    label: "Visitors",
+    label: "Jobs",
   },
   desktop: {
-    label: "Desktop",
+    label: "New Jobs",
   },
-  mobile: {
-    label: "Mobile",
-  },
-  january: {
-    label: "January",
+  today: {
+    label: "Today",
     color: "hsl(var(--chart-1))",
   },
-  february: {
-    label: "February",
+  yesterday: {
+    label: "Yesterday",
     color: "hsl(var(--chart-2))",
   },
-  march: {
-    label: "March",
+  twoDaysAgo: {
+    label: "2 Days Ago",
     color: "hsl(var(--chart-3))",
   },
-  april: {
-    label: "April",
+  threeDaysAgo: {
+    label: "3 Days Ago",
     color: "hsl(var(--chart-4))",
   },
-  may: {
-    label: "May",
+  fourDaysAgo: {
+    label: "4 Days Ago",
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
 export function NewJobs() {
   const id = "pie-interactive";
-  const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month);
+
+  // 使用固定的假数据
+  const desktopData = [
+    {
+      period: "today",
+      desktop: 320,
+      fill: "var(--color-today)",
+    },
+    {
+      period: "yesterday",
+      desktop: 280,
+      fill: "var(--color-yesterday)",
+    },
+    {
+      period: "twoDaysAgo",
+      desktop: 250,
+      fill: "var(--color-twoDaysAgo)",
+    },
+    {
+      period: "threeDaysAgo",
+      desktop: 220,
+      fill: "var(--color-threeDaysAgo)",
+    },
+    {
+      period: "fourDaysAgo",
+      desktop: 200,
+      fill: "var(--color-fourDaysAgo)",
+    },
+  ];
+
+  const [activePeriod, setActivePeriod] = React.useState(desktopData[0].period);
 
   const activeIndex = React.useMemo(
-    () => desktopData.findIndex((item) => item.month === activeMonth),
-    [activeMonth]
+    () => desktopData.findIndex((item) => item.period === activePeriod),
+    [activePeriod]
   );
-  const months = React.useMemo(() => desktopData.map((item) => item.month), []);
+  const periods = React.useMemo(
+    () => desktopData.map((item) => item.period),
+    []
+  );
 
   return (
     <Card data-chart={id} className="flex flex-col">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
-          <CardTitle>Pie Chart - Interactive</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardTitle>New Jobs Trend</CardTitle>
+          <CardDescription>Last 5 Days</CardDescription>
         </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
+        <Select value={activePeriod} onValueChange={setActivePeriod}>
           <SelectTrigger
             className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
-            aria-label="Select a value"
+            aria-label="Select a period"
           >
-            <SelectValue placeholder="Select month" />
+            <SelectValue placeholder="Select period" />
           </SelectTrigger>
           <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
+            {periods.map((key) => {
               const config = chartConfig[key as keyof typeof chartConfig];
 
               if (!config) {
@@ -134,7 +156,7 @@ export function NewJobs() {
             <Pie
               data={desktopData}
               dataKey="desktop"
-              nameKey="month"
+              nameKey="period"
               innerRadius={60}
               strokeWidth={5}
               activeIndex={activeIndex}
@@ -174,7 +196,7 @@ export function NewJobs() {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          New Jobs
                         </tspan>
                       </text>
                     );

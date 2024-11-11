@@ -52,7 +52,7 @@ export function RecentlyAppliedJobs() {
       {recentlyAppliedJobs.map((job) => (
         <div
           key={job.jobId}
-          className="flex items-center justify-between rounded-lg bg-white p-4 "
+          className="flex items-center justify-between rounded-lg bg-white p-1 "
         >
           <div className="space-y-1">
             <p className="text-sm font-medium leading-none">{job.jobTitle}</p>

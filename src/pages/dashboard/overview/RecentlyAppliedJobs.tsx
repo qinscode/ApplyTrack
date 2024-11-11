@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "@/api/axios.ts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface RecentJob {
   jobId: string;
@@ -21,7 +22,8 @@ export function RecentlyAppliedJobs() {
     const fetchData = async () => {
       try {
         const response = await api.get<RecentJob[]>("/UserJobs/recent");
-        setRecentlyAppliedJobs(response.data);
+        const latestJobs = response.data.slice(0, 4);
+        setRecentlyAppliedJobs(latestJobs);
       } catch (error) {
         console.error("Error fetching recently applied jobs:", error);
         setError(
@@ -35,41 +37,53 @@ export function RecentlyAppliedJobs() {
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading recently applied jobs...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500">{error}</div>;
-  }
-
-  if (recentlyAppliedJobs.length === 0) {
-    return <div>No recently applied jobs found.</div>;
-  }
-
   return (
-    <div className="space-y-4">
-      {recentlyAppliedJobs.map((job) => (
-        <div
-          key={job.jobId}
-          className="flex items-center justify-between rounded-lg bg-white p-1 "
-        >
-          <div className="space-y-1">
-            <p className="text-sm font-medium leading-none">{job.jobTitle}</p>
-            <p className="text-xs text-muted-foreground">{job.businessName}</p>
+    <Card className="flex h-full flex-col">
+      <CardHeader className="pb-1">
+        <CardTitle>Recent Response</CardTitle>
+      </CardHeader>
+      <CardContent className="flex-1">
+        {isLoading ? (
+          <div className="flex flex-1 items-center justify-center">
+            Loading recently applied jobs...
           </div>
+        ) : error ? (
+          <div className="flex flex-1 items-center justify-center text-red-500">
+            {error}
+          </div>
+        ) : recentlyAppliedJobs.length === 0 ? (
+          <div className="flex flex-1 items-center justify-center">
+            No recently applied jobs found.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {recentlyAppliedJobs.map((job) => (
+              <div
+                key={job.jobId}
+                className="flex items-center justify-between rounded-lg bg-card p-4 shadow-sm"
+              >
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {job.jobTitle}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {job.businessName}
+                  </p>
+                </div>
 
-          <div className="space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {[job.status] || "Unknown"}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Applied on: {new Date(job.updatedAt).toLocaleDateString()}
-            </p>
+                <div className="space-y-1 text-right">
+                  <p className="text-sm font-medium leading-none">
+                    {[job.status] || "Unknown"}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Applied on: {new Date(job.updatedAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-          {/*<div className="text-sm font-medium">{[job.status] || "Unknown"}</div>*/}
-        </div>
-      ))}
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import api from "@/api/axios.ts";
 import { Layout } from "@/components/custom/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { RecentlyAppliedJobs } from "./overview/RecentlyAppliedJobs.tsx";
 import { TotalJobs } from "@/pages/dashboard/overview/TodaysJobs.tsx";
 import { AppliedJobs } from "@/pages/dashboard/overview/AppliedJobs.tsx";
@@ -55,35 +54,22 @@ export default function Dashboard() {
         className="border-b bg-background/80 backdrop-blur-sm"
       />
       <Layout.Body>
-        <Tabs
-          orientation="vertical"
-          defaultValue="overview"
-          className="space-y-4"
-        >
-          <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              <TotalJobs totalCount={totalJobs} />
-              <AppliedJobs appliedCount={appliedJobs} />
-              <NewJobs />
-              <DailyApplications />
+        <div className="space-y-8 pr-20">
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <TotalJobs totalCount={totalJobs} />
+            <AppliedJobs appliedCount={appliedJobs} />
+            <NewJobs />
+            <DailyApplications />
+          </div>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
+            <div className="col-span-1 lg:col-span-2">
+              <MonthlyTrend />
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-              <div className="col-span-1 lg:col-span-2">
-                <MonthlyTrend />
-              </div>
-              <div className="col-span-1 lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Recent Response</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <RecentlyAppliedJobs />
-                  </CardContent>
-                </Card>
-              </div>
+            <div className="col-span-1 lg:col-span-2">
+              <RecentlyAppliedJobs />
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        </div>
       </Layout.Body>
     </Layout>
   );

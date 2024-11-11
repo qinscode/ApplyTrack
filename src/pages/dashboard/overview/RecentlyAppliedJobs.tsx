@@ -39,7 +39,7 @@ export function RecentlyAppliedJobs() {
 
   return (
     <Card className="flex h-full flex-col">
-      <CardHeader className="pb-1">
+      <CardHeader className="pb-2">
         <CardTitle>Recent Response</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">
@@ -60,7 +60,7 @@ export function RecentlyAppliedJobs() {
             {recentlyAppliedJobs.map((job) => (
               <div
                 key={job.jobId}
-                className="flex items-center justify-between rounded-lg bg-card p-4 shadow-sm"
+                className="flex items-center justify-between rounded-lg bg-card p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-shadow duration-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]"
               >
                 <div className="space-y-1">
                   <p className="text-sm font-medium leading-none">

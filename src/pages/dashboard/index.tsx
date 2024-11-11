@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import api from "@/api/axios.ts";
 import { Layout } from "@/components/custom/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RecentlyAppliedJobs } from "./overview/RecentlyAppliedJobs.tsx";
 import { TotalJobs } from "@/pages/dashboard/overview/TodaysJobs.tsx";
 import { AppliedJobs } from "@/pages/dashboard/overview/AppliedJobs.tsx";
@@ -13,9 +12,14 @@ import { MonthlyTrend } from "@/pages/dashboard/overview/MonthlyTrend.tsx";
 export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
   const [appliedJobs, setAppliedJobs] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [newJobs, setNewJobs] = useState(0);
   const [interviewedJobs, setInterviewedJobs] = useState(0);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  {
+    newJobs;
+    interviewedJobs;
+  }
 
   useEffect(() => {
     const fetchData = async () => {

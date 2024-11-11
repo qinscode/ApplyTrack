@@ -7,7 +7,7 @@ pipeline {
         DOCKER_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = 'jobtracker-container'
         VITE_API_URL = credentials('API_URL_SECRET')
-        VITE_GOOGLE_CLIENT_ID = credentials('GOOGLE_CLIENT_ID_SECRET')
+        VITE_GOOGLE_CLIENT_ID = credentials('VITE_GOOGLE_CLIENT_ID')
     }
 
     stages {

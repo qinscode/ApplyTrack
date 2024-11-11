@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState, useEffect } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -41,12 +41,6 @@ const formSchema = z.object({
     }),
 });
 
-declare global {
-  interface Window {
-    gapi: any;
-  }
-}
-
 // 添加这行来获取环境变量
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -64,11 +58,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   useEffect(() => {
     const loadGoogleSDK = () => {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
+      return new Promise<void>((resolve) => {
+        const script = document.createElement("script");
+        script.src = "https://accounts.google.com/gsi/client";
+        script.async = true;
+        script.defer = true;
+        script.onload = () => resolve();
+        document.body.appendChild(script);
+      });
     };
 
     loadGoogleSDK();
@@ -130,9 +127,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      let google;
-      const client = google.accounts.oauth2.initTokenClient({
-        client_id: GOOGLE_CLIENT_ID, // 使用环境变量
+      if (!window.google) {
+        throw new Error("Google SDK not loaded");
+      }
+
+      const client = window.google.accounts.oauth2.initTokenClient({
+        client_id: GOOGLE_CLIENT_ID,
         scope: "email profile",
         callback: async (response) => {
           if (response.access_token) {
@@ -142,8 +142,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               localStorage.setItem("token", result.token);
               toast({
                 title: "Google Login Successful",
-                description:
-                  "You have been successfully logged in with Google.",
+                description: "You have been successfully logged in with Google.",
               });
               navigate("/");
             } catch (error) {

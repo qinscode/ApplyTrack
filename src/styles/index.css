@@ -37,6 +37,13 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --radix-accordion-content-height: 0;
+    --radix-collapsible-content-height: 0;
+    --radix-navigation-menu-viewport-height: 0;
+    --radix-navigation-menu-viewport-width: 0;
+    --radix-hover-card-content-available-height: 0;
+    --radix-hover-card-content-available-width: 0;
+    --radix-popper-transform-origin: 0;
   }
 
   .dark {

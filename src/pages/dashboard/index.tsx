@@ -44,7 +44,6 @@ export default function Dashboard() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   {
-    newJobs;
     interviewedJobs;
   }
 
@@ -62,7 +61,7 @@ export default function Dashboard() {
         setAppliedJobs(appliedJobsResponse.data.totalCount);
 
         // Fetch New jobs for today
-        const newJobsResponse = await api.get(`/Jobs/new/today`);
+        const newJobsResponse = await api.get(`/Jobs/new`);
         setNewJobs(newJobsResponse.data.totalCount);
 
         // Fetch interviewed jobs
@@ -102,7 +101,7 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <TotalJobs totalCount={totalJobs} />
+              <TotalJobs totalCount={totalJobs} newJobCount={newJobs} />
               <AppliedJobs appliedCount={appliedJobs} />
               <NewJobs />
               <DailyApplications />

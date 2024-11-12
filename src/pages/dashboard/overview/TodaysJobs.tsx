@@ -15,8 +15,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A radial chart with stacked sections";
-
 const chartConfig = {
   desktop: {
     label: "Total Jobs",
@@ -28,16 +26,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function TotalJobs({ totalCount = 0 }) {
+export function TotalJobs({ totalCount, newJobCount = 0 }) {
   const chartData = [
     {
       month: "january",
       desktop: totalCount,
-      mobile: Math.round(totalCount * 0.2),
+      mobile: newJobCount,
     },
   ];
-
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
 
   return (
     <Card className="flex flex-col">
@@ -71,7 +67,7 @@ export function TotalJobs({ totalCount = 0 }) {
                           y={(viewBox.cy || 0) - 16}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalCount}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -110,7 +106,7 @@ export function TotalJobs({ totalCount = 0 }) {
             : "Loading jobs..."}
         </div>
         <div className="leading-none text-muted-foreground">
-          Updated in real-time
+          Jobs will be updated every 12 hours
         </div>
       </CardFooter>
     </Card>

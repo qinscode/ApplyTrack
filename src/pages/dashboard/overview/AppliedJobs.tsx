@@ -19,6 +19,7 @@ import { ChartContainer } from "@/components/ui/chart";
 
 export const description = "A radial chart with text";
 
+//TODO: 精投数量和海投数量的统计
 export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
   const chartData = [
     { browser: "applied", visitors: appliedCount, fill: "var(--color-safari)" },

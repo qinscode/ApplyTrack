@@ -2,7 +2,6 @@ import {
   IconArchive,
   IconBrain,
   IconBriefcase,
-  IconChartBar,
   IconCheck,
   IconClipboardCheck,
   IconClock,
@@ -16,7 +15,6 @@ import {
   IconPencilPlus,
   IconPlus,
   IconQuestionMark,
-  IconReportAnalytics,
   IconSend,
   IconSettings,
   IconTestPipe,
@@ -60,23 +58,23 @@ export function SidebarLinks() {
       label: "",
       href: "/",
       icon: <IconLayoutDashboard size={18} />,
-      sub: [
-        {
-          title: "Overview",
-          href: "/dashboard",
-          icon: <IconLayoutDashboard size={18} />,
-        },
-        {
-          title: "Analytics",
-          href: "/dashboard/analyze",
-          icon: <IconChartBar size={18} />,
-        },
-        {
-          title: "Reports",
-          href: "/dashboard/reports",
-          icon: <IconReportAnalytics size={18} />,
-        },
-      ],
+      // sub: [
+      //   {
+      //     title: "Overview",
+      //     href: "/dashboard",
+      //     icon: <IconLayoutDashboard size={18} />,
+      //   },
+      //   {
+      //     title: "Analytics",
+      //     href: "/dashboard/analyze",
+      //     icon: <IconChartBar size={18} />,
+      //   },
+      //   {
+      //     title: "Reports",
+      //     href: "/dashboard/reports",
+      //     icon: <IconReportAnalytics size={18} />,
+      //   },
+      // ],
     },
 
     {

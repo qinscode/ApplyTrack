@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import {
+  IconChartPie,
+  IconBriefcase,
+  IconChartBar,
+  IconChartDots,
+  IconBuilding
+} from "@tabler/icons-react";
 
 import api from "@/api/axios.ts";
 import { Layout } from "@/components/custom/layout";
@@ -22,7 +29,6 @@ import { WeeklyActivities } from "@/pages/dashboard/common/weekly-activities.tsx
 
 // Data imports
 import {
-  locationData,
   responseRateData,
   salaryData,
   skillsData,
@@ -33,6 +39,44 @@ import {
 } from "./data/mock-data";
 import { DailyTrend } from "@/pages/dashboard/overview/DailyTrend.tsx";
 import { RecentlyAppliedJobs } from "@/pages/dashboard/overview/RecentlyAppliedJobs.tsx";
+import { InterviewOutcomes } from "@/components/reports/interview-outcomes.tsx";
+import { SkillTrends } from "@/components/reports/skill-trends.tsx";
+import { WorkLocationTypes } from "@/components/reports/work-location-types.tsx";
+
+// 添加面试结果数据
+const interviewOutcomeData = [
+  { stage: "Phone Screen", passed: 80, total: 100 },
+  { stage: "Technical Round", passed: 60, total: 80 },
+  { stage: "System Design", passed: 40, total: 60 },
+  { stage: "Culture Fit", passed: 35, total: 40 },
+  { stage: "Final Round", passed: 30, total: 35 },
+];
+
+// 添加技能需求趋势数据
+const skillTrendData = [
+  { month: "Jan", react: 80, typescript: 60, node: 40 },
+  { month: "Feb", react: 85, typescript: 65, node: 45 },
+  { month: "Mar", react: 90, typescript: 75, node: 50 },
+  { month: "Apr", react: 88, typescript: 80, node: 55 },
+  { month: "May", react: 92, typescript: 85, node: 60 },
+  { month: "Jun", react: 95, typescript: 90, node: 65 },
+];
+
+// 添加薪资分布数据
+const salaryDistributionData = [
+  { range: "0-50k", count: 10, fill: "hsl(var(--chart-1))" },
+  { range: "50k-75k", count: 25, fill: "hsl(var(--chart-2))" },
+  { range: "75k-100k", count: 35, fill: "hsl(var(--chart-3))" },
+  { range: "100k-125k", count: 20, fill: "hsl(var(--chart-4))" },
+  { range: "125k+", count: 10, fill: "hsl(var(--chart-5))" },
+];
+
+// 添加工作地点分布数据
+const locationData = [
+  { name: "Remote", value: 40, fill: "hsl(var(--chart-1))" },
+  { name: "Hybrid", value: 35, fill: "hsl(var(--chart-2))" },
+  { name: "On-site", value: 25, fill: "hsl(var(--chart-3))" },
+];
 
 export default function Dashboard() {
   const [totalJobs, setTotalJobs] = useState(0);
@@ -104,7 +148,8 @@ export default function Dashboard() {
             {/* Key Metrics Section */}
             <div className="space-y-6">
               <div className="space-y-1">
-                <h2 className="text-2xl font-semibold tracking-tight">
+                <h2 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
+                  <IconChartPie className="size-7" stroke={1.5} />
                   Key Metrics
                 </h2>
                 <p className="text-sm text-muted-foreground">
@@ -122,7 +167,8 @@ export default function Dashboard() {
             {/* Application Overview Section */}
             <div className="space-y-6">
               <div className="space-y-1">
-                <h2 className="text-2xl font-semibold tracking-tight">
+                <h2 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
+                  <IconBriefcase className="size-7" stroke={1.5} />
                   Application Overview
                 </h2>
                 <p className="text-sm text-muted-foreground">
@@ -145,19 +191,20 @@ export default function Dashboard() {
             {/* Job Market Insights Section */}
             <div className="space-y-6">
               <div className="space-y-1">
-                <h2 className="text-2xl font-semibold tracking-tight">
+                <h2 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
+                  <IconChartBar className="size-7" stroke={1.5} />
                   Market Insights
                 </h2>
                 <p className="text-sm text-muted-foreground">
                   Understand job market trends and opportunities
                 </p>
               </div>
-              <div className="grid gap-8 md:grid-cols-2">
+              <div className="grid gap-8 md:grid-cols-3">
                 <JobTypeDistribution data={workTypeData} />
                 <SalaryDistribution data={salaryData} />
+                <LocationDistribution data={locationData} />
               </div>
               <div className="grid gap-8 md:grid-cols-2">
-                <LocationDistribution data={locationData} />
                 <SkillsDistribution data={skillsData} />
               </div>
             </div>
@@ -165,7 +212,8 @@ export default function Dashboard() {
             {/* Detailed Analytics Section */}
             <div className="space-y-6">
               <div className="space-y-1">
-                <h2 className="text-2xl font-semibold tracking-tight">
+                <h2 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
+                  <IconChartDots className="size-7" stroke={1.5} />
                   Detailed Analytics
                 </h2>
                 <p className="text-sm text-muted-foreground">
@@ -175,6 +223,27 @@ export default function Dashboard() {
               <div className="grid gap-8 md:grid-cols-2">
                 <ResponseRate data={responseRateData} />
                 <WeeklyActivities data={weeklyActivitiesData} />
+              </div>
+            </div>
+
+            {/* Job Market */}
+            <div className="space-y-6">
+              <div className="space-y-1">
+                <h2 className="text-2xl font-semibold tracking-tight flex items-center gap-2">
+                  <IconBuilding className="size-7" stroke={1.5} />
+                  Job Market
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Deep dive into your application metrics and weekly progress
+                </p>
+              </div>
+              <div className="grid gap-8 md:grid-cols-2">
+                <InterviewOutcomes data={interviewOutcomeData} />
+                <SkillTrends data={skillTrendData} />
+              </div>
+              <div className="grid gap-8 md:grid-cols-2">
+                <SalaryDistribution data={salaryDistributionData} />
+                <WorkLocationTypes data={locationData} />
               </div>
             </div>
           </div>

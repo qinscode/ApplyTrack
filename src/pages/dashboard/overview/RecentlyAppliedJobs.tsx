@@ -40,7 +40,7 @@ export function RecentlyAppliedJobs() {
   return (
     <Card className="flex h-full flex-col">
       <CardHeader>
-        <CardTitle>Recent Response</CardTitle>
+        <CardTitle>Recent Activity</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">
         {isLoading ? (

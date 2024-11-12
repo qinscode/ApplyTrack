@@ -19,10 +19,12 @@ import { ChartContainer } from "@/components/ui/chart";
 
 export const description = "A radial chart with text";
 
-export function AppliedJobs({ appliedCount = 0 }) {
+export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
   const chartData = [
     { browser: "applied", visitors: appliedCount, fill: "var(--color-safari)" },
   ];
+
+  const progressAngle = Math.min((appliedCount / totalTarget) * 360, 360) + 90;
 
   const chartConfig = {
     visitors: {
@@ -47,8 +49,8 @@ export function AppliedJobs({ appliedCount = 0 }) {
         >
           <RadialBarChart
             data={chartData}
-            startAngle={0}
-            endAngle={250}
+            startAngle={90}
+            endAngle={progressAngle}
             innerRadius={80}
             outerRadius={110}
           >
@@ -74,13 +76,14 @@ export function AppliedJobs({ appliedCount = 0 }) {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-4xl font-bold"
+                          className="fill-foreground p-1 text-4xl font-bold"
                         >
-                          {chartData[0]!.visitors.toLocaleString()}
+                          {chartData[0]!.visitors.toLocaleString()} /{" "}
+                          {totalTarget}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
+                          y={(viewBox.cy || 0) + 36}
                           className="fill-muted-foreground"
                         >
                           Jobs
@@ -99,7 +102,7 @@ export function AppliedJobs({ appliedCount = 0 }) {
           {appliedCount > 0 ? "Active Applications" : "No applications yet"}
         </div>
         <div className="leading-none text-muted-foreground">
-          Total jobs you've applied to
+          {Math.round((appliedCount / totalTarget) * 100)}% of target reached
         </div>
       </CardFooter>
     </Card>

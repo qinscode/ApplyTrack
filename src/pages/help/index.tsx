@@ -9,14 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import {
   IconBrain,
   IconBriefcase,
@@ -41,10 +34,12 @@ export default function Help() {
         {/* Hero Section */}
         <div className="rounded-lg bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 p-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="mb-4 text-3xl font-bold">Welcome to Job Application Tracker</h1>
+            <h1 className="mb-4 text-3xl font-bold">
+              Welcome to Job Application Tracker
+            </h1>
             <p className="mb-6 text-muted-foreground">
-              Your all-in-one solution for managing job applications, preparing for interviews,
-              and tracking your career progress.
+              Your all-in-one solution for managing job applications, preparing
+              for interviews, and tracking your career progress.
             </p>
             <div className="flex justify-center gap-4">
               <Button variant="default">
@@ -183,7 +178,9 @@ export default function Help() {
         {/* FAQ Section */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Frequently Asked Questions</CardTitle>
+            <CardTitle className="text-2xl">
+              Frequently Asked Questions
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
@@ -304,4 +301,4 @@ function QuickAccessCard({
       </CardContent>
     </Card>
   );
-} 
+}

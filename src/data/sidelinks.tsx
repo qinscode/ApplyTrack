@@ -9,6 +9,7 @@ import {
   IconFiles,
   IconFileText,
   IconGhost,
+  IconHelpCircle,
   IconLayoutDashboard,
   IconMail,
   IconMoodHappy,
@@ -220,6 +221,11 @@ export function SidebarLinks() {
       title: "Test",
       icon: <IconTestPipe size={18} />,
       href: "/test",
+    },
+    {
+      title: "Help",
+      icon: <IconHelpCircle size={18} />,
+      href: "/help",
     },
   ];
 

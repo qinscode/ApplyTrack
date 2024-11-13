@@ -4,13 +4,16 @@ import {
   IconBriefcase,
   IconChartBar,
   IconChartDots,
-  IconBuilding
+  IconBuilding,
+  IconRocket,
+  IconArrowRight,
 } from "@tabler/icons-react";
 
 import api from "@/api/axios.ts";
 import { Layout } from "@/components/custom/layout";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { THEMES } from "@/lib/themes";
+import { Button } from "@/components/ui/button";
 
 // Overview imports
 import { TotalJobs } from "@/pages/dashboard/overview/TodaysJobs.tsx";
@@ -138,11 +141,62 @@ export default function Dashboard() {
         className="border-b bg-background/80 backdrop-blur-sm"
       />
       <Layout.Body>
-        <div className="relative space-y-2 pr-20">
+        <div className="relative space-y-4 pr-20">
           <ThemesSwitcher
             themes={THEMES}
             className="fixed right-8 top-20 z-50 rounded-lg bg-background/95 p-2 shadow-md backdrop-blur supports-[backdrop-filter]:bg-background/60"
           />
+
+          {/* Hero Section */}
+          <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 p-8">
+            <div className="relative z-10">
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-4">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                    Welcome to Your Job Search Dashboard
+                  </h1>
+                  <p className="max-w-[600px] text-muted-foreground">
+                    Track your job search progress, manage applications, and get insights
+                    to optimize your career journey.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <Button>
+                      <IconRocket className="mr-2 size-4" />
+                      Add New Job
+                    </Button>
+                    <Button variant="outline">
+                      View Reports
+                      <IconArrowRight className="ml-2 size-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2 rounded-lg bg-background/60 p-4 backdrop-blur">
+                    <h3 className="font-semibold">Total Jobs</h3>
+                    <div className="text-2xl font-bold">{totalJobs}</div>
+                    <p className="text-sm text-muted-foreground">Active opportunities</p>
+                  </div>
+                  <div className="space-y-2 rounded-lg bg-background/60 p-4 backdrop-blur">
+                    <h3 className="font-semibold">Applied</h3>
+                    <div className="text-2xl font-bold">{appliedJobs}</div>
+                    <p className="text-sm text-muted-foreground">Applications sent</p>
+                  </div>
+                  <div className="space-y-2 rounded-lg bg-background/60 p-4 backdrop-blur">
+                    <h3 className="font-semibold">New Today</h3>
+                    <div className="text-2xl font-bold">{newJobs}</div>
+                    <p className="text-sm text-muted-foreground">Fresh opportunities</p>
+                  </div>
+                  <div className="space-y-2 rounded-lg bg-background/60 p-4 backdrop-blur">
+                    <h3 className="font-semibold">Response Rate</h3>
+                    <div className="text-2xl font-bold">
+                      {appliedJobs ? Math.round((interviewedJobs / appliedJobs) * 100) : 0}%
+                    </div>
+                    <p className="text-sm text-muted-foreground">Interview success</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className={"space-y-8"}>
             {/* Key Metrics Section */}

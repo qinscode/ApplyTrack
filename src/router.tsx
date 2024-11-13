@@ -258,6 +258,12 @@ const router = createBrowserRouter([
           Component: (await import("./pages/test")).default,
         }),
       },
+      {
+        path: "help",
+        lazy: async () => ({
+          Component: (await import("./pages/help")).default,
+        }),
+      },
     ],
   },
 

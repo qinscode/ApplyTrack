@@ -252,12 +252,12 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "test",
-        lazy: async () => ({
-          Component: (await import("./pages/test")).default,
-        }),
-      },
+      // {
+      //   path: "test",
+      //   lazy: async () => ({
+      //     Component: (await import("./pages/test")).default,
+      //   }),
+      // },
       {
         path: "help",
         lazy: async () => ({

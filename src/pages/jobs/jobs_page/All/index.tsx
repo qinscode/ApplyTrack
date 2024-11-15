@@ -19,8 +19,8 @@ export default function AllJobs() {
   const searchTerm = searchParams.get("searchTerm") || "";
   const jobTitle = searchParams.get("jobTitle") || "";
   const companyName = searchParams.get("companyName") || "";
-  const sortBy = searchParams.get("sortBy") || "";
-  const sortDescending = searchParams.get("sortDescending") === "true";
+  const sortBy = searchParams.get("sortBy") || "posted_date";
+  const sortDescending = searchParams.get("sortDescending") || "true";
 
   const [jobs, setJobs] = useState<Job[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -75,6 +75,8 @@ export default function AllJobs() {
       const newParams = new URLSearchParams(prev);
       newParams.set("pageNumber", page.toString());
       newParams.set("pageSize", pageSize.toString());
+      newParams.set("sortBy", sortBy);
+      newParams.set("sortDescending", sortDescending);
       return newParams;
     });
   };

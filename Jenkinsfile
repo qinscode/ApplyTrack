@@ -60,11 +60,22 @@ pipeline {
         stage('Deploy Docker Container') {
             steps {
                 script {
-                    sh """
-                        docker stop ${CONTAINER_NAME} || true
-                        docker rm ${CONTAINER_NAME} || true
-                        docker run -d --name ${CONTAINER_NAME} -p 4173:4173 ${DOCKER_IMAGE}:${DOCKER_TAG}
-                    """
+                   sh """
+                       docker stop ${CONTAINER_NAME} || true
+                       docker rm ${CONTAINER_NAME} || true
+                       docker run -d --name ${CONTAINER_NAME} -p 4173:4173 --restart unless-stopped ${DOCKER_IMAGE}:${DOCKER_TAG}
+
+                       # Keep only latest 3 images
+                       docker images ${DOCKER_IMAGE} --format "{{.ID}}" | sort -r | tail -n +4 | xargs -r docker rmi
+
+                       echo "Waiting for container to start..."
+                       sleep 10
+
+                       if ! docker ps | grep -q ${CONTAINER_NAME}; then
+                           echo "Container failed to start"
+                           exit 1
+                       fi
+                   """
                 }
             }
         }

@@ -8,7 +8,6 @@ pipeline {
         CONTAINER_NAME = 'jobtracker-container'
         NEXT_API_URL = credentials('API_URL_SECRET')
         NEXT_PUBLIC_GOOGLE_CLIENT_ID = credentials('VITE_GOOGLE_CLIENT_ID')
-        NODE_ENV = 'production'
         HUSKY = '0'
     }
 

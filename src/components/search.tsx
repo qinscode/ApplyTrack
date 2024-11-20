@@ -1,7 +1,6 @@
 "use client";
 
 import type { ButtonProps } from "@/components/ui/button";
-import { useTheme } from "@/components/theme/theme-provider";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
@@ -12,11 +11,12 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { DialogTitle } from "@/components/ui/dialog";
+import { useThemeSwitch } from "@/hooks/use-theme-switch";
 import { languages } from "@/i18n";
-
-import { pkg } from "@/lib/pkg";
 import { cn } from "@/lib/utils";
 import { LaptopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { CircleHelp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -26,7 +26,7 @@ import { Icons } from "./icons";
 export function Search({ ...props }: ButtonProps) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const { setTheme } = useTheme();
+  const { switchTheme } = useThemeSwitch();
 
   const { i18n, t } = useTranslation("common");
 
@@ -95,47 +95,55 @@ export function Search({ ...props }: ButtonProps) {
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Links">
+        <DialogTitle asChild>
+          <VisuallyHidden>
+            {t("Search commands and navigation")}
+          </VisuallyHidden>
+        </DialogTitle>
+        <CommandInput
+          placeholder={t("Type a command or search...")}
+          aria-label={t("Search input")}
+        />
+        <CommandList aria-label={t("Search results")}>
+          <CommandEmpty>{t("No results found.")}</CommandEmpty>
+          <CommandGroup heading={t("Links")} aria-label={t("Links")}>
             <CommandItem
-              value={pkg.repository.url}
+              value="https://github.com/qinscode/JobTracker"
               onSelect={() => {
-                runCommand(() => router.push(pkg.repository.url));
+                runCommand(() =>
+                  router.push("https://github.com/qinscode/JobTracker"),
+                );
               }}
             >
               <Icons.gitHub className="mr-2 size-4" />
               GitHub
             </CommandItem>
             <CommandItem
-              value="https://shadcnui-boilerplate.pages.dev/"
+              value="/help"
               onSelect={() => {
-                runCommand(() =>
-                  router.push("https://shadcnui-boilerplate.pages.dev/"),
-                );
+                runCommand(() => router.push("/help"));
               }}
             >
               <CircleHelp className="mr-2 size-4" />
-              Document
+              {t("Document")}
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
+          <CommandGroup heading={t("Theme")} aria-label={t("Theme options")}>
+            <CommandItem onSelect={() => runCommand(() => switchTheme("light"))}>
               <SunIcon className="mr-2 size-4" />
               {t("themes.light")}
             </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+            <CommandItem onSelect={() => runCommand(() => switchTheme("dark"))}>
               <MoonIcon className="mr-2 size-4" />
               {t("themes.dark")}
             </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+            <CommandItem onSelect={() => runCommand(() => switchTheme("system"))}>
               <LaptopIcon className="mr-2 size-4" />
               {t("themes.system")}
             </CommandItem>
           </CommandGroup>
-          <CommandGroup heading="Language">
+          <CommandGroup heading={t("Language")} aria-label={t("Language options")}>
             {languages.map(language => (
               <CommandItem
                 key={language.value}

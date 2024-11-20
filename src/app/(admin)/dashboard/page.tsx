@@ -43,6 +43,9 @@ import {
   workTypeData,
 } from "./data/mock-data";
 
+// 在文件顶部添加 import
+import { AddJobDialog } from "@/app/(admin)/jobs/components/addJobDialog";
+
 // 添加面试结果数据
 const interviewOutcomeData = [
   { stage: "Phone Screen", passed: 80, total: 100 },
@@ -86,6 +89,19 @@ export default function Dashboard() {
   const [statusCounts] = useState<StatusCount[]>(statusCountsData);
   const [jobTypes, setJobTypes] = useState([]);
   const [dailyTrend, setDailyTrend] = useState([]);
+
+  // 添加 dialog 的状态控制
+  const [showAddJobDialog, setShowAddJobDialog] = useState(false);
+
+  // 添加处理新增工作的函数
+  const handleAddJob = async (jobData: any) => {
+    try {
+      await api.post("/Jobs", jobData);
+      // 重新获取数据以更新显示
+    } catch (error) {
+      console.error("Error adding job:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -145,7 +161,7 @@ export default function Dashboard() {
                 insights to optimize your career journey.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button>
+                <Button onClick={() => setShowAddJobDialog(true)}>
                   <IconRocket className="mr-2 size-4" />
                   Add New Job
                 </Button>
@@ -297,6 +313,13 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* 添加 AddJobDialog 组件 */}
+      <AddJobDialog
+        open={showAddJobDialog}
+        onOpenChange={setShowAddJobDialog}
+        onSubmit={handleAddJob}
+      />
     </div>
   );
 }

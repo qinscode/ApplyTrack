@@ -86,12 +86,12 @@ export default function DashboardLayout({
             <div className="ml-auto flex items-center gap-4 px-4">
               <div className="ml-auto flex flex-1 items-center space-x-2 px-2 sm:px-4 md:max-w-96 lg:max-w-lg">
                 <Search />
-                <Link href="">
+                <Link href="https://github.com/qinscode/JobTracker">
                   <Button variant="ghost" size="icon">
                     <Icons.gitHub className="size-5" />
                   </Button>
                 </Link>
-                <Link href="">
+                <Link href="/help">
                   <Button variant="ghost" size="icon">
                     <CircleHelp className="size-5" />
                   </Button>

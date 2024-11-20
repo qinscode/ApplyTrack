@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/auth-context";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -73,6 +74,7 @@ export function UserAuthForm({
   onSubmit: externalSubmit,
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -105,16 +107,12 @@ export function UserAuthForm({
 
     setIsLoading(true);
     try {
-      const response = await authApi.login(data.email, data.password);
-      if (!response.token) {
-        throw new Error("No token received");
-      }
-      localStorage.setItem("token", response.token);
+      await login(data.email, data.password);
       toast({
         title: "Login Successful",
         description: "You have been successfully logged in.",
       });
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
@@ -138,12 +136,6 @@ export function UserAuthForm({
             variant: "destructive",
           });
         }
-      } else {
-        toast({
-          title: "Error",
-          description: "An unexpected error occurred.",
-          variant: "destructive",
-        });
       }
     } finally {
       setIsLoading(false);

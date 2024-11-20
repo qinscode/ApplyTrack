@@ -22,6 +22,7 @@ export function ThemeWrapper({
       style={
         {
           "--radius": `${defaultTheme ? 0.5 : config.radius}rem`,
+          "--card-radius": `calc(var(--radius) * 1.5)`,
         } as React.CSSProperties
       }
     >

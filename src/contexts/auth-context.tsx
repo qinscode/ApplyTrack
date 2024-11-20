@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      await authApi.verifyToken();
+      // await authApi.verifyToken();
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Auth check failed:", error);

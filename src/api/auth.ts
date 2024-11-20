@@ -24,11 +24,6 @@ export const googleLogin = async (accessToken: string) => {
   return response.data;
 };
 
-export const verifyToken = async () => {
-  const response = await api.get("/auth/verify");
-  return response.data;
-};
-
 export const logout = () => {
   localStorage.removeItem("token");
 };

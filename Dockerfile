@@ -59,5 +59,5 @@ EXPOSE ${PORT}
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
 
-# 使用显式的端口参数启动
-CMD ["sh", "-c", "pnpm start -p ${PORT}"]
+# 使用数组形式的 CMD 指令
+CMD ["pnpm", "start", "--port", "4173"]

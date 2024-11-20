@@ -200,9 +200,6 @@ importers:
       tailwind-merge:
         specifier: ^2.5.4
         version: 2.5.4
-      tailwindcss:
-        specifier: ^3.4.15
-        version: 3.4.15(ts-node@10.9.2(@swc/core@1.9.2(@swc/helpers@0.5.13))(@types/node@22.9.1)(typescript@5.6.3))
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.15(ts-node@10.9.2(@swc/core@1.9.2(@swc/helpers@0.5.13))(@types/node@22.9.1)(typescript@5.6.3)))
@@ -342,6 +339,9 @@ importers:
       start-server-and-test:
         specifier: ^2.0.8
         version: 2.0.8
+      tailwindcss:
+        specifier: ^3.4.15
+        version: 3.4.15(ts-node@10.9.2(@swc/core@1.9.2(@swc/helpers@0.5.13))(@types/node@22.9.1)(typescript@5.6.3))
       terser:
         specifier: ^5.36.0
         version: 5.36.0

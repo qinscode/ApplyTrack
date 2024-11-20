@@ -237,7 +237,7 @@ export function UserAuthForm({
               )}
             />
             <Button className="mt-2" loading={isLoading} type="submit">
-              Login + Test
+              Login
             </Button>
 
             <div className="relative my-2">

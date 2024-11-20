@@ -2,7 +2,6 @@ import { UserAuthForm } from "@/app/(auth)/components/user-auth-form";
 import Image from "next/image";
 import React from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function SignIn() {
   return (
     <div className="container relative grid h-svh flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -50,10 +49,10 @@ export default function SignIn() {
             <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
             <p className="text-sm text-muted-foreground">
               Enter your email and password below to log into your account.
-              {API_URL}
             </p>
             <p className="text-sm text-muted-foreground">
-              Don&#39;t have an account?{" "}
+              Don&#39;t have an account?
+              {" "}
               <a
                 href="/sign-up"
                 className="underline underline-offset-4 hover:text-primary"
@@ -64,14 +63,17 @@ export default function SignIn() {
           </div>
           <UserAuthForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking login, you agree to our{" "}
+            By clicking login, you agree to our
+            {" "}
             <a
               href="/terms"
               className="underline underline-offset-4 hover:text-primary"
             >
               Terms of Service
-            </a>{" "}
-            and{" "}
+            </a>
+            {" "}
+            and
+            {" "}
             <a
               href="/privacy"
               className="underline underline-offset-4 hover:text-primary"

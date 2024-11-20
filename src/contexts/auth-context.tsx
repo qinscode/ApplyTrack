@@ -19,10 +19,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  const checkAuth = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsAuthenticated(false);
+        return;
+      }
+
+      await authApi.verifyToken();
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error("Auth check failed:", error);
+      setIsAuthenticated(false);
+      localStorage.removeItem("token");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
 
-    // 监听 auth-error 事件
     const handleAuthError = () => {
       setIsAuthenticated(false);
       router.push("/sign-in");
@@ -34,18 +52,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener("auth-error", handleAuthError);
     };
   }, [router]);
-
-  const checkAuth = () => {
-    try {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
-    } catch (error) {
-      console.error("Auth check failed:", error);
-      setIsAuthenticated(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const setAuth = (value: boolean) => {
     setIsAuthenticated(value);

@@ -21,7 +21,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+
+    // 监听 auth-error 事件
+    const handleAuthError = () => {
+      setIsAuthenticated(false);
+      router.push("/sign-in");
+    };
+
+    window.addEventListener("auth-error", handleAuthError);
+
+    return () => {
+      window.removeEventListener("auth-error", handleAuthError);
+    };
+  }, [router]);
 
   const checkAuth = () => {
     try {

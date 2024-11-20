@@ -72,6 +72,7 @@ pipeline {
                         docker run -d \
                             --name ${CONTAINER_NAME} \
                             -p 4173:4173 \
+                            --env-file .env \
                             --restart unless-stopped \
                             ${DOCKER_IMAGE}:${DOCKER_TAG}
 

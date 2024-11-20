@@ -11,12 +11,8 @@ RUN npm install -g pnpm
 # 复制依赖文件
 COPY package.json pnpm-lock.yaml ./
 
-# 设置环境变量
-ENV HUSKY=0 \
-    NODE_ENV=production
-
 # 安装所有依赖(包括 devDependencies)
-RUN pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install --ignore-scripts
 
 # 构建阶段
 FROM node:${NODE_VERSION}-alpine AS builder
@@ -25,18 +21,13 @@ WORKDIR /app
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 
-# 复制依赖
+# 复制依赖和源代码
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# 设置环境变量
-ENV HUSKY=0 \
-    NEXT_TELEMETRY_DISABLED=1 \
-    NODE_ENV=production \
-    PORT=${PORT}
-
-# 构建应用
-RUN pnpm build
+# 设置环境变量并构建
+ENV PORT=${PORT}
+RUN pnpm build && ls -la
 
 # 生产阶段
 FROM node:${NODE_VERSION}-alpine AS runner
@@ -48,22 +39,16 @@ RUN apk add --no-cache libc6-compat tzdata && \
     adduser --system --uid 1001 nextjs && \
     npm install -g pnpm
 
-# 只复制必要的文件
+# 复制必要的文件
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs \
-    /app/.next ./.next \
-    /app/public ./public \
-    /app/next.config.ts \
-    /app/package.json \
-    /app/pnpm-lock.yaml \
-    ./
+
+# 复制构建产物和配置文件
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts /app/package.json /app/pnpm-lock.yaml /app/postcss.config.js /app/tailwind.config.ts ./
 
 # 设置环境变量
-ENV NODE_ENV=production \
-    HUSKY=0 \
-    NEXT_TELEMETRY_DISABLED=1 \
+ENV NEXT_TELEMETRY_DISABLED=1 \
     NEXT_SHARP_PATH=/app/node_modules/sharp \
-    TZ=UTC \
     PORT=${PORT}
 
 USER nextjs
@@ -74,4 +59,5 @@ EXPOSE ${PORT}
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
 
-CMD ["pnpm", "start"]
+# 使用显式的端口参数启动
+CMD ["sh", "-c", "pnpm start -p ${PORT}"]

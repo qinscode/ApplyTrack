@@ -1,5 +1,4 @@
 ARG NODE_VERSION=20.14.0
-ARG PORT=4173
 
 # 依赖阶段
 FROM node:${NODE_VERSION}-alpine AS deps
@@ -26,7 +25,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # 设置环境变量并构建
-ENV PORT=${PORT}
 RUN pnpm build && ls -la
 
 # 生产阶段
@@ -51,15 +49,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 # 设置环境变量
 ENV NEXT_TELEMETRY_DISABLED=1 \
     NEXT_SHARP_PATH=/app/node_modules/sharp \
-    PORT=${PORT}
 
 USER nextjs
 
-EXPOSE ${PORT}
-
-# 健康检查
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
+EXPOSE 3000
 
 # 使用数组形式的 CMD 指令
-CMD ["pnpm", "start", "--port", "4173"]
+CMD ["pnpm", "start"]

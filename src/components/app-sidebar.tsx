@@ -34,7 +34,7 @@ import {
 } from "@tabler/icons-react";
 import * as React from "react";
 
-const data = {
+export const data = {
   navMain: [
     {
       title: "Dashboard",

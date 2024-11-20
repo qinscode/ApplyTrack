@@ -1,5 +1,5 @@
 "use client";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar, data as sidebarData } from "@/components/app-sidebar";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { Icons } from "@/components/icons";
 import { Search } from "@/components/search";
@@ -23,6 +23,7 @@ import {
 import { UserNav } from "@/components/user-nav";
 import { CircleHelp } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function DashboardLayout({
@@ -30,6 +31,33 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
+  // 获取当前路径的面包屑信息
+  const getBreadcrumb = () => {
+    const path = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+
+    // 先查找顶级路径
+    const mainItem = sidebarData.navMain.find(item => item.url === path);
+    if (mainItem) {
+      return { title: mainItem.title };
+    }
+
+    // 查找子路径
+    for (const item of sidebarData.navMain) {
+      if (item.items) {
+        const subItem = item.items.find(sub => sub.url === path);
+        if (subItem) {
+          return { title: subItem.title, parent: item.title };
+        }
+      }
+    }
+
+    return { title: "Not Found" };
+  };
+
+  const { title, parent } = getBreadcrumb();
+
   return (
     <ProtectedRoute>
       <SidebarProvider>
@@ -41,14 +69,16 @@ export default function DashboardLayout({
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
+                  {parent && (
+                    <>
+                      <BreadcrumbItem className="hidden md:block">
+                        <BreadcrumbLink href="#">{parent}</BreadcrumbLink>
+                      </BreadcrumbItem>
+                      <BreadcrumbSeparator className="hidden md:block" />
+                    </>
+                  )}
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                    <BreadcrumbPage>{title}</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>

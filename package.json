@@ -12,8 +12,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "check-types": "tsc --noEmit --pretty",
-    "commit": "cz",
-    "prepare": "node -e \"try { if(process.env.NODE_ENV !== 'production') { import('husky').then(({default: husky}) => husky.install()) } } catch (e) { if (e.code !== 'ERR_REQUIRE_ESM') throw e }\""
+    "commit": "cz"
   },
   "dependencies": {
     "@commitlint/types": "^19.5.0",

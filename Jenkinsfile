@@ -71,7 +71,7 @@ pipeline {
                         # 运行新容器
                         docker run -d \
                             --name ${CONTAINER_NAME} \
-                            -p 4173:4173 \
+                            -p 4173:3000 \
                             --env-file .env \
                             --restart unless-stopped \
                             ${DOCKER_IMAGE}:${DOCKER_TAG}

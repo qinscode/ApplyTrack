@@ -32,8 +32,8 @@ pipeline {
                 sh '''
                     echo "Node version:"
                     node --version
-                    echo "Yarn version:"
-                    yarn --version
+                    echo "Pnpm version:"
+                    pnpm --version
                     echo "Docker version:"
                     docker --version
                 '''
@@ -42,10 +42,10 @@ pipeline {
 
         stage('Lint and Format') {
             steps {
-                sh 'yarn install'
-                sh 'yarn lint'
-                sh 'yarn format'
-                sh 'yarn format:check'
+                sh 'pnpm install'
+                sh 'pnpm lint'
+                sh 'pnpm format'
+                sh 'pnpm format:check'
             }
         }
 

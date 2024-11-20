@@ -1,70 +1,73 @@
-# Build stage
-FROM node:20.14.0 AS builder
+ARG NODE_VERSION=20.14.0
+ARG PORT=4173
+
+# 依赖阶段
+FROM node:${NODE_VERSION}-alpine AS deps
 WORKDIR /app
 
-# Install pnpm
+RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 
-# Create .npmrc to disable prepare script in production
-RUN echo "enable-pre-post-scripts=false" > .npmrc
-
-# Copy package files
 COPY package.json pnpm-lock.yaml ./
-
-# Install dependencies
+ENV HUSKY=0
 ENV NODE_ENV=production
-RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
-    pnpm install --frozen-lockfile --prod
 
-# Copy source files
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+
+# 构建阶段
+FROM node:${NODE_VERSION}-alpine AS builder
+WORKDIR /app
+
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the application
-RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
-    --mount=type=cache,target=/app/.next/cache \
-    pnpm build
+ENV HUSKY=0
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Production stage
-FROM node:20.14.0-slim AS runner
+RUN pnpm build
+
+# 生产阶段
+FROM node:${NODE_VERSION}-alpine AS runner
 WORKDIR /app
 
-# Install pnpm
+RUN apk add --no-cache libc6-compat tzdata
+
+RUN addgroup --system --gid 1001 nodejs && \
+   adduser --system --uid 1001 nextjs
+
 RUN npm install -g pnpm
 
-# Create .npmrc for production
-RUN echo "enable-pre-post-scripts=false" > .npmrc
+COPY --from=deps /app/node_modules ./node_modules
 
-# Set production environment
-ENV NODE_ENV=production
-ENV PORT=4173
-ENV HOST=0.0.0.0
-
-# Create non-root user and setup permissions
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs && \
-    mkdir -p /home/nextjs/.cache/next-swc && \
-    chown -R nextjs:nodejs /home/nextjs
-
-# Copy production files
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.ts ./
+COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/next-env.d.ts ./
+COPY --from=builder /app/postcss.config.js ./
+COPY --from=builder /app/tailwind.config.ts ./
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/pnpm-lock.yaml ./
-COPY --from=builder /app/next.config.ts ./
-COPY --from=builder /app/.npmrc ./
 
-# Install only production dependencies
-RUN pnpm install --frozen-lockfile --prod
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/locales ./locales
 
-# Set correct permissions
-RUN chown -R nextjs:nodejs /app
+RUN chown -R nextjs:nodejs .
 
-# Set home directory for nextjs user
-ENV HOME=/home/nextjs
+ENV NODE_ENV=production
+ENV HUSKY=0
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_SHARP_PATH=/app/node_modules/sharp
+ENV TZ=UTC
+ENV PORT=${PORT}
 
-# Switch to non-root user
 USER nextjs
 
-EXPOSE 4173
+EXPOSE ${PORT}
 
-CMD ["pnpm", "start", "-p", "4173"]
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+ CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
+
+CMD ["pnpm", "start"]

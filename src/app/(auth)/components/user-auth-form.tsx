@@ -108,11 +108,7 @@ export function UserAuthForm({
     setIsLoading(true);
     try {
       const response = await authApi.login(data.email, data.password);
-      console.log("Login successful", response);
-
-      // Save token to local storage
       localStorage.setItem("token", response.token);
-
       toast({
         title: "Login Successful",
         description: "You have been successfully logged in.",
@@ -121,7 +117,6 @@ export function UserAuthForm({
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          console.error("Login failed", error.response.data);
           toast({
             title: "Login Failed",
             description:
@@ -129,7 +124,6 @@ export function UserAuthForm({
             variant: "destructive",
           });
         } else if (error.request) {
-          console.error("No response received", error.request);
           toast({
             title: "Network Error",
             description:
@@ -137,7 +131,6 @@ export function UserAuthForm({
             variant: "destructive",
           });
         } else {
-          console.error("Error", error.message);
           toast({
             title: "Error",
             description: "An unexpected error occurred.",
@@ -145,7 +138,6 @@ export function UserAuthForm({
           });
         }
       } else {
-        console.error("An unexpected error occurred", error);
         toast({
           title: "Error",
           description: "An unexpected error occurred.",
@@ -243,7 +235,11 @@ export function UserAuthForm({
                 </FormItem>
               )}
             />
-            <Button className="mt-2" loading={isLoading}>
+            <Button
+              className="mt-2"
+              loading={isLoading}
+              type="submit"
+            >
               Login
             </Button>
 

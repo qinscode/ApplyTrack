@@ -1,8 +1,8 @@
 // src/adapters/jobAdapter.ts
 
-import { Job } from "@/types";
+import type { Job } from "@/types";
 
-interface BackendJob {
+type BackendJob = {
   id: number;
   jobTitle: string;
   businessName: string;
@@ -15,7 +15,7 @@ interface BackendJob {
   status: string;
   postedDate: string | null;
   jobDescription: string;
-}
+};
 
 export function adaptJob(backendJob: BackendJob): Job {
   const adaptedJob: Job = {

@@ -5,8 +5,8 @@ export const styles = [
   },
   {
     name: "new-york",
-    label: "New York",
+    label: "new York",
   },
-] as const
+] as const;
 
-export type Style = (typeof styles)[number]
+export type Style = (typeof styles)[number];

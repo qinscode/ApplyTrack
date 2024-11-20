@@ -1,4 +1,3 @@
-import { useThemesConfig } from "@/hooks/use-themes-config";
 import {
   Card,
   CardContent,
@@ -6,23 +5,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-interface LocationData {
+type LocationData = {
   name: string;
   value: number;
-}
+};
 
-interface WorkLocationTypesProps {
+type WorkLocationTypesProps = {
   data: LocationData[];
-}
+};
 
 export function WorkLocationTypes({ data }: WorkLocationTypesProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   const chartData = data.map((item, index) => ({
     ...item,
-    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`
+    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`,
   }));
 
   return (
@@ -45,8 +45,8 @@ export function WorkLocationTypes({ data }: WorkLocationTypesProps) {
               outerRadius={100}
               label={({ name, value }) => `${name} (${value}%)`}
             >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
+              {chartData.map(entry => (
+                <Cell key={`cell-${entry.name}`} fill={entry.fill} />
               ))}
             </Pie>
             <Tooltip />
@@ -55,4 +55,4 @@ export function WorkLocationTypes({ data }: WorkLocationTypesProps) {
       </CardContent>
     </Card>
   );
-} 
+}

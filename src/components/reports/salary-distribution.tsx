@@ -1,4 +1,3 @@
-import { useThemesConfig } from "@/hooks/use-themes-config";
 import {
   Card,
   CardContent,
@@ -6,23 +5,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-interface SalaryData {
+type SalaryData = {
   range: string;
   count: number;
-}
+};
 
-interface SalaryDistributionProps {
+type SalaryDistributionProps = {
   data: SalaryData[];
-}
+};
 
 export function SalaryDistribution({ data }: SalaryDistributionProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   const chartData = data.map((item, index) => ({
     ...item,
-    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`
+    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`,
   }));
 
   return (
@@ -45,8 +45,8 @@ export function SalaryDistribution({ data }: SalaryDistributionProps) {
               outerRadius={100}
               label={({ name, value }) => `${name} (${value}%)`}
             >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
+              {chartData.map(entry => (
+                <Cell key={`cell-${entry.range}`} fill={entry.fill} />
               ))}
             </Pie>
             <Tooltip />
@@ -55,4 +55,4 @@ export function SalaryDistribution({ data }: SalaryDistributionProps) {
       </CardContent>
     </Card>
   );
-} 
+}

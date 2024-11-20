@@ -1,22 +1,23 @@
-import * as React from "react";
+import { Button } from "@/components/custom/button";
+import { Icons } from "@/components/icons";
+import { Search } from "@/components/search";
+
+import { ThemeCustomizer } from "@/components/theme/theme-customizer";
+import ThemeSwitch from "@/components/theme-switch";
+import { UserNav } from "@/components/user-nav";
 import { cn } from "@/lib/utils";
-import { Search } from "@/components/search.tsx";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/custom/button.tsx";
-import { Icons } from "@/components/icons.tsx";
 import { CircleHelp } from "lucide-react";
-import ThemeSwitch from "@/components/theme-switch.tsx";
-import { ThemeCustomizer } from "@/components/theme/theme-customizer.tsx";
-import { UserNav } from "@/components/user-nav.tsx";
+import Link from "next/link";
+import * as React from "react";
 
 const LayoutContext = React.createContext<{
   offset: number;
   fixed: boolean;
 } | null>(null);
 
-interface LayoutProps extends React.HTMLAttributes<HTMLDivElement> {
+type LayoutProps = {
   fixed?: boolean;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const Layout = ({ className, fixed = false, ...props }: LayoutProps) => {
   const divRef = React.useRef<HTMLDivElement>(null);
@@ -25,7 +26,9 @@ const Layout = ({ className, fixed = false, ...props }: LayoutProps) => {
   React.useEffect(() => {
     const div = divRef.current;
 
-    if (!div) return;
+    if (!div) {
+      return;
+    }
     const onScroll = () => setOffset(div.scrollTop);
 
     // clean up code
@@ -47,9 +50,9 @@ const Layout = ({ className, fixed = false, ...props }: LayoutProps) => {
 };
 Layout.displayName = "Layout";
 
-interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+type HeaderProps = {
   title?: string;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
   ({ className, title, ...props }, ref) => {
@@ -57,7 +60,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
     const contextVal = React.useContext(LayoutContext);
     if (contextVal === null) {
       throw new Error(
-        `Layout.Header must be used within ${Layout.displayName}.`
+        `Layout.Header must be used within ${Layout.displayName}.`,
       );
     }
 
@@ -69,7 +72,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
           "fixed top-0 z-50 flex h-14 items-center gap-4 bg-background p-4 transition-[left,right,width] duration-300 sm:h-16 md:px-8",
           "left-0 right-0 md:left-64 md:[.collapsed_+_*_&]:left-14", // 根据侧边栏状态调整
           contextVal.offset > 10 ? "shadow-md" : "shadow-none",
-          className
+          className,
         )}
         {...props}
       >
@@ -80,14 +83,14 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
         <div className="ml-auto flex flex-1 items-center space-x-2 px-2 sm:px-4 md:max-w-96 lg:max-w-lg">
           <Search />
           <Link
-            to="https://github.com/TinsFox/shadcnui-boilerplate"
+            href="https://github.com/TinsFox/shadcnui-boilerplate"
             target="_blank"
           >
             <Button variant="ghost" size="icon">
               <Icons.gitHub className="size-5" />
             </Button>
           </Link>
-          <Link to="https://shadcnui-boilerplate.pages.dev" target="_blank">
+          <Link href="https://shadcnui-boilerplate.pages.dev" target="_blank">
             <Button variant="ghost" size="icon">
               <CircleHelp className="size-5" />
             </Button>
@@ -98,7 +101,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 Header.displayName = "Header";
 
@@ -118,7 +121,7 @@ const Body = React.forwardRef<
       data-layout="body"
       className={cn(
         "h-[calc(100%-3.5rem)] overflow-auto px-8 pt-20 sm:h-[calc(100%-4rem)]",
-        className
+        className,
       )}
       {...props}
     />

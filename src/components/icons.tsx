@@ -1,4 +1,7 @@
-type IconProps = React.HTMLAttributes<SVGElement>
+import { SearchIcon } from "lucide-react";
+import React from "react";
+
+type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
   logo: (props: IconProps) => (
@@ -28,6 +31,7 @@ export const Icons = {
       />
     </svg>
   ),
+  search: (props: IconProps) => <SearchIcon {...props} />,
   twitter: (props: IconProps) => (
     <svg
       {...props}
@@ -163,4 +167,4 @@ export const Icons = {
       <line x1="10" y1="9" x2="8" y2="9" />
     </svg>
   ),
-}
+};

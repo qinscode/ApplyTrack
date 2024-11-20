@@ -1,7 +1,13 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5051/api";
-const getToken = () => localStorage.getItem("token");
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051/api";
+const getToken = () => {
+  // Check if we're in a browser environment before accessing localStorage
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+  return null;
+};
 
 const api = axios.create({
   baseURL: API_URL,
@@ -15,21 +21,25 @@ api.interceptors.request.use(
   (config) => {
     const token = getToken();
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  error => Promise.reject(error),
 );
 
 // updateToken method to update the token in local storage
-export const updateToken = (newToken) => {
-  localStorage.setItem("token", newToken);
+export const updateToken = (newToken: string) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("token", newToken);
+  }
 };
 
 // clearToken method to remove the token from local storage
 export const clearToken = () => {
-  localStorage.removeItem("token");
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("token");
+  }
 };
 
 export default api;

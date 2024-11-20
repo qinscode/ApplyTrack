@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import api from "@/api/axios";
-import { Job } from "@/types";
+import type { Job } from "@/types";
 import { adaptJob } from "@/adapters/jobAdapter";
+import api from "@/api/axios";
+import { useEffect, useState } from "react";
 
 export function useJobDetails(jobId: string | undefined) {
   const [job, setJob] = useState<Job | null>(null);

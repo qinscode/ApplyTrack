@@ -1,9 +1,9 @@
-import { Layout } from "@/components/custom/layout";
-import { DataTable } from "@/pages/jobs/components/data-table";
-import { columns } from "@/pages/jobs/components/columns";
-import { Job } from "@/types";
+import type { Job } from "@/types";
+import { columns } from "@/app/(admin)/jobs/components/columns";
+import DataTable from "@/app/(admin)/jobs/components/dataTable";
+import React from "react";
 
-interface JobListLayoutProps {
+type JobListLayoutProps = {
   title: string;
   description: string;
   jobs: Job[];
@@ -18,10 +18,9 @@ interface JobListLayoutProps {
   onSort: (column: string, descending: boolean) => void;
   onRetry: () => void;
   onAddNewJob?: () => void;
-}
+};
 
 export function JobListLayout({
-  title,
   jobs,
   error,
   totalJobsCount,
@@ -42,28 +41,30 @@ export function JobListLayout({
       // 显示成功消息
     } catch (error) {
       // 处理错误
+      console.error(error);
     }
   };
 
   return (
-    <Layout>
-      <Layout.Header
-        title={title}
-        className="border-b bg-background/80 backdrop-blur-sm"
-      ></Layout.Header>
-      <Layout.Body>
-        <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
-          {error ? (
+
+    <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
+      {error
+        ? (
             <div>
-              <p>Error: {error}</p>
+              <p>
+                Error:
+                {error}
+              </p>
               <button
+                type="button"
                 onClick={onRetry}
                 className="mt-2 rounded bg-blue-500 px-4 py-2 text-white"
               >
                 Retry
               </button>
             </div>
-          ) : (
+          )
+        : (
             <DataTable
               data={jobs}
               columns={columns}
@@ -78,8 +79,7 @@ export function JobListLayout({
               onAddNewJob={handleAddNewJob}
             />
           )}
-        </div>
-      </Layout.Body>
-    </Layout>
+    </div>
+
   );
 }

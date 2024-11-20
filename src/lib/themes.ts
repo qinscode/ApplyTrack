@@ -1,4 +1,4 @@
-import { themeColorsToCssVariables } from "@/lib/charts"
+import { themeColorsToCssVariables } from "@/lib/charts";
 
 const _THEMES = [
   {
@@ -469,14 +469,14 @@ const _THEMES = [
     },
     radius: 0.5,
   },
-] as const
+] as const;
 
-export const THEMES = _THEMES.map((theme) => ({
+export const THEMES = _THEMES.map(theme => ({
   ...theme,
   cssVars: {
     light: themeColorsToCssVariables(theme.colors),
     dark: themeColorsToCssVariables(theme.colorsDark),
   },
-}))
+}));
 
-export type Theme = (typeof THEMES)[number]
+export type Theme = (typeof THEMES)[number];

@@ -1,7 +1,8 @@
-import { useLocation } from "react-router-dom";
+"use client";
+import { usePathname } from "next/navigation";
 
 export default function useCheckActiveNav() {
-  const { pathname } = useLocation();
+  const pathname = usePathname();
 
   const checkActiveNav = (nav: string) => {
     // 处理根路径
@@ -19,7 +20,7 @@ export default function useCheckActiveNav() {
       // 移除开头的斜杠并转换为小写进行比较
       const normalizedNav = nav.replace(/^\//, "").toLowerCase();
       const normalizedPathname = pathname.replace(/^\//, "").toLowerCase();
-      
+
       return normalizedPathname === normalizedNav;
     }
 

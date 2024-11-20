@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PencilIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -19,14 +17,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PencilIcon } from "lucide-react";
+import { useState } from "react";
 
-interface CareerGoal {
+type CareerGoal = {
   goalType: string;
   targetTitle: string;
   targetDate: string;
   salaryMin: number;
   salaryMax: number;
-}
+};
 
 const GOAL_TYPES = {
   SAME_PATH: "Land a new job in the same career path",
@@ -49,7 +49,9 @@ export function CareerGoals() {
   };
 
   const formatSalary = (min: number, max: number) => {
-    if (min === 0 && max === 0) return "Not set";
+    if (min === 0 && max === 0) {
+      return "Not set";
+    }
     return `$${min.toLocaleString()} to $${max.toLocaleString()}`;
   };
 
@@ -64,7 +66,7 @@ export function CareerGoals() {
             </CardTitle>
           </div>
           <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
-            <PencilIcon className="h-4 w-4" />
+            <PencilIcon className="size-4" />
           </Button>
         </CardHeader>
         <CardContent>
@@ -112,15 +114,14 @@ export function CareerGoals() {
               <Label>Goal Type</Label>
               <Select
                 value={goals.goalType}
-                onValueChange={(value) =>
-                  setGoals({ ...goals, goalType: value })
-                }
+                onValueChange={value =>
+                  setGoals({ ...goals, goalType: value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select your goal" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.values(GOAL_TYPES).map((type) => (
+                  {Object.values(GOAL_TYPES).map(type => (
                     <SelectItem key={type} value={type}>
                       {type}
                     </SelectItem>
@@ -133,9 +134,8 @@ export function CareerGoals() {
               <Input
                 id="targetTitle"
                 value={goals.targetTitle}
-                onChange={(e) =>
-                  setGoals({ ...goals, targetTitle: e.target.value })
-                }
+                onChange={e =>
+                  setGoals({ ...goals, targetTitle: e.target.value })}
                 placeholder="e.g. Senior Software Engineer"
               />
             </div>
@@ -145,9 +145,8 @@ export function CareerGoals() {
                 id="targetDate"
                 type="date"
                 value={goals.targetDate}
-                onChange={(e) =>
-                  setGoals({ ...goals, targetDate: e.target.value })
-                }
+                onChange={e =>
+                  setGoals({ ...goals, targetDate: e.target.value })}
               />
             </div>
             <div className="space-y-2">
@@ -162,9 +161,8 @@ export function CareerGoals() {
                     placeholder="Min"
                     value={goals.salaryMin || ""}
                     className="pl-6"
-                    onChange={(e) =>
-                      setGoals({ ...goals, salaryMin: Number(e.target.value) })
-                    }
+                    onChange={e =>
+                      setGoals({ ...goals, salaryMin: Number(e.target.value) })}
                   />
                 </div>
                 <span className="text-muted-foreground">to</span>
@@ -177,9 +175,8 @@ export function CareerGoals() {
                     placeholder="Max"
                     value={goals.salaryMax || ""}
                     className="pl-6"
-                    onChange={(e) =>
-                      setGoals({ ...goals, salaryMax: Number(e.target.value) })
-                    }
+                    onChange={e =>
+                      setGoals({ ...goals, salaryMax: Number(e.target.value) })}
                   />
                 </div>
               </div>

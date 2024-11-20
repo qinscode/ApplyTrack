@@ -1,85 +1,89 @@
-import * as React from "react";
 import { cn } from "@/lib/utils";
+import * as React from "react";
 
-interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
-  children:
-    | React.ReactElement<typeof BreadcrumbItem>
-    | React.ReactElement<typeof BreadcrumbItem>[];
+type BreadcrumbContextType = {
   separator?: React.ReactNode;
-}
+  registerItem: (id: string) => void;
+  unregisterItem: (id: string) => void;
+  items: Set<string>;
+};
 
-const BreadcrumbContext = React.createContext<boolean>(false);
+const BreadcrumbContext = React.createContext<BreadcrumbContextType | null>(null);
+
+type BreadcrumbProps = {
+  children: React.ReactNode;
+  separator?: React.ReactNode;
+} & React.ComponentPropsWithoutRef<"nav">;
 
 const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
   ({ className, children, separator, ...props }, ref) => {
-    const validChildren = getValidChildren(children);
+    const [items, setItems] = React.useState<Set<string>>(new Set());
 
-    const count = validChildren.length;
+    const registerItem = React.useCallback((id: string) => {
+      setItems(prev => new Set(prev).add(id));
+    }, []);
 
-    const clones = validChildren.map((child, index) =>
-      React.cloneElement(child, {
+    const unregisterItem = React.useCallback((id: string) => {
+      setItems((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }, []);
+
+    const contextValue = React.useMemo(
+      () => ({
         separator,
-        isLastChild: count === index + 1,
-      })
+        registerItem,
+        unregisterItem,
+        items,
+      }),
+      [separator, registerItem, unregisterItem, items],
     );
 
     return (
-      <BreadcrumbContext.Provider value={true}>
+      <BreadcrumbContext.Provider value={contextValue}>
         <nav ref={ref} aria-label="breadcrumb" className={className} {...props}>
-          <ol className={cn(`flex`)}>{clones}</ol>
+          <ol className={cn(`flex`)}>{children}</ol>
         </nav>
       </BreadcrumbContext.Provider>
     );
-  }
+  },
 );
 Breadcrumb.displayName = "Breadcrumb";
 
-interface InternalBreadcrumbItemProps {
-  separator?: React.ReactNode;
-  isLastChild: boolean;
-}
-
-interface BreadcrumbItemProps
-  extends Omit<
-    React.ComponentPropsWithoutRef<"li">,
-    keyof InternalBreadcrumbItemProps
-  > {}
+type BreadcrumbItemProps = React.ComponentPropsWithoutRef<"li">;
 
 const BreadcrumbItem = React.forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   ({ className, children, ...props }, ref) => {
-    const { separator, isLastChild, ...rest } =
-      props as InternalBreadcrumbItemProps;
+    const context = React.useContext(BreadcrumbContext);
+    const id = React.useId();
 
-    // Check if BreadcrumbItem is used within Breadcrumb
-    const isInsideBreadcrumb = React.useContext(BreadcrumbContext);
-    if (!isInsideBreadcrumb) {
+    if (!context) {
       throw new Error(
-        `${BreadcrumbItem.displayName} must be used within ${Breadcrumb.displayName}.`
+        `${BreadcrumbItem.displayName} must be used within ${Breadcrumb.displayName}.`,
       );
     }
 
+    React.useEffect(() => {
+      context.registerItem(id);
+      return () => context.unregisterItem(id);
+    }, [context, id]);
+
+    const isLastChild = Array.from(context.items).pop() === id;
+
     return (
-      <li ref={ref} className={cn(`group`, className)} {...rest}>
+      <li ref={ref} className={cn(`group`, className)} {...props}>
         {children}
         {!isLastChild && (
-          <span className="mx-2 *:!inline-block">{separator ?? "/"}</span>
+          <span className="mx-2 *:!inline-block">
+            {context.separator ?? "/"}
+          </span>
         )}
       </li>
     );
-  }
+  },
 );
 BreadcrumbItem.displayName = "BreadcrumbItem";
-
-/* ========== Util Func ========== */
-
-const getValidChildren = (children: React.ReactNode) =>
-  React.Children.toArray(children).filter((child) => {
-    if (React.isValidElement(child) && child.type === BreadcrumbItem) {
-      return React.isValidElement(child);
-    }
-    throw new Error(
-      `${Breadcrumb.displayName} can only have ${BreadcrumbItem.displayName} as children.`
-    );
-  }) as React.ReactElement[];
 
 export { Breadcrumb, BreadcrumbItem };

@@ -1,4 +1,3 @@
-import { useThemesConfig } from "@/hooks/use-themes-config";
 import {
   Card,
   CardContent,
@@ -6,22 +5,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Area, AreaChart, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config";
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-interface SkillTrendData {
+type SkillTrendData = {
   month: string;
   react: number;
   typescript: number;
   node: number;
-}
+};
 
-interface SkillTrendsProps {
+type SkillTrendsProps = {
   data: SkillTrendData[];
-}
+};
 
 export function SkillTrends({ data }: SkillTrendsProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   const colors = {
     react: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`,
     typescript: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`,
@@ -72,4 +79,4 @@ export function SkillTrends({ data }: SkillTrendsProps) {
       </CardContent>
     </Card>
   );
-} 
+}

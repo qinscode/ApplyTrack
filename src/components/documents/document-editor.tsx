@@ -1,4 +1,4 @@
-import { Button } from "@/components/custom/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -22,12 +22,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
+import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Editor } from "@tinymce/tinymce-react";
 import { useRef } from "react";
-import { toast } from "@/components/ui/use-toast";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const documentSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -37,17 +37,17 @@ const documentSchema = z.object({
   template: z.string().optional(),
 });
 
-interface DocumentEditorProps {
+type DocumentEditorProps = {
   type: "resume" | "cover-letter";
   initialData?: z.infer<typeof documentSchema> & { content?: string };
   onSave: (
-    data: z.infer<typeof documentSchema> & { content: string }
+    data: z.infer<typeof documentSchema> & { content: string },
   ) => Promise<void>;
   onCancel: () => void;
-}
+};
 
 const templates = {
-  resume: [
+  "resume": [
     { id: "modern", name: "Modern Professional" },
     { id: "classic", name: "Classic" },
     { id: "creative", name: "Creative" },
@@ -87,7 +87,7 @@ export function DocumentEditor({
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to save. Please try again.",
+        description: `Failed to save. Please try again.${error}`,
         variant: "destructive",
       });
     }
@@ -97,7 +97,8 @@ export function DocumentEditor({
     <Card>
       <CardHeader>
         <CardTitle>
-          {initialData ? "Edit" : "Create"}{" "}
+          {initialData ? "Edit" : "Create"}
+          {" "}
           {type === "resume" ? "Resume" : "Cover Letter"}
         </CardTitle>
         <CardDescription>
@@ -188,7 +189,7 @@ export function DocumentEditor({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {templates[type].map((template) => (
+                        {templates[type].map(template => (
                           <SelectItem key={template.id} value={template.id}>
                             {template.name}
                           </SelectItem>
@@ -231,10 +232,10 @@ export function DocumentEditor({
                     "wordcount",
                   ],
                   toolbar:
-                    "undo redo | blocks | " +
-                    "bold italic forecolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help",
+                    "undo redo | blocks | "
+                    + "bold italic forecolor | alignleft aligncenter "
+                    + "alignright alignjustify | bullist numlist outdent indent | "
+                    + "removeformat | help",
                 }}
               />
             </div>

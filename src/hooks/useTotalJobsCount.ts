@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+"use client";
+import type { RootState } from "@/store";
+import type { Job } from "@/types";
+import { adaptJob } from "@/adapters/jobAdapter";
 import api from "@/api/axios";
-import { Job } from "@/types";
-import { adaptJob } from "@/adapters/jobAdapter.ts";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { toast } from "@/components/ui/use-toast";
+import { useDispatch, useSelector } from "@/hooks/redux";
 import { setJobStatusCounts } from "@/store/jobStatusSlice";
-import { toast } from "@/components/ui/use-toast.ts";
+import { useCallback, useEffect, useState } from "react";
 
 type JobStatus = Job["status"];
 
@@ -61,15 +62,15 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
     } catch (error: any) {
       console.error("Failed to update job status:", error);
       if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
+        error.response
+        && error.response.data
+        && error.response.data.message
       ) {
         const errorMessage = error.response.data.message;
         if (errorMessage.includes("UserJob not found")) {
           try {
             await api.post("/UserJobs", {
-              jobId: jobId,
+              jobId,
               status: newStatus,
             });
 
@@ -85,7 +86,7 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
           } catch (createError) {
             console.error(
               "Failed to create UserJob relationship:",
-              createError
+              createError,
             );
             toast({
               title: "Error",
@@ -118,7 +119,7 @@ export function useJobStatusUpdate(initialStatus: Job["status"]) {
 export function useJobCountByStatus(
   status: JobStatus,
   currentPage: number = 1,
-  PAGE_SIZE: number = 20
+  PAGE_SIZE: number = 20,
 ) {
   const [totalJobsCount, setTotalJobsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -130,7 +131,7 @@ export function useJobCountByStatus(
     try {
       setLoading(true);
       const response = await api.get(
-        `/UserJobs/status/${status}?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`
+        `/UserJobs/status/${status}?pageNumber=${currentPage}&pageSize=${PAGE_SIZE}`,
       );
       setTotalJobsCount(response.data.totalCount);
       setError(null);
@@ -141,15 +142,15 @@ export function useJobCountByStatus(
       // Filter out any jobs that didn't adapt correctly
       const validJobs = adaptedJobs.filter(
         (job: Job) =>
-          job.job_id &&
-          job.job_title &&
-          job.business_name &&
-          job.work_type &&
-          job.job_type &&
-          job.pay_range &&
-          job.status &&
-          job.posted_date &&
-          job.job_description
+          job.job_id
+          && job.job_title
+          && job.business_name
+          && job.work_type
+          && job.job_type
+          && job.pay_range
+          && job.status
+          && job.posted_date
+          && job.job_description,
       );
 
       setJobs(validJobs);
@@ -200,21 +201,21 @@ export function useNewJobsCount() {
   return { totalNewJobs, loading, error };
 }
 
-interface JobStatusCount {
+type JobStatusCount = {
   status: string;
   count: number;
-}
+};
 
-interface JobStatusResponse {
+type JobStatusResponse = {
   statusCounts: JobStatusCount[];
   totalJobsCount: number;
   newJobsCount: number;
-}
+};
 
 export function useJobStatusCounts() {
   const dispatch = useDispatch();
   const { statusCounts, totalJobsCount, newJobsCount } = useSelector(
-    (state: RootState) => state.jobStatus
+    (state: RootState) => state.jobStatus,
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -238,7 +239,7 @@ export function useJobStatusCounts() {
   }, [fetchJobStatusCounts]);
 
   const getCountByStatus = (status: string) => {
-    const statusCount = statusCounts.find((item) => item.status === status);
+    const statusCount = statusCounts.find(item => item.status === status);
     return statusCount ? statusCount.count : 0;
   };
 

@@ -4,7 +4,7 @@ const useHTMLToPlainText = (htmlContent) => {
   return useMemo(() => {
     const temp = document.createElement("div");
     temp.innerHTML = htmlContent;
-    const text = temp.textContent || temp.innerText || "";
+    const text = temp.textContent || "";
     return text.replace(/\s+/g, " ").trim();
   }, [htmlContent]);
 };

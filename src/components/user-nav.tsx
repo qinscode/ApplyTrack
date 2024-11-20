@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+"use client";
+
+import { clearToken } from "@/api/axios";
+import { getCurrentUser } from "@/api/users";
 import { Button } from "@/components/custom/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,17 +14,17 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { clearToken } from "@/api/axios";
-import { getCurrentUser } from "@/api/users";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-interface User {
+type User = {
   username: string;
   email: string;
-}
+};
 
 export function UserNav() {
   const [user, setUser] = useState<User | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -39,19 +41,19 @@ export function UserNav() {
 
   const handleLogout = () => {
     clearToken();
-    navigate("/sign-in");
+    router.push("/sign-in");
   };
 
   if (!user) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt={user.username} />
+        <Button variant="ghost" className="relative size-8 rounded-full">
+          <Avatar className="size-8">
+            {/* <AvatarImage src="/avatars/01.png" alt={user.username} /> */}
             <AvatarFallback>{user.username.charAt(0)}</AvatarFallback>
           </Avatar>
         </Button>
@@ -67,12 +69,11 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/profile")}>
             Profile
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
-
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/settings")}>
             Settings
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>

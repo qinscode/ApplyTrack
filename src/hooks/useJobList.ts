@@ -1,30 +1,34 @@
-import { useState, useCallback, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Job } from "@/types";
-import api from "@/api/axios";
+"use client";
+import type { Job } from "@/types";
 import { adaptJob } from "@/adapters/jobAdapter";
+import api from "@/api/axios";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 const DEFAULT_PAGE_SIZE = 20;
 
-interface UseJobListConfig {
+type UseJobListConfig = {
   apiEndpoint: string;
   defaultStatus?: Job["status"];
   extraParams?: Record<string, any>;
   onDataChange?: () => void;
-}
+};
 
-export function useJobList({ 
-  apiEndpoint, 
+export function useJobList({
+  apiEndpoint,
   defaultStatus,
   extraParams = {},
-  onDataChange
+  onDataChange,
 }: UseJobListConfig) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageSize = parseInt(
+  const searchParams = useSearchParams();
+  const pageSize = Number.parseInt(
     searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
-    10
+    10,
   );
-  const currentPage = parseInt(searchParams.get("pageNumber") || "1", 10);
+  const currentPage = Number.parseInt(
+    searchParams.get("pageNumber") || "1",
+    10,
+  );
   const searchTerm = searchParams.get("searchTerm") || "";
   const sortBy = searchParams.get("sortBy") || "";
   const sortDescending = searchParams.get("sortDescending") === "true";
@@ -35,17 +39,17 @@ export function useJobList({
 
   const fetchJobs = useCallback(async () => {
     setError(null);
-    
+
     try {
-      const response = await api.get(apiEndpoint, { 
+      const response = await api.get(apiEndpoint, {
         params: {
           searchTerm,
           pageNumber: currentPage,
           pageSize,
           sortBy,
           sortDescending,
-          ...extraParams
-        }
+          ...extraParams,
+        },
       });
 
       const adaptedJobs = response.data.jobs.map((job: any) => {
@@ -62,56 +66,63 @@ export function useJobList({
       console.error("Error fetching jobs:", err);
       setError("Failed to fetch jobs");
     }
-  }, [apiEndpoint, currentPage, pageSize, searchTerm, sortBy, sortDescending, extraParams, defaultStatus]);
+  }, [
+    apiEndpoint,
+    currentPage,
+    pageSize,
+    searchTerm,
+    sortBy,
+    sortDescending,
+    extraParams,
+    defaultStatus,
+  ]);
 
   useEffect(() => {
     fetchJobs();
   }, [searchParams]);
 
-  const handlePageChange = useCallback((page: number) => {
-    setSearchParams(prev => {
-      const newParams = new URLSearchParams(prev);
-      newParams.set("pageNumber", page.toString());
-      newParams.set("pageSize", pageSize.toString());
-      return newParams;
-    });
-  }, [pageSize, setSearchParams]);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("pageNumber", page.toString());
+      url.searchParams.set("pageSize", pageSize.toString());
+      window.history.pushState({}, "", url);
+    },
+    [pageSize],
+  );
 
-  const handleDataChange = useCallback((updatedData: Job[]) => {
-    setJobs(updatedData);
-    fetchJobs();
-    onDataChange?.();
-  }, [fetchJobs, onDataChange]);
+  const handleDataChange = useCallback(
+    (updatedData: Job[]) => {
+      setJobs(updatedData);
+      fetchJobs();
+      onDataChange?.();
+    },
+    [fetchJobs, onDataChange],
+  );
 
   const handlePageSizeChange = useCallback((newPageSize: number) => {
-    setSearchParams(prev => {
-      const newParams = new URLSearchParams(prev);
-      newParams.set("pageSize", newPageSize.toString());
-      newParams.set("pageNumber", "1");
-      return newParams;
-    });
-  }, [setSearchParams]);
+    const url = new URL(window.location.href);
+    url.searchParams.set("pageSize", newPageSize.toString());
+    url.searchParams.set("pageNumber", "1");
+    window.history.pushState({}, "", url);
+  }, []);
 
   const handleSearch = useCallback((term: string) => {
-    setSearchParams(prev => {
-      const newParams = new URLSearchParams(prev);
-      if (term) {
-        newParams.set("searchTerm", term);
-      } else {
-        newParams.delete("searchTerm");
-      }
-      return newParams;
-    });
-  }, [setSearchParams]);
+    const url = new URL(window.location.href);
+    if (term) {
+      url.searchParams.set("searchTerm", term);
+    } else {
+      url.searchParams.delete("searchTerm");
+    }
+    window.history.pushState({}, "", url);
+  }, []);
 
   const handleSort = useCallback((column: string, descending: boolean) => {
-    setSearchParams(prev => {
-      const newParams = new URLSearchParams(prev);
-      newParams.set("sortBy", column);
-      newParams.set("sortDescending", String(descending));
-      return newParams;
-    });
-  }, [setSearchParams]);
+    const url = new URL(window.location.href);
+    url.searchParams.set("sortBy", column);
+    url.searchParams.set("sortDescending", String(descending));
+    window.history.pushState({}, "", url);
+  }, []);
 
   return {
     jobs,
@@ -124,6 +135,6 @@ export function useJobList({
     handlePageSizeChange,
     handleSearch,
     handleSort,
-    fetchJobs
+    fetchJobs,
   };
-} 
+}

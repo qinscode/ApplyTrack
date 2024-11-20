@@ -144,8 +144,6 @@
       font-size: 16px !important;
     }
   }
-
-  
 }
 
 @layer utilities {
@@ -167,14 +165,8 @@
 @layer base {
   * {
     @apply border-border;
-
-  
   }
   body {
     @apply bg-background text-foreground;
-
-  
   }
-
-  
 }

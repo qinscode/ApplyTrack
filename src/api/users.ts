@@ -1,15 +1,14 @@
-import api from "./axios";
-import { updateToken } from "./axios";
+import api, { updateToken } from "./axios";
 
-interface User {
+type User = {
   username: string;
   email: string;
-}
+};
 
-interface RegisterResponse {
+type RegisterResponse = {
   user: User;
   token: string;
-}
+};
 
 export const getUsers = async (): Promise<User[]> => {
   const response = await api.get("/Users");

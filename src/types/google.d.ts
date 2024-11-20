@@ -1,4 +1,4 @@
-interface Window {
+type Window = {
   google: {
     accounts: {
       oauth2: {
@@ -12,4 +12,4 @@ interface Window {
       };
     };
   };
-} 
+};

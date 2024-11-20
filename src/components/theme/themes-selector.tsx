@@ -1,33 +1,33 @@
-import * as React from "react"
+import type { Theme } from "@/lib/themes";
 
-import { Skeleton } from "@/components/ui/skeleton"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Skeleton } from "@/components/ui/skeleton";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { useThemesConfig } from "@/hooks/use-themes-config"
-import type { Theme } from "@/lib/themes"
-import { THEMES } from "@/lib/themes"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/tooltip";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useThemesConfig } from "@/hooks/use-themes-config";
+import { THEMES } from "@/lib/themes";
+import { cn } from "@/lib/utils";
+import * as React from "react";
 
-import { useTheme } from "./theme-provider"
+import { useTheme } from "./theme-provider";
 
 export function ThemesSwitcher({
   themes = THEMES,
   className,
 }: React.ComponentProps<"div"> & { themes?: Theme[] }) {
-  const { theme: mode } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-  const { themesConfig, setThemesConfig } = useThemesConfig()
-  const { activeTheme } = themesConfig
-  const isDesktop = useMediaQuery("(min-width: 1024px)")
+  const { theme: mode } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+  const { themesConfig, setThemesConfig } = useThemesConfig();
+  const { activeTheme } = themesConfig;
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   React.useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
     return (
@@ -37,7 +37,7 @@ export function ThemesSwitcher({
           className,
         )}
       >
-        {themes.map((theme) => (
+        {themes.map(theme => (
           <div
             key={theme.id}
             className="flex size-10 items-center justify-center rounded-lg border-2 border-transparent"
@@ -46,7 +46,7 @@ export function ThemesSwitcher({
           </div>
         ))}
       </div>
-    )
+    );
   }
 
   return (
@@ -54,12 +54,12 @@ export function ThemesSwitcher({
       type="single"
       value={activeTheme.name}
       onValueChange={(value) => {
-        const theme = themes.find((theme) => theme.name === value)
+        const theme = themes.find(theme => theme.name === value);
         if (!theme) {
-          return
+          return;
         }
 
-        setThemesConfig({ ...themesConfig, activeTheme: theme })
+        setThemesConfig({ ...themesConfig, activeTheme: theme });
       }}
       className={cn(
         "flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1",
@@ -67,10 +67,10 @@ export function ThemesSwitcher({
       )}
     >
       {themes.map((theme) => {
-        const isActive = theme.name === activeTheme.name
-        const isDarkTheme = ["Midnight"].includes(theme.name)
-        const cssVars =
-          mounted && mode === "dark" ? theme.cssVars.dark : theme.cssVars.light
+        const isActive = theme.name === activeTheme.name;
+        const isDarkTheme = ["Midnight"].includes(theme.name);
+        const cssVars
+          = mounted && mode === "dark" ? theme.cssVars.dark : theme.cssVars.light;
 
         return (
           <Tooltip key={theme.name}>
@@ -114,8 +114,8 @@ export function ThemesSwitcher({
               {theme.name}
             </TooltipContent>
           </Tooltip>
-        )
+        );
       })}
     </ToggleGroup>
-  )
+  );
 }

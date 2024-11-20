@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-interface LocalStorageProps<T> {
+type LocalStorageProps<T> = {
   key: string;
   defaultValue: T;
-}
+};
 
 export default function useLocalStorage<T>({
   key,

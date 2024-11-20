@@ -1,15 +1,16 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-interface JobStatusCount {
+type JobStatusCount = {
   status: string;
   count: number;
-}
+};
 
-interface JobStatusState {
+type JobStatusState = {
   statusCounts: JobStatusCount[];
   totalJobsCount: number;
   newJobsCount: number;
-}
+};
 
 const initialState: JobStatusState = {
   statusCounts: [],
@@ -21,12 +22,18 @@ const jobStatusSlice = createSlice({
   name: "jobStatus",
   initialState,
   reducers: {
-    setJobStatusCounts: (state, action: PayloadAction<JobStatusState>) => {
+    setJobStatusCounts: (
+      state,
+      action: PayloadAction<{
+        statusCounts: JobStatusCount[];
+        totalJobsCount: number;
+        newJobsCount: number;
+      }>,
+    ) => {
       state.statusCounts = action.payload.statusCounts;
       state.totalJobsCount = action.payload.totalJobsCount;
       state.newJobsCount = action.payload.newJobsCount;
     },
-    // 移除 updateJobCount action
   },
 });
 

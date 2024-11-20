@@ -1,7 +1,4 @@
-import type { useTranslation } from "react-i18next";
-
-// eslint-disable-next-line react-hooks/rules-of-hooks
-const { t } = useTranslation();
+import type { TFunction } from "react-i18next";
 
 declare global {
   export const APP_DEV_CWD: string;
@@ -11,12 +8,12 @@ declare global {
   export const devDependencies: Record<string, string>;
   export const README: string;
   export const pkg: IPKG;
-  export type I18nKeys = OmitStringType<Parameters<typeof t>[0]>;
+  export type I18nKeys = Parameters<TFunction>[0];
 }
 
 export {};
 
-export interface IPKG {
+export type IPKG = {
   name: string;
   type: string;
   version: string;
@@ -27,9 +24,9 @@ export interface IPKG {
   devDependencies: Record<string, string>;
   description: string;
   author: string;
-}
+};
 
-export interface Repository {
+export type Repository = {
   url: string;
   type: string;
-}
+};

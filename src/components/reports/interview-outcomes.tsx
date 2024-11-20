@@ -1,4 +1,3 @@
-import { useThemesConfig } from "@/hooks/use-themes-config";
 import {
   Card,
   CardContent,
@@ -6,28 +5,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useThemesConfig } from "@/hooks/use-themes-config";
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-interface InterviewOutcomeData {
+type InterviewOutcomeData = {
   stage: string;
   passed: number;
   total: number;
-}
+};
 
-interface InterviewOutcomesProps {
+type InterviewOutcomesProps = {
   data: InterviewOutcomeData[];
-}
+};
 
 export function InterviewOutcomes({ data }: InterviewOutcomesProps) {
   const { themesConfig } = useThemesConfig();
-  
+
   return (
     <Card className="flex h-full flex-col">
       <CardHeader className="flex flex-col space-y-1.5">
         <CardTitle>Interview Success Rate</CardTitle>
-        <CardDescription>
-          Success rate at each interview stage
-        </CardDescription>
+        <CardDescription>Success rate at each interview stage</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center justify-center">
         <ResponsiveContainer width="100%" height={300}>
@@ -50,4 +55,4 @@ export function InterviewOutcomes({ data }: InterviewOutcomesProps) {
       </CardContent>
     </Card>
   );
-} 
+}

@@ -1,5 +1,5 @@
-import { QueryClient } from "@tanstack/react-query"
-import { FetchError } from "ofetch"
+import { QueryClient } from "@tanstack/react-query";
+import { FetchError } from "ofetch";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -8,15 +8,15 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retryDelay: 1000,
       retry(failureCount, error) {
-        console.error(error)
+        console.error(error);
         if (error instanceof FetchError && error.statusCode === undefined) {
-          return false
+          return false;
         }
 
-        return !!(3 - failureCount)
+        return !!(3 - failureCount);
       },
     },
   },
-})
+});
 
-export { queryClient }
+export { queryClient };

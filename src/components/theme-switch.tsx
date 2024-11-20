@@ -1,14 +1,15 @@
-import { useEffect } from "react";
-import { IconCheck, IconMoon, IconSun } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+"use client";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { IconCheck, IconMoon, IconSun } from "@tabler/icons-react";
+import { useEffect } from "react";
 import { useTheme } from "./theme-provider";
-import { Button } from "./custom/button";
 
 export default function ThemeSwitch() {
   const { theme, setTheme } = useTheme();
@@ -32,7 +33,8 @@ export default function ThemeSwitch() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light{" "}
+          Light
+          {" "}
           <IconCheck
             size={14}
             className={cn("ml-auto", theme !== "light" && "hidden")}

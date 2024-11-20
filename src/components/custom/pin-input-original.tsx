@@ -1,8 +1,8 @@
-import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import * as React from "react";
 
-interface PinInputOgProps {
+type PinInputOgProps = {
   /**
    * id for input fields.
    */
@@ -76,7 +76,7 @@ interface PinInputOgProps {
    * `aria-label` for the input fields
    */
   ariaLabel?: string;
-}
+};
 
 const PinInputOg = ({
   containerClassName,
@@ -104,7 +104,7 @@ const PinInputOg = ({
 
   if ((value !== undefined && !onChange) || (value === undefined && onChange)) {
     throw new Error(
-      "if one of value or onChange is specified, both props must be set."
+      "if one of value or onChange is specified, both props must be set.",
     );
   }
 
@@ -131,7 +131,9 @@ const PinInputOg = ({
 
   /* focus on first input field if autoFocus is set */
   React.useEffect(() => {
-    if (!autoFocus) return;
+    if (!autoFocus) {
+      return;
+    }
     const node = refMap?.get(0);
     if (node) {
       node.focus();
@@ -140,42 +142,45 @@ const PinInputOg = ({
 
   return (
     <div className={cn("flex gap-2", containerClassName)}>
-      {pins.map((pin, i) => (
-        <PinInputField
-          key={i}
-          id={i === 0 ? id : undefined}
-          defaultValue={pin}
-          onChange={(e) => handlers.handleChange(e, i)}
-          onFocus={(e) => handlers.handleFocus(e, i)}
-          onBlur={() => handlers.handleBlur(i)}
-          onKeyDown={(e) => handlers.handleKeyDown(e, i)}
-          onPaste={handlers.handlePaste}
-          placeholder={placeholder}
-          className={className}
-          type={type}
-          mask={mask}
-          autoComplete={otp ? "one-time-code" : "off"}
-          disabled={disabled}
-          readOnly={readOnly}
-          aria-label={ariaLabel}
-          ref={(node) => {
-            if (node) {
-              refMap?.set(i, node);
-            } else {
-              refMap?.delete(i);
-            }
-          }}
-        />
-      ))}
+      {pins.map((pin, i) => {
+        const uniqueKey = `${id || "pin"}-${Math.random().toString(36).substr(2, 9)}-${i}`;
+        return (
+          <PinInputField
+            key={uniqueKey}
+            id={i === 0 ? id : undefined}
+            defaultValue={pin}
+            onChange={e => handlers.handleChange(e, i)}
+            onFocus={e => handlers.handleFocus(e, i)}
+            onBlur={() => handlers.handleBlur(i)}
+            onKeyDown={e => handlers.handleKeyDown(e, i)}
+            onPaste={handlers.handlePaste}
+            placeholder={placeholder}
+            className={className}
+            type={type}
+            mask={mask}
+            autoComplete={otp ? "one-time-code" : "off"}
+            disabled={disabled}
+            readOnly={readOnly}
+            aria-label={ariaLabel}
+            ref={(node) => {
+              if (node) {
+                refMap?.set(i, node);
+              } else {
+                refMap?.delete(i);
+              }
+            }}
+          />
+        );
+      })}
       <input type="hidden" name={name} form={form} value={pinValue} />
     </div>
   );
 };
 PinInputOg.displayName = "PinInputOg";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type InputProps = {
   mask?: boolean;
-}
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 const PinInputField = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, mask, ...props }, ref) => {
@@ -189,19 +194,19 @@ const PinInputField = React.forwardRef<HTMLInputElement, InputProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 /* ========== usePinInput custom hook ========== */
 
-interface UsePinInputProps {
+type UsePinInputProps = {
   value: string | undefined;
   defaultValue: string | undefined;
   placeholder: string;
   type: "numeric" | "alphanumeric";
   length: number;
   readOnly: boolean;
-}
+};
 
 const usePinInput = ({
   value,
@@ -212,8 +217,11 @@ const usePinInput = ({
   readOnly,
 }: UsePinInputProps) => {
   const pinInputs = Array.from({ length }, (_, index) =>
-    defaultValue ? defaultValue.charAt(index) : value ? value.charAt(index) : ""
-  );
+    defaultValue
+      ? defaultValue.charAt(index)
+      : value
+        ? value.charAt(index)
+        : "");
   const [pins, setPins] = React.useState<(string | number)[]>(pinInputs);
   const pinValue = pins.join("").trim();
 
@@ -229,8 +237,7 @@ const usePinInput = ({
 
   function getNode(index: number) {
     const map = getMap();
-    const node = map?.get(index);
-    return node;
+    return map?.get(index);
   }
 
   function focusInput(itemId: number) {
@@ -243,7 +250,7 @@ const usePinInput = ({
 
   function handleFocus(
     event: React.FocusEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) {
     event.target.select();
     focusInput(index);
@@ -263,20 +270,20 @@ const usePinInput = ({
       node.value = val;
     }
 
-    setPins((prev) =>
+    setPins(prev =>
       prev.map((p, i) => {
         if (i === index) {
           return val;
         } else {
           return p;
         }
-      })
+      }),
     );
   }
 
   function validate(value: string) {
-    const NUMERIC_REGEX = /^[0-9]+$/;
-    const ALPHA_NUMERIC_REGEX = /^[a-zA-Z0-9]+$/i;
+    const NUMERIC_REGEX = /^\d+$/;
+    const ALPHA_NUMERIC_REGEX = /^[a-z0-9]+$/i;
     const regex = type === "alphanumeric" ? ALPHA_NUMERIC_REGEX : NUMERIC_REGEX;
     return regex.test(value);
   }
@@ -302,16 +309,19 @@ const usePinInput = ({
     event.preventDefault();
     const copyValue = event.clipboardData
       .getData("text/plain")
-      .replace(/[\n\r\s]+/g, "");
+      .replace(/\s+/g, "");
     const copyArr = copyValue.split("").slice(0, length);
 
-    const isValid = copyArr.every((c) => validate(c));
+    const isValid = copyArr.every(c => validate(c));
 
-    if (!isValid) return;
+    if (!isValid) {
+      return;
+    }
 
     for (let i = 0; i < length; i++) {
-      if (i < copyArr.length) {
-        updateInputField(copyArr[i], i);
+      const value = copyArr[i];
+      if (i < copyArr.length && typeof value === "string") {
+        updateInputField(value, i);
       }
     }
 
@@ -321,18 +331,18 @@ const usePinInput = ({
 
   function handleKeyDown(
     event: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) {
     const { ctrlKey, key, shiftKey, metaKey } = event;
 
     if (type === "numeric") {
-      const canTypeSign =
-        key === "Backspace" ||
-        key === "Tab" ||
-        key === "Control" ||
-        key === "Delete" ||
-        (ctrlKey && key === "v") ||
-        (metaKey && key === "v")
+      const canTypeSign
+        = key === "Backspace"
+        || key === "Tab"
+        || key === "Control"
+        || key === "Delete"
+        || (ctrlKey && key === "v")
+        || (metaKey && key === "v")
           ? true
           : !Number.isNaN(Number(key));
 

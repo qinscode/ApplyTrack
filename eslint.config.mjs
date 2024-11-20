@@ -1,9 +1,9 @@
-import antfu from '@antfu/eslint-config'
-import nextPlugin from '@next/eslint-plugin-next'
-import jestDom from 'eslint-plugin-jest-dom'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import tailwind from 'eslint-plugin-tailwindcss'
-import testingLibrary from 'eslint-plugin-testing-library'
+import antfu from "@antfu/eslint-config";
+import nextPlugin from "@next/eslint-plugin-next";
+import jestDom from "eslint-plugin-jest-dom";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import tailwind from "eslint-plugin-tailwindcss";
+import testingLibrary from "eslint-plugin-testing-library";
 
 export default antfu(
   {
@@ -23,9 +23,10 @@ export default antfu(
       css: true,
     },
 
-    ignores: ["migrations/**/*", "next-env.d.ts","scripts/**/*"],
+    ignores: ["migrations/**/*", "next-env.d.ts", "scripts/**/*"],
   },
   ...tailwind.configs["flat/recommended"],
+
   jsxA11y.flatConfigs.recommended,
   {
     plugins: {

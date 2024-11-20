@@ -25,7 +25,10 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
-      window.location.href = "/sign-in";
+      if (typeof window !== "undefined") {
+        const event = new CustomEvent("auth-error", { detail: { status: 401 } });
+        window.dispatchEvent(event);
+      }
     }
     return Promise.reject(error);
   },

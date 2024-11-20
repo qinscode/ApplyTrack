@@ -9,6 +9,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   googleLogin: (accessToken: string) => Promise<void>;
+  setAuth: (value: boolean) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +33,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const setAuth = (value: boolean) => {
+    setIsAuthenticated(value);
   };
 
   const login = async (email: string, password: string) => {
@@ -72,6 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         logout,
         googleLogin,
+        setAuth,
       }}
     >
       {children}

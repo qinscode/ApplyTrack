@@ -46,6 +46,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/.env ./.env
 COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts /app/package.json /app/pnpm-lock.yaml /app/postcss.config.js /app/tailwind.config.ts ./
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 # 设置环境变量
 ENV NEXT_TELEMETRY_DISABLED=1 \

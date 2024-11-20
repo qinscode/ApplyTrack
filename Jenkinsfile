@@ -76,7 +76,7 @@ pipeline {
                             ${DOCKER_IMAGE}:${DOCKER_TAG}
 
                         # 清理旧镜像
-                        docker images ${DOCKER_IMAGE} --format "{{.ID}}" | sort -r | tail -n +4 | xargs -r docker rmi
+                        docker images ${DOCKER_IMAGE} --format "{{.ID}}" | sort -r | tail -n +4 | xargs -r docker rmi -f || true
 
                         echo "Waiting for container to start..."
                         sleep 10

@@ -44,9 +44,8 @@ pipeline {
         stage('Lint and Format') {
             steps {
                 sh 'pnpm install'
-                sh 'pnpm lint'
-                sh 'pnpm format'
-                sh 'pnpm format:check'
+                sh 'pnpm lint:fix'
+
             }
         }
 

@@ -48,7 +48,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 # 设置环境变量
 ENV NEXT_TELEMETRY_DISABLED=1 \
-    NEXT_SHARP_PATH=/app/node_modules/sharp \
+    NEXT_SHARP_PATH=/app/node_modules/sharp
 
 USER nextjs
 

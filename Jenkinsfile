@@ -9,6 +9,7 @@ pipeline {
         NEXT_API_URL = credentials('API_URL_SECRET')
         NEXT_PUBLIC_GOOGLE_CLIENT_ID = credentials('VITE_GOOGLE_CLIENT_ID')
         HUSKY = '0'
+        DOCKER_BUILDKIT=1
     }
 
     stages {

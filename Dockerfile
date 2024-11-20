@@ -44,6 +44,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 # 复制构建产物和配置文件
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/.env ./.env
 COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts /app/package.json /app/pnpm-lock.yaml /app/postcss.config.js /app/tailwind.config.ts ./
 
 # 设置环境变量

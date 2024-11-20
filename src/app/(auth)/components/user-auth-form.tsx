@@ -74,7 +74,6 @@ export function UserAuthForm({
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -107,6 +106,9 @@ export function UserAuthForm({
     setIsLoading(true);
     try {
       const response = await authApi.login(data.email, data.password);
+      if (!response.token) {
+        throw new Error("No token received");
+      }
       localStorage.setItem("token", response.token);
       toast({
         title: "Login Successful",

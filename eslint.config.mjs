@@ -1,9 +1,9 @@
-import antfu from "@antfu/eslint-config";
-import nextPlugin from "@next/eslint-plugin-next";
-import jestDom from "eslint-plugin-jest-dom";
-import jsxA11y from "eslint-plugin-jsx-a11y";
-import tailwind from "eslint-plugin-tailwindcss";
-import testingLibrary from "eslint-plugin-testing-library";
+import antfu from '@antfu/eslint-config'
+import nextPlugin from '@next/eslint-plugin-next'
+import jestDom from 'eslint-plugin-jest-dom'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import tailwind from 'eslint-plugin-tailwindcss'
+import testingLibrary from 'eslint-plugin-testing-library'
 
 export default antfu(
   {
@@ -67,6 +67,7 @@ export default antfu(
       "test/padding-around-all": "error", // Add padding in test files
       "test/prefer-lowercase-title": "off", // Allow using uppercase titles in test titles
       "react/no-clone-element": "off", // Allow using `cloneElement`
+      // "tailwindcss/classnames-order": "off", // Allow custom classnames order
     },
   },
 );

@@ -1,5 +1,5 @@
 ARG NODE_VERSION=20.14.0
-ARG PORT=4173
+ARG PORT=3000
 
 # 依赖阶段
 FROM node:${NODE_VERSION}-alpine AS deps
@@ -12,7 +12,8 @@ COPY package.json pnpm-lock.yaml ./
 ENV HUSKY=0
 ENV NODE_ENV=production
 
-RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+# 移除 --prod 标志，安装所有依赖
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # 构建阶段
 FROM node:${NODE_VERSION}-alpine AS builder
@@ -21,6 +22,7 @@ WORKDIR /app
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 
+# 复制所有依赖
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -36,10 +38,11 @@ WORKDIR /app
 RUN apk add --no-cache libc6-compat tzdata
 
 RUN addgroup --system --gid 1001 nodejs && \
-   adduser --system --uid 1001 nextjs
+    adduser --system --uid 1001 nextjs
 
 RUN npm install -g pnpm
 
+# 这里复制生产依赖
 COPY --from=deps /app/node_modules ./node_modules
 
 COPY --from=builder /app/next.config.ts ./
@@ -68,6 +71,6 @@ USER nextjs
 EXPOSE ${PORT}
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
- CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
 
 CMD ["pnpm", "start"]

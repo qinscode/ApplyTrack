@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL: API_URL,
@@ -17,21 +17,23 @@ api.interceptors.request.use(
     }
     return config;
   },
-  error => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
-  response => response,
+  (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       if (typeof window !== "undefined") {
-        const event = new CustomEvent("auth-error", { detail: { status: 401 } });
+        const event = new CustomEvent("auth-error", {
+          detail: { status: 401 },
+        });
         window.dispatchEvent(event);
       }
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export const updateToken = (newToken: string) => {

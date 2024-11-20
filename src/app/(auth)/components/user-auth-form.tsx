@@ -26,7 +26,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Add this type declaration at the top of the file, after the imports
 declare global {
   // eslint-disable-next-line ts/consistent-type-definitions
   interface Window {
@@ -235,11 +234,7 @@ export function UserAuthForm({
                 </FormItem>
               )}
             />
-            <Button
-              className="mt-2"
-              loading={isLoading}
-              type="submit"
-            >
+            <Button className="mt-2" loading={isLoading} type="submit">
               Login
             </Button>
 

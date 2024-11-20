@@ -2,6 +2,7 @@ import { UserAuthForm } from "@/app/(auth)/components/user-auth-form";
 import Image from "next/image";
 import React from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function SignIn() {
   return (
     <div className="container relative grid h-svh flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -34,10 +35,10 @@ export default function SignIn() {
             <p className="text-lg">
               &ldquo;Your work is going to fill a large part of your life, and
               the only way to be truly satisfied is to do what you believe is
-              great work. The only way to do great work is to love what you
-              do. If you haven&#39;t found it yet, keep looking. Don&#39;t
-              settle. As with all matters of the heart, you&#39;ll know when
-              you find it.&rdquo;
+              great work. The only way to do great work is to love what you do.
+              If you haven&#39;t found it yet, keep looking. Don&#39;t settle.
+              As with all matters of the heart, you&#39;ll know when you find
+              it.&rdquo;
             </p>
             <footer className="text-sm">Steve Jobs</footer>
           </blockquote>
@@ -49,10 +50,10 @@ export default function SignIn() {
             <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
             <p className="text-sm text-muted-foreground">
               Enter your email and password below to log into your account.
+              {API_URL}
             </p>
             <p className="text-sm text-muted-foreground">
-              Don&#39;t have an account?
-              {" "}
+              Don&#39;t have an account?{" "}
               <a
                 href="/sign-up"
                 className="underline underline-offset-4 hover:text-primary"
@@ -63,17 +64,14 @@ export default function SignIn() {
           </div>
           <UserAuthForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking login, you agree to our
-            {" "}
+            By clicking login, you agree to our{" "}
             <a
               href="/terms"
               className="underline underline-offset-4 hover:text-primary"
             >
               Terms of Service
-            </a>
-            {" "}
-            and
-            {" "}
+            </a>{" "}
+            and{" "}
             <a
               href="/privacy"
               className="underline underline-offset-4 hover:text-primary"

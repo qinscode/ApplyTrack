@@ -252,9 +252,8 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="grid gap-8 md:grid-cols-6">
-            <div className="md:col-span-2">
-
-              <MonthlyTrend data={dailyTrend} />
+            <div className="md:col-span-6">
+              <MonthlyTrend />
             </div>
           </div>
         </div>

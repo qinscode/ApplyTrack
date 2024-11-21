@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
   visitors: {
@@ -42,7 +42,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function MonthlyTrend() {
-  const [timeRange, setTimeRange] = React.useState("90");
+  const [timeRange, setTimeRange] = React.useState("30");
   const [data, setData] = React.useState<DailyStatistic[]>([]);
 
   React.useEffect(() => {
@@ -62,9 +62,9 @@ export function MonthlyTrend() {
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Jobs Trend</CardTitle>
+          <CardTitle>Job Market Trends</CardTitle>
           <CardDescription>
-            Showing job statistics for the selected period
+            Track active and new job postings over time. The blue area shows total active jobs, while the green area represents new job listings.
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -72,7 +72,7 @@ export function MonthlyTrend() {
             className="w-[160px] rounded-lg sm:ml-auto"
             aria-label="Select time range"
           >
-            <SelectValue placeholder="Last 90 days" />
+            <SelectValue placeholder="Last 30 days" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             <SelectItem value="90" className="rounded-lg">
@@ -134,19 +134,31 @@ export function MonthlyTrend() {
                 });
               }}
             />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={value => value.toLocaleString()}
+            />
             <ChartTooltip
               cursor={false}
-              content={(
-                <ChartTooltipContent
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    });
-                  }}
-                  indicator="dot"
-                />
-              )}
+              content={(props) => {
+                const { active, payload, label } = props;
+                if (active && payload && payload.length) {
+                  return (
+                    <ChartTooltipContent
+                      labelFormatter={() => {
+                        return new Date(label).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        });
+                      }}
+                      indicator="dot"
+                    />
+                  );
+                }
+                return null;
+              }}
             />
             <Area
               dataKey="newJobsCount"

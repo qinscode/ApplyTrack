@@ -12,13 +12,14 @@ import { SkillsDistribution } from "@/app/(admin)/dashboard/common/skills-distri
 import { WeeklyActivities } from "@/app/(admin)/dashboard/common/weekly-activities";
 import { AppliedJobs } from "@/app/(admin)/dashboard/overview/AppliedJobs";
 import { DailyTrend } from "@/app/(admin)/dashboard/overview/DailyTrend";
+import { MonthlyTrend } from "@/app/(admin)/dashboard/overview/MonthlyTrend";
 import { NewJobs } from "@/app/(admin)/dashboard/overview/NewJobs";
 import { RecentlyAppliedJobs } from "@/app/(admin)/dashboard/overview/RecentlyAppliedJobs";
 import { TotalJobs } from "@/app/(admin)/dashboard/overview/TodaysJobs";
 import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
 import { SkillTrends } from "@/components/reports/skill-trends";
-import { WorkLocationTypes } from "@/components/reports/work-location-types";
 
+import { WorkLocationTypes } from "@/components/reports/work-location-types";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { Button } from "@/components/ui/button";
 import { THEMES } from "@/lib/themes";
@@ -32,6 +33,7 @@ import {
   IconRocket,
 } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
+
 // Data imports
 import {
   responseRateData,
@@ -40,7 +42,6 @@ import {
   weeklyActivitiesData,
   workTypeData,
 } from "./data/mock-data";
-
 // 在文件顶部添加 import
 import { AddJobDialog } from "@/app/(admin)/jobs/components/addJobDialog";
 
@@ -248,6 +249,12 @@ export default function Dashboard() {
             </div>
             <div className="md:col-span-2">
               <RecentlyAppliedJobs />
+            </div>
+          </div>
+          <div className="grid gap-8 md:grid-cols-6">
+            <div className="md:col-span-2">
+
+              <MonthlyTrend data={dailyTrend} />
             </div>
           </div>
         </div>

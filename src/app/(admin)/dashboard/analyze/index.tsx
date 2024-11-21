@@ -12,14 +12,6 @@ import { SkillsDistribution } from "@/app/(admin)/dashboard/common/skills-distri
 import { WeeklyActivities } from "@/app/(admin)/dashboard/common/weekly-activities";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { THEMES } from "@/lib/themes";
-import { useState } from "react";
-
-type StatusCount = {
-  status: string;
-  count: number;
-  percentage: number;
-  change: number;
-};
 
 const mockMonthlyData = [
   { month: "January", desktop: 186 },
@@ -96,14 +88,6 @@ const weeklyActivitiesData = [
 ];
 
 export default function DashboardStats() {
-  const [statusCounts] = useState<StatusCount[]>([
-    { status: "Applied", count: 100, percentage: 100, change: 5.2 },
-    { status: "Reviewed", count: 75, percentage: 75, change: 3.1 },
-    { status: "Interviewing", count: 45, percentage: 45, change: -2.3 },
-    { status: "Technical Assessment", count: 30, percentage: 30, change: 1.5 },
-    { status: "Offered", count: 10, percentage: 10, change: 0.8 },
-  ]);
-
   return (
 
     <div className="relative grid gap-4">
@@ -118,7 +102,7 @@ export default function DashboardStats() {
 
             <div className="space-y-8 pr-20">
               <div className="grid gap-8 ">
-                <ApplicationFunnel statusCounts={statusCounts} />
+                <ApplicationFunnel />
                 <DailyApplications />
                 <MonthlyTrend data={mockMonthlyData} />
               </div>

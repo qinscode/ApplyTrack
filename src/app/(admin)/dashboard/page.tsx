@@ -37,8 +37,6 @@ import {
   responseRateData,
   salaryData,
   skillsData,
-  type StatusCount,
-  statusCountsData,
   weeklyActivitiesData,
   workTypeData,
 } from "./data/mock-data";
@@ -86,7 +84,6 @@ export default function Dashboard() {
   const [appliedJobs, setAppliedJobs] = useState(0);
   const [newJobs, setNewJobs] = useState(0);
   const [interviewedJobs, setInterviewedJobs] = useState(0);
-  const [statusCounts] = useState<StatusCount[]>(statusCountsData);
   const [jobTypes, setJobTypes] = useState([]);
   const [dailyTrend, setDailyTrend] = useState([]);
 
@@ -244,7 +241,7 @@ export default function Dashboard() {
           </div>
           <div className="grid gap-8 md:grid-cols-6">
             <div className="md:col-span-2">
-              <ApplicationFunnel statusCounts={statusCounts} />
+              <ApplicationFunnel />
             </div>
             <div className="md:col-span-2">
               <DailyTrend data={dailyTrend} />

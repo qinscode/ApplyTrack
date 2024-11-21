@@ -6,22 +6,49 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useApplicationFunnel } from "@/hooks/use-application-funnel";
 import { useThemesConfig } from "@/hooks/use-themes-config";
 import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
 
-type StatusCount = {
-  status: string;
-  count: number;
-  percentage: number;
-  change: number;
-};
-
-type ApplicationFunnelProps = {
-  statusCounts: StatusCount[];
-};
-
-export function ApplicationFunnel({ statusCounts }: ApplicationFunnelProps) {
+export function ApplicationFunnel() {
   const { themesConfig } = useThemesConfig();
+  const { data: statusCounts, isLoading, error } = useApplicationFunnel();
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Application Funnel</CardTitle>
+          <CardDescription>
+            Conversion rates through different stages
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          {[1, 2, 3, 4, 5].map(i => (
+            <div key={i} className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-2 w-full" />
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error || !statusCounts) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Application Funnel</CardTitle>
+          <CardDescription>Error loading data</CardDescription>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center text-muted-foreground">
+          Failed to load application funnel data
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>

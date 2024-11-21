@@ -11,25 +11,34 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useDailyApplications } from "@/hooks/use-daily-applications";
 import { useThemesConfig } from "@/hooks/use-themes-config";
 
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
-const chartData = [
-  { day: "mon", applications: 18 },
-  { day: "tue", applications: 20 },
-  { day: "wed", applications: 27 },
-  { day: "thu", applications: 17 },
-  { day: "fri", applications: 25 },
-  { day: "sat", applications: 12 },
-  { day: "sun", applications: 8 },
-];
+type DayConfig = {
+  label: string;
+  color: `hsl(${string})`;
+};
+
+type ChartConfigType = {
+  applications: { label: string };
+  mon: DayConfig;
+  tue: DayConfig;
+  wed: DayConfig;
+  thu: DayConfig;
+  fri: DayConfig;
+  sat: DayConfig;
+  sun: DayConfig;
+};
 
 export function DailyApplications() {
   const { themesConfig } = useThemesConfig();
+  const { data: chartData, isLoading, error } = useDailyApplications();
 
-  const chartConfig = {
+  const chartConfig: ChartConfigType = {
     applications: {
       label: "Applications",
     },
@@ -61,11 +70,41 @@ export function DailyApplications() {
       label: "Sunday",
       color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`,
     },
-  } as const;
+  };
+
+  if (isLoading) {
+    return (
+      <Card className="flex h-full flex-col">
+        <CardHeader>
+          <CardTitle>Daily Applications</CardTitle>
+          <CardDescription>Applications submitted per day</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center justify-center">
+          <Skeleton className="h-[300px] w-full" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error || !chartData) {
+    return (
+      <Card className="flex h-full flex-col">
+        <CardHeader>
+          <CardTitle>Daily Applications</CardTitle>
+          <CardDescription>Error loading data</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center justify-center text-muted-foreground">
+          Failed to load daily applications data
+        </CardContent>
+      </Card>
+    );
+  }
 
   const chartDataWithColors = chartData.map(item => ({
     ...item,
-    fill: chartConfig[item.day].color,
+    fill: (item.day in chartConfig && item.day !== "applications")
+      ? (chartConfig[item.day as keyof Omit<ChartConfigType, "applications">]).color
+      : undefined,
   }));
 
   return (

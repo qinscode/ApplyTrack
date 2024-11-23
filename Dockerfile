@@ -9,7 +9,7 @@ ENV HUSKY=0
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .husky/ ./
 RUN NODE_ENV=development pnpm install --frozen-lockfile
 
 # Builder stage

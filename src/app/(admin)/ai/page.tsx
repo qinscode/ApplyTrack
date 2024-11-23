@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
 import { IconBrain } from "@tabler/icons-react";
 import React, { useState } from "react";
-import { AnalysisTable } from "./components/analysis-table";
+import { AnalysisTable } from "../../../components/ai/analysis-table";
 
 type EmailAnalysisResult = {
   job_id: number;
@@ -255,7 +255,7 @@ export default function AIAnalysis() {
 
     try {
       // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // 添加新的分析结果
       const newResults: EmailAnalysisResult[] = [
@@ -357,7 +357,7 @@ export default function AIAnalysis() {
 
     try {
       // 这里应该是实际的API调用
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // 更新本地状态
       const updatedResults = results.map(result => ({

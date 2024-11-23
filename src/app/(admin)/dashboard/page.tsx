@@ -1,29 +1,30 @@
 "use client";
 import api from "@/api/axios";
-import { ApplicationFunnel } from "@/app/(admin)/dashboard/common/application-funnel";
-
-import { DailyApplications } from "@/app/(admin)/dashboard/common/daily-applications";
-
-import { JobTypeDistribution } from "@/app/(admin)/dashboard/common/job-type-distribution";
-import { LocationDistribution } from "@/app/(admin)/dashboard/common/location-distribution";
-import { ResponseRate } from "@/app/(admin)/dashboard/common/response-rate";
-import { SalaryDistribution } from "@/app/(admin)/dashboard/common/salary-distribution";
-import { SkillsDistribution } from "@/app/(admin)/dashboard/common/skills-distribution";
-import { WeeklyActivities } from "@/app/(admin)/dashboard/common/weekly-activities";
-import { AppliedJobs } from "@/app/(admin)/dashboard/overview/AppliedJobs";
-import { DailyTrend } from "@/app/(admin)/dashboard/overview/DailyTrend";
-import { NewJobs } from "@/app/(admin)/dashboard/overview/NewJobs";
-import { RecentlyAppliedJobs } from "@/app/(admin)/dashboard/overview/RecentlyAppliedJobs";
-import { TotalJobs } from "@/app/(admin)/dashboard/overview/TodaysJobs";
 import { AddJobDialog } from "@/app/(admin)/jobs/components/addJobDialog";
-import { MonthlyTrend } from "@/components/MonthlyTrend";
-import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
 
+import { ApplicationFunnel } from "@/components/dashboard/common/application-funnel";
+
+import { DailyApplications } from "@/components/dashboard/common/daily-applications";
+import { JobTypeDistribution } from "@/components/dashboard/common/job-type-distribution";
+import { LocationDistribution } from "@/components/dashboard/common/location-distribution";
+import { ResponseRate } from "@/components/dashboard/common/response-rate";
+import { SalaryDistribution } from "@/components/dashboard/common/salary-distribution";
+import { SkillsDistribution } from "@/components/dashboard/common/skills-distribution";
+import { WeeklyActivities } from "@/components/dashboard/common/weekly-activities";
+import { AppliedJobs } from "@/components/dashboard/overview/AppliedJobs";
+import { DailyTrend } from "@/components/dashboard/overview/DailyTrend";
+import { NewJobs } from "@/components/dashboard/overview/NewJobs";
+import { RecentlyAppliedJobs } from "@/components/dashboard/overview/RecentlyAppliedJobs";
+import { TotalJobs } from "@/components/dashboard/overview/TodaysJobs";
+import { MonthlyTrend } from "@/components/MonthlyTrend";
+
+import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
 import { SkillTrends } from "@/components/reports/skill-trends";
 import { WorkLocationTypes } from "@/components/reports/work-location-types";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { Button } from "@/components/ui/button";
 import { THEMES } from "@/lib/themes";
+
 import {
   IconArrowRight,
   IconBriefcase,
@@ -33,7 +34,6 @@ import {
   IconChartPie,
   IconRocket,
 } from "@tabler/icons-react";
-
 import React, { useEffect, useState } from "react";
 // Data imports
 import {
@@ -42,7 +42,7 @@ import {
   skillsData,
   weeklyActivitiesData,
   workTypeData,
-} from "./data/mock-data";
+} from "@/components/dashboard/data/mock-data";
 
 const interviewOutcomeData = [
   { stage: "Phone Screen", passed: 80, total: 100 },

@@ -1,6 +1,6 @@
 import api from "@/api/axios";
 import { DocumentEditor } from "@/components/documents/document-editor";
-import ThemeSwitch from "@/components/theme-switch";
+import ThemeSwitch from "@/components/theme/theme-switch";
 import { UserNav } from "@/components/user-nav";
 
 import { useRouter } from "next/navigation";

@@ -39,7 +39,7 @@ export function ForgotForm({ className, ...props }: ForgotFormProps) {
 
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 200);
   }
 
   return (

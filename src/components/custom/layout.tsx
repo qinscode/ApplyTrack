@@ -3,7 +3,7 @@ import { Icons } from "@/components/icons";
 import { Search } from "@/components/search";
 
 import { ThemeCustomizer } from "@/components/theme/theme-customizer";
-import ThemeSwitch from "@/components/theme-switch";
+import ThemeSwitch from "@/components/theme/theme-switch";
 import { UserNav } from "@/components/user-nav";
 import { cn } from "@/lib/utils";
 import { CircleHelp } from "lucide-react";

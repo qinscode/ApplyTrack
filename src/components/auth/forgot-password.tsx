@@ -1,5 +1,5 @@
 "use client";
-import { ForgotForm } from "@/app/(auth)/components/forgot-form";
+import { ForgotForm } from "@/components/auth/forgot-form";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import React from "react";
@@ -33,8 +33,8 @@ export default function ForgotPassword() {
               {" "}
               <br />
               {" "}
-              we will send you a link
-              to reset your password.
+              we will send you a link to
+              reset your password.
             </p>
           </div>
           <ForgotForm />

@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/app/(auth)/components/sign-up-form";
+import { SignUpForm } from "@/components/auth/sign-up-form";
 
 import { Card } from "@/components/ui/card";
 import Link from "next/link";

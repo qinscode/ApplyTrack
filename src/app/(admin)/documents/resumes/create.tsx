@@ -1,6 +1,6 @@
 import api from "@/api/axios";
 import { DocumentEditor } from "@/components/documents/document-editor";
-import ThemeSwitch from "@/components/theme-switch";
+import ThemeSwitch from "@/components/theme/theme-switch";
 import { UserNav } from "@/components/user-nav";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -12,7 +12,6 @@ export default function CreateResume() {
   };
 
   return (
-
     <>
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
@@ -33,6 +32,5 @@ export default function CreateResume() {
         onCancel={() => router.back()}
       />
     </>
-
   );
 }

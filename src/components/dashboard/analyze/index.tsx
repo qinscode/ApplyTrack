@@ -1,15 +1,15 @@
 "use client";
-import { ApplicationFunnel } from "@/app/(admin)/dashboard/common/application-funnel";
-import { DailyApplications } from "@/app/(admin)/dashboard/common/daily-applications";
-import { InterviewConversion } from "@/app/(admin)/dashboard/common/interview-conversion";
-import { InterviewSuccessRate } from "@/app/(admin)/dashboard/common/interview-success-rate";
-import { JobTypeDistribution } from "@/app/(admin)/dashboard/common/job-type-distribution";
-import { LocationDistribution } from "@/app/(admin)/dashboard/common/location-distribution";
-import { MonthlyTrend } from "@/app/(admin)/dashboard/common/monthly-trend";
-import { ResponseRate } from "@/app/(admin)/dashboard/common/response-rate";
-import { SalaryDistribution } from "@/app/(admin)/dashboard/common/salary-distribution";
-import { SkillsDistribution } from "@/app/(admin)/dashboard/common/skills-distribution";
-import { WeeklyActivities } from "@/app/(admin)/dashboard/common/weekly-activities";
+import { ApplicationFunnel } from "@/components/dashboard/common/application-funnel";
+import { DailyApplications } from "@/components/dashboard/common/daily-applications";
+import { InterviewConversion } from "@/components/dashboard/common/interview-conversion";
+import { InterviewSuccessRate } from "@/components/dashboard/common/interview-success-rate";
+import { JobTypeDistribution } from "@/components/dashboard/common/job-type-distribution";
+import { LocationDistribution } from "@/components/dashboard/common/location-distribution";
+import { MonthlyTrend } from "@/components/dashboard/common/monthly-trend";
+import { ResponseRate } from "@/components/dashboard/common/response-rate";
+import { SalaryDistribution } from "@/components/dashboard/common/salary-distribution";
+import { SkillsDistribution } from "@/components/dashboard/common/skills-distribution";
+import { WeeklyActivities } from "@/components/dashboard/common/weekly-activities";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { THEMES } from "@/lib/themes";
 

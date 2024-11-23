@@ -1,4 +1,4 @@
-import { UserAuthForm } from "@/app/(auth)/components/user-auth-form";
+import { UserAuthForm } from "@/components/auth/user-auth-form";
 import Image from "next/image";
 import React from "react";
 

@@ -4,6 +4,9 @@ ARG NODE_VERSION=20.14.0
 FROM node:${NODE_VERSION}-alpine AS deps
 WORKDIR /app
 
+ENV HUSKY=0
+ENV NODE_ENV=production
+
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 
@@ -13,6 +16,9 @@ RUN pnpm install --frozen-lockfile
 # Builder stage
 FROM node:${NODE_VERSION}-alpine AS builder
 WORKDIR /app
+
+ENV HUSKY=0
+ENV NODE_ENV=production
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -28,6 +34,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
+ENV HUSKY=0
 
 RUN apk add --no-cache libc6-compat && \
     addgroup --system --gid 1001 nodejs && \

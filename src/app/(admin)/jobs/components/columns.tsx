@@ -1,6 +1,6 @@
 import type { Job } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { statuses } from "@/app/(admin)/jobs/data/data";
+import { statuses } from "@/components/jobs/data";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useJobStatusUpdate } from "@/hooks/useTotalJobsCount";
@@ -149,7 +149,10 @@ export const columns: ColumnDef<Job>[] = [
       const CellComponent = () => {
         const { updateJobStatus } = useJobStatusUpdate(row.original.status);
 
-        const handleStatusChange = (jobId: number, newStatus: Job["status"]) => {
+        const handleStatusChange = (
+          jobId: number,
+          newStatus: Job["status"],
+        ) => {
           updateJobStatus(jobId, newStatus);
         };
 

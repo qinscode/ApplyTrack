@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { statuses } from "../data/data";
+import { statuses } from "../../../../components/jobs/data";
 import { AddJobDialog } from "./addJobDialog";
 import { DataTableFacetedFilter } from "./dataTableFacetedFilter";
 import { DataTableViewOptions } from "./dataTableViewOptions";

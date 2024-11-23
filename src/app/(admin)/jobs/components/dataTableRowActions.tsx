@@ -19,8 +19,8 @@ import { useJobStatusUpdate } from "@/hooks/useTotalJobsCount";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
-import { labels } from "../data/data";
-import { jobSchema } from "../data/schema";
+import { labels } from "../../../../components/jobs/data";
+import { jobSchema } from "../../../../types/schema";
 
 type DataTableRowActionsProps<TData> = {
   row: Row<TData>;

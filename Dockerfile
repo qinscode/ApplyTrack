@@ -25,6 +25,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # 设置环境变量并构建
+RUN pnpm lint:fix
 RUN pnpm build && ls -la
 
 # 生产阶段
@@ -38,7 +39,7 @@ RUN apk add --no-cache libc6-compat tzdata && \
     npm install -g pnpm
 
 # 复制必要的文件
-COPY --from=deps /app/node_modules ./node_modules
+#COPY --from=deps /app/node_modules ./node_modules
 
 # 复制构建产物和配置文件
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
@@ -47,8 +48,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts /app/package.json 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 # 设置环境变量
-ENV NEXT_TELEMETRY_DISABLED=1 \
-    NEXT_SHARP_PATH=/app/node_modules/sharp
+ENV NEXT_TELEMETRY_DISABLED=1
+#    NEXT_SHARP_PATH=/app/node_modules/sharp
 
 USER nextjs
 

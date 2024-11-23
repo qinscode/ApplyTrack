@@ -40,12 +40,12 @@ pipeline {
             }
         }
 
-        stage('Lint and Format') {
-            steps {
-                sh 'pnpm install'
-                sh 'pnpm lint:fix'
-            }
-        }
+//         stage('Lint and Format') {
+//             steps {
+//                 sh 'pnpm install'
+//                 sh 'pnpm lint:fix'
+//             }
+//         }
 
         stage('Build Docker Image') {
             steps {

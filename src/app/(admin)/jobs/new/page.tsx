@@ -1,8 +1,8 @@
 "use client";
 
-import { columns } from "@/app/(admin)/jobs/components/columns";
-import DataTable from "@/app/(admin)/jobs/components/dataTable";
-import Loading from "@/app/(admin)/jobs/components/loading";
+import { columns } from "@/components/jobs/columns";
+import DataTable from "@/components/jobs/dataTable";
+import Loading from "@/components/jobs/loading";
 import { useNewJobs } from "@/hooks/useNewJobs";
 import { Suspense } from "react";
 

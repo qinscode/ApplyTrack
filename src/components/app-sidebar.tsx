@@ -30,7 +30,6 @@ import {
   IconQuestionMark,
   IconSend,
   IconSettings,
-  IconTestPipe,
   IconUsers,
   IconX,
 } from "@tabler/icons-react";
@@ -153,11 +152,6 @@ export const data = {
           icon: <IconQuestionMark size={18} />,
         },
       ],
-    },
-    {
-      title: "Test",
-      url: "/test",
-      icon: <IconTestPipe size={18} />,
     },
     {
       title: "Help",

@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN NODE_ENV=development pnpm install --frozen-lockfile
 
 # Builder stage
 FROM node:${NODE_VERSION}-alpine AS builder

@@ -3,6 +3,7 @@ import path from "node:path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "standalone",
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,

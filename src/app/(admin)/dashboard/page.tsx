@@ -158,7 +158,10 @@ export default function Dashboard() {
                 Track your job search progress, manage applications, and get
                 insights to optimize your career journey.
               </p>
-              <p className="max-w-[600px] text-xs text-muted-foreground">This application currently collects job data for the Perth, with plans to expand to more regions in the future. The timeline for this expansion is yet to be determined.</p>
+              <p className="max-w-[600px] text-xs text-muted-foreground">
+                This application currently collects job data for the Perth, with plans to expand to more regions in the future.
+                The timeline for this expansion is yet to be determined.
+              </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={() => setShowAddJobDialog(true)}>
                   <IconRocket className="mr-2 size-4" />

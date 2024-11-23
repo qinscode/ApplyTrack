@@ -3,6 +3,7 @@
 import type { DailyStatistic } from "@/api/statistics";
 import type { ChartConfig } from "@/components/ui/chart";
 import { statisticsApi } from "@/api/statistics";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,8 +25,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const chartConfig = {
   visitors: {
@@ -44,12 +53,36 @@ const chartConfig = {
 export function MonthlyTrend() {
   const [timeRange, setTimeRange] = React.useState("30");
   const [data, setData] = React.useState<DailyStatistic[]>([]);
+  const [showLabels, setShowLabels] = React.useState(true);
+
+  React.useEffect(() => {
+    setShowLabels(timeRange !== "90");
+  }, [timeRange]);
+
+  const handleTimeRangeChange = (value: string) => {
+    setTimeRange(value);
+    if (value === "90") {
+      setShowLabels(false);
+    }
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await statisticsApi.getJobsStatistics(Number(timeRange));
-        setData(response.dailyStatistics);
+        const cutoffDate = new Date("2024-11-11");
+        const processedData = response.dailyStatistics.map((stat) => {
+          const statDate = new Date(stat.date);
+          if (statDate < cutoffDate) {
+            return {
+              ...stat,
+              activeJobsCount: 0,
+              newJobsCount: 0,
+            };
+          }
+          return stat;
+        });
+        setData(processedData);
       } catch (error) {
         console.error("Error fetching jobs statistics:", error);
       }
@@ -67,32 +100,52 @@ export function MonthlyTrend() {
             Track active and new job postings over time. The blue area shows total active jobs, while the green area represents new job listings.
           </CardDescription>
         </div>
-        <Select value={timeRange} onValueChange={setTimeRange}>
-          <SelectTrigger
-            className="w-[160px] rounded-lg sm:ml-auto"
-            aria-label="Select time range"
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setShowLabels(!showLabels)}
+            className="size-9"
+            title={showLabels ? "Hide labels" : "Show labels"}
           >
-            <SelectValue placeholder="Last 30 days" />
-          </SelectTrigger>
-          <SelectContent className="rounded-xl">
-            <SelectItem value="90" className="rounded-lg">
-              Last 90 days
-            </SelectItem>
-            <SelectItem value="30" className="rounded-lg">
-              Last 30 days
-            </SelectItem>
-            <SelectItem value="7" className="rounded-lg">
-              Last 7 days
-            </SelectItem>
-          </SelectContent>
-        </Select>
+            {showLabels
+              ? (
+                  <EyeOffIcon className="size-4" />
+                )
+              : (
+                  <EyeIcon className="size-4" />
+                )}
+          </Button>
+          <Select value={timeRange} onValueChange={handleTimeRangeChange}>
+            <SelectTrigger
+              className="w-[160px] rounded-lg sm:ml-auto"
+              aria-label="Select time range"
+            >
+              <SelectValue placeholder="Last 30 days" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="90" className="rounded-lg">
+                Last 90 days
+              </SelectItem>
+              <SelectItem value="30" className="rounded-lg">
+                Last 30 days
+              </SelectItem>
+              <SelectItem value="7" className="rounded-lg">
+                Last 7 days
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={data}>
+          <AreaChart
+            data={data}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          >
             <defs>
               <linearGradient id="fillActive" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -166,14 +219,30 @@ export function MonthlyTrend() {
               fill="url(#fillNew)"
               stroke="var(--color-newJobsCount)"
               stackId="a"
-            />
+            >
+              {showLabels && (
+                <LabelList
+                  dataKey="newJobsCount"
+                  position="top"
+                  style={{ fill: "var(--foreground)", fontSize: 12 }}
+                />
+              )}
+            </Area>
             <Area
               dataKey="activeJobsCount"
               type="natural"
               fill="url(#fillActive)"
               stroke="var(--color-activeJobsCount)"
               stackId="a"
-            />
+            >
+              {showLabels && (
+                <LabelList
+                  dataKey="activeJobsCount"
+                  position="top"
+                  style={{ fill: "var(--foreground)", fontSize: 12 }}
+                />
+              )}
+            </Area>
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>

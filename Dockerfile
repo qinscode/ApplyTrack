@@ -5,7 +5,6 @@ FROM node:${NODE_VERSION}-alpine AS deps
 WORKDIR /app
 
 ENV HUSKY=0
-ENV NODE_ENV=production
 
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm

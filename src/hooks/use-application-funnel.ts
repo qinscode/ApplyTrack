@@ -5,26 +5,30 @@ type FunnelStatus = {
   status: string;
   count: number;
   percentage: number;
-  change: number; // 这个值暂时用固定值，后续可以通过对比历史数据计算
+  change: number;
 };
 
-const STATUS_LABELS: Record<string, string> = {
+const STATUS_LABELS = {
   applied: "Applied",
   reviewed: "Reviewed",
   interviewing: "Interviewing",
   technicalAssessment: "Technical Assessment",
   offered: "Offered",
-};
+} as const;
 
 const calculatePercentages = (counts: Record<string, number>): FunnelStatus[] => {
-  const total = counts.applied || 1; // 避免除以0
+  const total = counts.applied || 1;
 
-  return Object.entries(counts).map(([key, count]) => ({
-    status: STATUS_LABELS[key],
-    count,
-    percentage: Math.round((count / total) * 100),
-    change: 0, // 暂时使用固定值，后续可以通过对比历史数据计算
-  }));
+  return Object.entries(counts)
+    .filter((entry): entry is [keyof typeof STATUS_LABELS, number] => {
+      return entry[0] in STATUS_LABELS;
+    })
+    .map(([key, count]) => ({
+      status: STATUS_LABELS[key],
+      count,
+      percentage: Math.round((count / total) * 100),
+      change: 0,
+    }));
 };
 
 export const useApplicationFunnel = () => {

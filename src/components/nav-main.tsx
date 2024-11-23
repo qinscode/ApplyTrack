@@ -26,6 +26,7 @@ type NavItem = {
   url: string;
   icon: React.ReactElement;
   isActive?: boolean;
+  rightElement?: React.ReactNode;
   items?: {
     title: string;
     url: string;
@@ -87,37 +88,36 @@ export function NavMain({ items }: { items: NavItem[] }) {
               >
                 {React.cloneElement(item.icon, { size: 18, stroke: 1.5 })}
                 <span>{item.title}</span>
+                {item.rightElement}
               </SidebarMenuButton>
 
-              {item.items?.length
-                ? (
-                    <>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuAction className="data-[state=open]:rotate-90">
-                          <IconChevronRight size={18} stroke={1.5} />
-                          <span className="sr-only">Toggle</span>
-                        </SidebarMenuAction>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub className="space-y-1">
-                          {item.items?.map(subItem => (
-                            <SidebarMenuSubItem
-                              key={subItem.title}
-                              className="px-1 py-0.5"
-                            >
-                              <SidebarMenuSubButton asChild>
-                                <a href={subItem.url} className="text-[0.93rem] font-medium">
-                                  {subItem.icon && React.cloneElement(subItem.icon, { size: 18, stroke: 1.5 })}
-                                  <span>{subItem.title}</span>
-                                </a>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </>
-                  )
-                : null}
+              {item.items?.length && (
+                <>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                      <IconChevronRight size={18} stroke={1.5} />
+                      <span className="sr-only">Toggle</span>
+                    </SidebarMenuAction>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub className="space-y-1">
+                      {item.items?.map(subItem => (
+                        <SidebarMenuSubItem
+                          key={subItem.title}
+                          className="px-1 py-0.5"
+                        >
+                          <SidebarMenuSubButton asChild>
+                            <a href={subItem.url} className="text-[0.93rem] font-medium">
+                              {subItem.icon && React.cloneElement(subItem.icon, { size: 18, stroke: 1.5 })}
+                              <span>{subItem.title}</span>
+                            </a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </>
+              )}
             </SidebarMenuItem>
           </Collapsible>
         ))}

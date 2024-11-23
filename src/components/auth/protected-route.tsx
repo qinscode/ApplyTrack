@@ -14,7 +14,6 @@ export default function ProtectedRoute({
   const router = useRouter();
 
   useEffect(() => {
-    console.log("ProtectedRoute", isAuthenticated, isLoading);
     if (!isLoading && !isAuthenticated) {
       router.push("/sign-in");
     }

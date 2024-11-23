@@ -1,6 +1,7 @@
 "use client";
 
 import { NavMain } from "@/components/nav-main";
+import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -28,6 +29,7 @@ import {
   IconPlus,
   IconQuestionMark,
   IconSend,
+  IconSettings,
   IconTestPipe,
   IconUsers,
   IconX,
@@ -109,6 +111,14 @@ export const data = {
       title: "AI Analysis",
       url: "/ai",
       icon: <IconBrain size={18} />,
+      rightElement: (
+        <Badge
+          variant="default"
+          className="ml-2 h-5 px-1.5 text-xs font-medium"
+        >
+          Beta
+        </Badge>
+      ),
     },
     {
       title: "Documents",
@@ -127,28 +137,6 @@ export const data = {
         },
       ],
     },
-    // {
-    //   title: "Settings",
-    //   url: "/settings",
-    //   icon: <IconSettings size={18} />,
-    //   items: [
-    //     {
-    //       title: "Profile",
-    //       url: "/settings",
-    //       icon: <IconUsers size={18} />,
-    //     },
-    //     {
-    //       title: "Account",
-    //       url: "/settings/account",
-    //       icon: <IconSettings size={18} />,
-    //     },
-    //     {
-    //       title: "Email Tracking",
-    //       url: "/settings/emailtracking",
-    //       icon: <IconMail size={18} />,
-    //     },
-    //   ],
-    // },
     {
       title: "Interview",
       url: "/interview",
@@ -175,6 +163,11 @@ export const data = {
       title: "Help",
       url: "/help",
       icon: <IconHelpCircle size={18} />,
+    },
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: <IconSettings size={18} stroke={1.5} />,
     },
   ],
   navSecondary: [],

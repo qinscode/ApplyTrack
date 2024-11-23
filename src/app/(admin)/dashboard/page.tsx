@@ -11,12 +11,12 @@ import { ResponseRate } from "@/components/dashboard/common/response-rate";
 import { SalaryDistribution } from "@/components/dashboard/common/salary-distribution";
 import { SkillsDistribution } from "@/components/dashboard/common/skills-distribution";
 import { WeeklyActivities } from "@/components/dashboard/common/weekly-activities";
+import { MonthlyTrend } from "@/components/dashboard/MonthlyTrend";
 import { AppliedJobs } from "@/components/dashboard/overview/AppliedJobs";
 import { DailyTrend } from "@/components/dashboard/overview/DailyTrend";
 import { NewJobs } from "@/components/dashboard/overview/NewJobs";
 import { RecentlyAppliedJobs } from "@/components/dashboard/overview/RecentlyAppliedJobs";
 import { TotalJobs } from "@/components/dashboard/overview/TodaysJobs";
-import { MonthlyTrend } from "@/components/MonthlyTrend";
 
 import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
 import { SkillTrends } from "@/components/reports/skill-trends";

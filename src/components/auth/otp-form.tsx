@@ -1,7 +1,7 @@
 "use client";
 import type { HTMLAttributes } from "react";
-import { Button } from "@/components/custom/button";
-import { PinInput, PinInputField } from "@/components/custom/pin-input";
+import { Button } from "@/components/auth/button";
+import { PinInput, PinInputField } from "@/components/auth/pin-input";
 import {
   Form,
   FormControl,

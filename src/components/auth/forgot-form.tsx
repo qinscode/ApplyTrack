@@ -1,6 +1,6 @@
 "use client";
 import type { HTMLAttributes } from "react";
-import { Button } from "@/components/custom/button";
+import { Button } from "@/components/auth/button";
 import {
   Form,
   FormControl,

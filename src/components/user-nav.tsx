@@ -2,7 +2,7 @@
 
 import { clearToken } from "@/api/axios";
 import { getCurrentUser } from "@/api/users";
-import { Button } from "@/components/custom/button";
+import { Button } from "@/components/auth/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,

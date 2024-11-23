@@ -1,7 +1,7 @@
 "use client";
 import { authApi } from "@/api";
-import { Button } from "@/components/custom/button";
-import { PasswordInput } from "@/components/custom/password-input";
+import { Button } from "@/components/auth/button";
+import { PasswordInput } from "@/components/auth/password-input";
 import {
   Form,
   FormControl,

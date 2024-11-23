@@ -23,7 +23,7 @@ export default antfu(
       css: true,
     },
 
-    ignores: ["migrations/**/*", "next-env.d.ts", "scripts/**/*"],
+    ignores: ["migrations/**/*", "next-env.d.ts", "scripts/**/*", ".next/**/*"],
   },
   ...tailwind.configs["flat/recommended"],
 

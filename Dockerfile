@@ -17,7 +17,6 @@ FROM node:${NODE_VERSION}-alpine AS builder
 WORKDIR /app
 
 ENV HUSKY=0
-ENV NODE_ENV=production
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

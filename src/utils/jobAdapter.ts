@@ -1,4 +1,4 @@
-// src/adapters/jobAdapter.ts
+// src/utils/jobAdapter.ts
 
 import type { Job } from "@/types";
 

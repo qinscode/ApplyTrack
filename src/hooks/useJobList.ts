@@ -1,7 +1,7 @@
 "use client";
 import type { Job } from "@/types";
-import { adaptJob } from "@/adapters/jobAdapter";
 import api from "@/api/axios";
+import { adaptJob } from "@/utils/jobAdapter";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 

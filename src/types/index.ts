@@ -1,6 +1,5 @@
-// src/types/job.ts
 export type Job = {
-  job_id: number; // 将 job_id 类型改为 number
+  job_id: number;
   job_title: string;
   business_name: string;
   work_type: string;
@@ -22,16 +21,4 @@ export type Job = {
     | "Rejected";
   posted_date: string;
   job_description: string;
-};
-
-// 添加搜索参数接口
-export type JobSearchParams = {
-  searchTerm?: string;
-  jobTitle?: string;
-  companyName?: string;
-  isActive?: boolean;
-  sortBy?: string;
-  sortDescending?: boolean;
-  pageNumber: number;
-  pageSize: number;
 };

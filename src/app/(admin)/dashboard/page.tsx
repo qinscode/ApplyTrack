@@ -12,13 +12,14 @@ import { SkillsDistribution } from "@/app/(admin)/dashboard/common/skills-distri
 import { WeeklyActivities } from "@/app/(admin)/dashboard/common/weekly-activities";
 import { AppliedJobs } from "@/app/(admin)/dashboard/overview/AppliedJobs";
 import { DailyTrend } from "@/app/(admin)/dashboard/overview/DailyTrend";
-import { MonthlyTrend } from "@/app/(admin)/dashboard/overview/MonthlyTrend";
 import { NewJobs } from "@/app/(admin)/dashboard/overview/NewJobs";
 import { RecentlyAppliedJobs } from "@/app/(admin)/dashboard/overview/RecentlyAppliedJobs";
 import { TotalJobs } from "@/app/(admin)/dashboard/overview/TodaysJobs";
+import { AddJobDialog } from "@/app/(admin)/jobs/components/addJobDialog";
+import { MonthlyTrend } from "@/components/MonthlyTrend";
 import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
-import { SkillTrends } from "@/components/reports/skill-trends";
 
+import { SkillTrends } from "@/components/reports/skill-trends";
 import { WorkLocationTypes } from "@/components/reports/work-location-types";
 import { ThemesSwitcher } from "@/components/theme/themes-selector";
 import { Button } from "@/components/ui/button";
@@ -32,8 +33,8 @@ import {
   IconChartPie,
   IconRocket,
 } from "@tabler/icons-react";
-import React, { useEffect, useState } from "react";
 
+import React, { useEffect, useState } from "react";
 // Data imports
 import {
   responseRateData,
@@ -42,10 +43,7 @@ import {
   weeklyActivitiesData,
   workTypeData,
 } from "./data/mock-data";
-// 在文件顶部添加 import
-import { AddJobDialog } from "@/app/(admin)/jobs/components/addJobDialog";
 
-// 添加面试结果数据
 const interviewOutcomeData = [
   { stage: "Phone Screen", passed: 80, total: 100 },
   { stage: "Technical Round", passed: 60, total: 80 },
@@ -54,7 +52,6 @@ const interviewOutcomeData = [
   { stage: "Final Round", passed: 30, total: 35 },
 ];
 
-// 添加技能需求趋势数据
 const skillTrendData = [
   { month: "Jan", react: 80, typescript: 60, node: 40 },
   { month: "Feb", react: 85, typescript: 65, node: 45 },
@@ -64,7 +61,6 @@ const skillTrendData = [
   { month: "Jun", react: 95, typescript: 90, node: 65 },
 ];
 
-// 添加薪资分布数据
 const salaryDistributionData = [
   { range: "0-50k", count: 10, fill: "hsl(var(--chart-1))" },
   { range: "50k-75k", count: 25, fill: "hsl(var(--chart-2))" },
@@ -73,7 +69,6 @@ const salaryDistributionData = [
   { range: "125k+", count: 10, fill: "hsl(var(--chart-5))" },
 ];
 
-// 添加工作地点分布数据
 const locationData = [
   { name: "Remote", value: 40, fill: "hsl(var(--chart-1))" },
   { name: "Hybrid", value: 35, fill: "hsl(var(--chart-2))" },
@@ -88,14 +83,11 @@ export default function Dashboard() {
   const [jobTypes, setJobTypes] = useState([]);
   const [dailyTrend, setDailyTrend] = useState([]);
 
-  // 添加 dialog 的状态控制
   const [showAddJobDialog, setShowAddJobDialog] = useState(false);
 
-  // 添加处理新增工作的函数
   const handleAddJob = async (jobData: any) => {
     try {
       await api.post("/Jobs", jobData);
-      // 重新获取数据以更新显示
     } catch (error) {
       console.error("Error adding job:", error);
     }
@@ -321,7 +313,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 添加 AddJobDialog 组件 */}
       <AddJobDialog
         open={showAddJobDialog}
         onOpenChange={setShowAddJobDialog}

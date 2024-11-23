@@ -1,11 +1,11 @@
 "use client";
 import type { RootState } from "@/store";
 import type { Job } from "@/types";
-import { adaptJob } from "@/adapters/jobAdapter";
 import api from "@/api/axios";
 import { toast } from "@/components/ui/use-toast";
 import { useDispatch, useSelector } from "@/hooks/redux";
 import { setJobStatusCounts } from "@/store/jobStatusSlice";
+import { adaptJob } from "@/utils/jobAdapter";
 import { useCallback, useEffect, useState } from "react";
 
 type JobStatus = Job["status"];

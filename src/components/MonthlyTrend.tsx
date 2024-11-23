@@ -25,8 +25,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import * as React from "react";
+import { useEffect } from "react";
 import {
   Area,
   AreaChart,
@@ -54,21 +55,14 @@ export function MonthlyTrend() {
   const [timeRange, setTimeRange] = React.useState("30");
   const [data, setData] = React.useState<DailyStatistic[]>([]);
   const [showLabels, setShowLabels] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    setShowLabels(timeRange !== "90");
-  }, [timeRange]);
-
-  const handleTimeRangeChange = (value: string) => {
-    setTimeRange(value);
-    if (value === "90") {
-      setShowLabels(false);
-    }
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
+        setError(null);
         const response = await statisticsApi.getJobsStatistics(Number(timeRange));
         const cutoffDate = new Date("2024-11-11");
         const processedData = response.dailyStatistics.map((stat) => {
@@ -85,11 +79,51 @@ export function MonthlyTrend() {
         setData(processedData);
       } catch (error) {
         console.error("Error fetching jobs statistics:", error);
+        setError("Failed to load statistics data");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, [timeRange]);
+
+  useEffect(() => {
+    setShowLabels(timeRange !== "90");
+  }, [timeRange]);
+
+  const handleTimeRangeChange = (value: string) => {
+    setTimeRange(value);
+    if (value === "90") {
+      setShowLabels(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Job Market Trends</CardTitle>
+        </CardHeader>
+        <CardContent className="flex min-h-[300px] items-center justify-center">
+          <Loader2 className="size-8 animate-spin" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Job Market Trends</CardTitle>
+        </CardHeader>
+        <CardContent className="flex min-h-[300px] items-center justify-center text-destructive">
+          {error}
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>

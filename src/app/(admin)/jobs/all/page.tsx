@@ -1,11 +1,11 @@
 "use client";
 
 import type { Job } from "@/types";
-import { adaptJob } from "@/adapters/jobAdapter";
 import api from "@/api/axios";
 import { columns } from "@/app/(admin)/jobs/components/columns";
 import DataTable from "@/app/(admin)/jobs/components/dataTable";
 import Loading from "@/app/(admin)/jobs/components/loading";
+import { adaptJob } from "@/utils/jobAdapter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 

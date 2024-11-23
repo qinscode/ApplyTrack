@@ -18,7 +18,7 @@ type BackendJob = {
 };
 
 export function adaptJob(backendJob: BackendJob): Job {
-  const adaptedJob: Job = {
+  return {
     job_id: backendJob.id,
     job_title: backendJob.jobTitle,
     business_name: backendJob.businessName || "N/A",
@@ -32,6 +32,4 @@ export function adaptJob(backendJob: BackendJob): Job {
     posted_date: backendJob.postedDate || "N/A",
     job_description: backendJob.jobDescription || "N/A",
   };
-
-  return adaptedJob;
 }

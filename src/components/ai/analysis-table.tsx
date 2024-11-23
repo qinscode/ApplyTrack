@@ -4,9 +4,8 @@ import type {
   SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
-import { DataTablePagination } from "@/app/(admin)/jobs/components/dataTablePagination";
-import { DataTableToolbar } from "@/app/(admin)/jobs/components/dataTableToolbar";
-
+import { DataTablePagination } from "@/components/jobs/dataTablePagination";
+import { DataTableToolbar } from "@/components/jobs/dataTableToolbar";
 import {
   Table,
   TableBody,
@@ -15,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import {
   flexRender,
   getCoreRowModel,

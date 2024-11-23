@@ -2,9 +2,9 @@
 
 import type { Job } from "@/types/schema";
 import api from "@/api/axios";
-import { columns } from "@/app/(admin)/jobs/components/columns";
-import DataTable from "@/app/(admin)/jobs/components/dataTable";
-import Loading from "@/app/(admin)/jobs/components/loading";
+import { columns } from "@/components/jobs/columns";
+import DataTable from "@/components/jobs/dataTable";
+import Loading from "@/components/jobs/loading";
 import { adaptJob } from "@/utils/jobAdapter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useState } from "react";

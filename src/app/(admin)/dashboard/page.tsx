@@ -1,10 +1,9 @@
 "use client";
 import api from "@/api/axios";
-import { AddJobDialog } from "@/app/(admin)/jobs/components/addJobDialog";
-
 import { ApplicationFunnel } from "@/components/dashboard/common/application-funnel";
 
 import { DailyApplications } from "@/components/dashboard/common/daily-applications";
+
 import { JobTypeDistribution } from "@/components/dashboard/common/job-type-distribution";
 import { LocationDistribution } from "@/components/dashboard/common/location-distribution";
 import { ResponseRate } from "@/components/dashboard/common/response-rate";
@@ -17,6 +16,7 @@ import { DailyTrend } from "@/components/dashboard/overview/DailyTrend";
 import { NewJobs } from "@/components/dashboard/overview/NewJobs";
 import { RecentlyAppliedJobs } from "@/components/dashboard/overview/RecentlyAppliedJobs";
 import { TotalJobs } from "@/components/dashboard/overview/TodaysJobs";
+import { AddJobDialog } from "@/components/jobs/addJobDialog";
 
 import { InterviewOutcomes } from "@/components/reports/interview-outcomes";
 import { SkillTrends } from "@/components/reports/skill-trends";

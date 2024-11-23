@@ -215,7 +215,7 @@ export function UserAuthForm({
                   <div className="flex items-center justify-between">
                     <FormLabel>Password</FormLabel>
                     <Link
-                      href="/src/app/(admin)/forgot-password/forgot-password"
+                      href="/src/app/(admin)/forgot-password"
                       className="text-sm font-medium text-muted-foreground hover:opacity-75"
                     >
                       Forgot password?

@@ -1,4 +1,4 @@
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import api from "./axios";
 
 export const getJobs = async () => {

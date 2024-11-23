@@ -1,14 +1,14 @@
 "use client";
 
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import type { ColumnDef } from "@tanstack/react-table";
+import { AnalysisTable } from "@/components/ai/analysis-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
 import { IconBrain } from "@tabler/icons-react";
 import React, { useState } from "react";
-import { AnalysisTable } from "../../../components/ai/analysis-table";
 
 type EmailAnalysisResult = {
   job_id: number;

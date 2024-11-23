@@ -1,4 +1,4 @@
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import { useJobList } from "./useJobList";
 import { useJobStatusCounts } from "./useTotalJobsCount";
 

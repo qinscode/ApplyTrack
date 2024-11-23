@@ -1,6 +1,6 @@
 "use client";
 
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import api from "@/api/axios";
 import { columns } from "@/app/(admin)/jobs/components/columns";
 import DataTable from "@/app/(admin)/jobs/components/dataTable";

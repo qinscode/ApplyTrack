@@ -1,6 +1,6 @@
 // src/utils/jobAdapter.ts
 
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 
 type BackendJob = {
   id: number;

@@ -1,4 +1,4 @@
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import type { ColumnDef } from "@tanstack/react-table";
 import { statuses } from "@/components/jobs/data";
 import { Badge } from "@/components/ui/badge";

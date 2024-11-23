@@ -1,5 +1,5 @@
 "use client";
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import type {
   ColumnDef,
   ColumnFiltersState,

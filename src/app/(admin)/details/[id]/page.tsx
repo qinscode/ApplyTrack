@@ -1,5 +1,5 @@
 "use client";
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,6 +26,7 @@ const statusColors: Record<Job["status"], string> = {
   Offered: "bg-green-100 text-green-800",
   Ghosting: "bg-red-100 text-red-800",
   Rejected: "bg-rose-100 text-rose-800",
+  Pass: "bg-blue-100 text-blue-800",
 };
 
 export default function Details() {

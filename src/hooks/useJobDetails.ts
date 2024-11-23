@@ -1,4 +1,4 @@
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import api from "@/api/axios";
 import { adaptJob } from "@/utils/jobAdapter";
 import { useEffect, useState } from "react";

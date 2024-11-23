@@ -1,6 +1,6 @@
 "use client";
 import type { RootState } from "@/store";
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import api from "@/api/axios";
 import { toast } from "@/components/ui/use-toast";
 import { useDispatch, useSelector } from "@/hooks/redux";

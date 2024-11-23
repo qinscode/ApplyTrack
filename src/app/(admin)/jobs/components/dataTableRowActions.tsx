@@ -1,6 +1,7 @@
 "use client";
-import type { Job } from "@/types";
+import type { Job } from "@/types/schema";
 import type { Row } from "@tanstack/react-table";
+import { labels } from "@/components/jobs/data";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,10 +18,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useJobStatusUpdate } from "@/hooks/useTotalJobsCount";
 
+import { jobSchema } from "@/types/schema";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
-import { labels } from "../../../../components/jobs/data";
-import { jobSchema } from "../../../../types/schema";
 
 type DataTableRowActionsProps<TData> = {
   row: Row<TData>;

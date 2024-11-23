@@ -13,7 +13,8 @@
     "lint:fix": "eslint . --fix",
     "check-types": "tsc --noEmit --pretty",
     "commit": "cz",
-    "prepare": "husky"
+    "prepare": "node .husky/install.mjs"
+
   },
   "dependencies": {
     "@commitlint/types": "^19.5.0",
@@ -60,12 +61,8 @@
     "cmdk": "^0.2.1",
     "date-fns": "^3.0.0",
     "dayjs": "^1.11.10",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
-    "eslint-plugin-tailwindcss": "^3.17.5",
     "eslint-plugin-testing-library": "^6.4.0",
     "framer-motion": "^11.11.11",
-    "husky": "^9.1.6",
     "i18next": "^23.16.5",
     "i18next-browser-languagedetector": "^8.0.0",
     "inquirer": "^9.0.0",
@@ -136,6 +133,9 @@
     "tailwindcss": "^3.4.15",
     "terser": "^5.36.0",
     "typescript": "^5.6.3"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": "eslint --fix"
   },
   "release": {
     "branches": [

@@ -28,3 +28,19 @@ export const jobSchema = z.object({
 });
 
 export type Job = z.infer<typeof jobSchema>;
+
+export type EmailAnalysisResult = {
+  subject: string;
+  receivedDate: string;
+  isRecognized: boolean;
+  job: {
+    id: number;
+    jobTitle: string;
+    businessName: string;
+  };
+  status: Job["status"];
+  keyPhrases: string[];
+  suggestedActions: string;
+  similarity: number;
+  job_id?: number;
+};

@@ -2,161 +2,96 @@
 
 import type { Job } from "@/types/schema";
 import type { ColumnDef } from "@tanstack/react-table";
+import { emailAnalysisApi } from "@/api/email-analysis";
 import { AnalysisTable } from "@/components/ai/analysis-table";
+import Loading from "@/components/jobs/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
+import { jobSchema } from "@/types/schema";
 import { IconBrain } from "@tabler/icons-react";
-import React, { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 
 type EmailAnalysisResult = {
-  job_id: number;
-  job_title: string;
-  business_name: string;
+  subject: string;
+  receivedDate: string;
+  isRecognized: boolean;
+  job: {
+    id: number;
+    jobTitle: string;
+    businessName: string;
+  };
   status: Job["status"];
-  email_subject: string;
-  email_date: string;
-  email_sender: string;
-  detected_status: Job["status"];
-  confidence_score: number;
-  key_phrases: string[];
-  next_action: string;
-  last_analyzed: string;
+  keyPhrases: string[];
+  suggestedActions: string;
+  similarity: number;
+  confidence_score?: number;
+  key_phrases?: string[];
+  next_action?: string;
+  job_id?: number;
 };
+
+// 从 jobSchema 中获取所有可能的状态值
+const JOB_STATUSES = jobSchema.shape.status.options;
 
 const columns: ColumnDef<EmailAnalysisResult>[] = [
   {
-    accessorKey: "email_subject",
+    accessorKey: "subject",
     header: "Email Subject",
     cell: ({ row }) => {
-      const isNew
-        = new Date().getTime() - new Date(row.original.last_analyzed).getTime()
-        < 5 * 60 * 1000;
+      const isNew = new Date().getTime() - new Date(row.original.receivedDate).getTime() < 5 * 60 * 1000;
 
       return (
         <div className="flex flex-col">
           <div className="flex items-center justify-between gap-2">
-            <span className="font-medium">{row.getValue("email_subject")}</span>
+            <span className="font-medium">{row.getValue("subject")}</span>
             {isNew && (
-              <Badge
-                variant="secondary"
-                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
-              >
+              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
                 New
               </Badge>
             )}
           </div>
           <span className="text-xs text-muted-foreground">
-            From:
-            {" "}
-            {row.original.email_sender}
-          </span>
-          <span className="text-xs text-muted-foreground">
             Date:
             {" "}
-            {new Date(row.original.email_date).toISOString().split("T")[0]}
+            {new Date(row.original.receivedDate).toLocaleDateString()}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "job_title",
+    accessorKey: "job",
     header: "Job Details",
     cell: ({ row }) => (
       <div className="flex flex-col">
-        <span className="font-medium">{row.getValue("job_title")}</span>
+        <span className="font-medium">{row.original.job.jobTitle}</span>
         <span className="text-xs text-muted-foreground">
-          {row.original.business_name}
+          {row.original.job.businessName}
         </span>
       </div>
     ),
   },
   {
     accessorKey: "status",
-    header: "Current Status",
+    header: "Status",
     cell: ({ row }) => (
-      <Badge variant="outline">{row.getValue("status")}</Badge>
+      <Badge variant="outline">{row.original.status}</Badge>
     ),
   },
   {
-    accessorKey: "detected_status",
-    header: "Detected Status",
+    accessorKey: "similarity",
+    header: "Similarity",
     cell: ({ row }) => {
-      const currentStatus = row.original.status;
-      const detectedStatus = row.getValue("detected_status") as string;
-      const hasChanged = currentStatus !== detectedStatus;
-
-      return (
-        <div className="flex items-center gap-2">
-          <Badge variant={hasChanged ? "default" : "outline"}>
-            {detectedStatus}
-          </Badge>
-          {hasChanged && (
-            <Badge variant="secondary" className="text-xs">
-              Changed
-            </Badge>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const currentStatus = row.original.status;
-      const detectedStatus = row.original.detected_status;
-      const hasChanged = currentStatus !== detectedStatus;
-
-      if (!hasChanged) {
-        return (
-          <Badge variant="outline" className="whitespace-nowrap text-xs">
-            Up to date
-          </Badge>
-        );
-      }
-
-      return (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={async () => {
-            try {
-              await new Promise(resolve => setTimeout(resolve, 500));
-
-              // setResults(prev =>
-              //   prev.map(result =>
-              //     result.job_id === row.original.job_id
-              //       ? { ...result, status: result.detected_status }
-              //       : result
-              //   )
-              // );
-
-              toast({
-                title: "Status Updated",
-                description: `Job status updated from ${currentStatus} to ${detectedStatus}`,
-              });
-            } catch (error) {
-              toast({
-                title: "Update Failed",
-                description: `Failed to update job status. Please try again.${error}`,
-                variant: "destructive",
-              });
-            }
-          }}
-        >
-          Update Status
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "confidence_score",
-    header: "Confidence",
-    cell: ({ row }) => {
-      const score = row.getValue("confidence_score") as number;
+      const score = row.getValue("similarity") as number;
       return (
         <div className="flex items-center gap-2">
           <Progress value={score * 100} className="w-[60px]" />
@@ -169,15 +104,15 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
     },
   },
   {
-    accessorKey: "key_phrases",
+    accessorKey: "keyPhrases",
     header: "Key Phrases",
     cell: ({ row }) => {
-      const phrases = row.original.key_phrases;
+      const phrases = row.original.keyPhrases;
       return (
         <div className="flex flex-wrap gap-1">
           {phrases.map(phrase => (
             <Badge
-              key={`${row.original.job_id}-${phrase}`}
+              key={`${row.original.job.id}-${phrase}`}
               variant="secondary"
               className="text-xs"
             >
@@ -189,148 +124,175 @@ const columns: ColumnDef<EmailAnalysisResult>[] = [
     },
   },
   {
-    accessorKey: "next_action",
+    accessorKey: "suggestedActions",
     header: "Suggested Action",
   },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const currentStatus = row.original.status;
+
+      const handleStatusChange = async (newStatus: Job["status"]) => {
+        try {
+          await emailAnalysisApi.updateStatus(row.original.job.id, newStatus);
+
+          toast({
+            title: "Status Updated",
+            description: `Job status updated from ${currentStatus} to ${newStatus}`,
+          });
+        } catch {
+          toast({
+            title: "Update Failed",
+            description: "Failed to update job status. Please try again.",
+            variant: "destructive",
+          });
+        }
+      };
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm">
+              Change Status
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {JOB_STATUSES.map(status => (
+              <DropdownMenuItem
+                key={status}
+                onClick={() => handleStatusChange(status)}
+              >
+                {status}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
 
-// 创建初始假数据
-const initialMockData: EmailAnalysisResult[] = [
-  {
-    job_id: 1,
-    job_title: "Senior Frontend Developer",
-    business_name: "Tech Corp",
-    status: "Applied",
-    email_subject: "Application Received - Frontend Developer Position",
-    email_date: "2024-03-01T00:00:00.000Z",
-    email_sender: "recruiting@techcorp.com",
-    detected_status: "Applied",
-    confidence_score: 0.95,
-    key_phrases: ["application received", "under review", "next steps"],
-    next_action: "Wait for response",
-    last_analyzed: "2024-03-12T00:00:00.000Z",
-  },
-  {
-    job_id: 2,
-    job_title: "React Developer",
-    business_name: "Startup Inc",
-    status: "Applied",
-    email_subject: "Interview Invitation - React Developer Role",
-    email_date: "2024-03-09T00:00:00.000Z",
-    email_sender: "hr@startup.com",
-    detected_status: "Interviewing",
-    confidence_score: 0.92,
-    key_phrases: ["interview invitation", "availability", "team meeting"],
-    next_action: "Schedule interview",
-    last_analyzed: "2024-03-12T00:00:00.000Z",
-  },
-  {
-    job_id: 3,
-    job_title: "Full Stack Engineer",
-    business_name: "Global Tech",
-    status: "Applied",
-    email_subject: "No Response Required: Application Confirmation",
-    email_date: "2024-02-27T00:00:00.000Z",
-    email_sender: "no-reply@globaltech.com",
-    detected_status: "Ghosting",
-    confidence_score: 0.85,
-    key_phrases: ["no response", "2 weeks", "automated message"],
-    next_action: "Consider follow-up email",
-    last_analyzed: "2024-03-12T00:00:00.000Z",
-  },
-];
+const DEFAULT_PAGE_SIZE = 10;
 
-export default function AIAnalysis() {
+function AIAnalysisContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const setSearchParams = useCallback(
+    (updater: (prev: URLSearchParams) => URLSearchParams) => {
+      const newParams = updater(new URLSearchParams(searchParams));
+      const newSearch = newParams.toString();
+      router.push(`${pathname}${newSearch ? `?${newSearch}` : ""}`);
+    },
+    [searchParams, router, pathname],
+  );
+
+  const pageSize = Number.parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
+    10,
+  );
+  const currentPage = Number.parseInt(
+    searchParams.get("pageNumber") || "1",
+    10,
+  );
+  const searchTerm = searchParams.get("searchTerm") || "";
+
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
-  // 使用初始假数据初始化结果
-  const [results, setResults]
-    = useState<EmailAnalysisResult[]>(initialMockData);
+  const [results, setResults] = useState<EmailAnalysisResult[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const startAnalysis = async () => {
+  const fetchAnalysis = useCallback(async () => {
     setIsAnalyzing(true);
     setProgress(0);
     setError(null);
 
     try {
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 500));
+      if (searchTerm) {
+        const data = await emailAnalysisApi.search(searchTerm);
+        setResults(data.emails);
+        setTotalCount(data.totalCount);
+      } else {
+        const data = await emailAnalysisApi.getAnalysis(currentPage, pageSize);
+        setResults(data.emails);
+        setTotalCount(data.totalCount);
+      }
+      setProgress(100);
+    } catch (err) {
+      console.error("Analysis failed:", err);
+      setError("Failed to fetch analysis results");
+      toast({
+        title: "Analysis Failed",
+        description: "Failed to analyze emails. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  }, [currentPage, pageSize, searchTerm]);
 
-      // 添加新的分析结果
-      const newResults: EmailAnalysisResult[] = [
-        {
-          job_id: 4,
-          job_title: "Software Engineer",
-          business_name: "Innovation Labs",
-          status: "Interviewing",
-          email_subject: "Technical Assessment Results",
-          email_date: new Date().toISOString(),
-          email_sender: "tech.hiring@innovationlabs.com",
-          detected_status: "TechnicalAssessment",
-          confidence_score: 0.88,
-          key_phrases: ["passed assessment", "next round", "team interview"],
-          next_action: "Prepare for team interview",
-          last_analyzed: new Date().toISOString(),
-        },
-        {
-          job_id: 5,
-          job_title: "Frontend Engineer",
-          business_name: "Digital Solutions",
-          status: "Applied",
-          email_subject: "Thank you for your application",
-          email_date: new Date().toISOString(),
-          email_sender: "careers@digitalsolutions.com",
-          detected_status: "Rejected",
-          confidence_score: 0.94,
-          key_phrases: [
-            "thank you for interest",
-            "other candidates",
-            "future opportunities",
-          ],
-          next_action: "Archive application",
-          last_analyzed: new Date().toISOString(),
-        },
-      ];
+  useEffect(() => {
+    fetchAnalysis();
+  }, [fetchAnalysis]);
 
-      // 合并现有结果和新结果
-      setResults(prevResults => [...prevResults, ...newResults]);
+  const handlePageChange = (page: number) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("pageNumber", page.toString());
+      newParams.set("pageSize", pageSize.toString());
+      return newParams;
+    });
+  };
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("pageSize", newPageSize.toString());
+      newParams.set("pageNumber", "1");
+      return newParams;
+    });
+  };
+
+  const handleSearch = useCallback(
+    (term: string) => {
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        if (term) {
+          newParams.set("searchTerm", term);
+        } else {
+          newParams.delete("searchTerm");
+        }
+        return newParams;
+      });
+    },
+    [setSearchParams],
+  );
+
+  const startNewAnalysis = async () => {
+    setIsAnalyzing(true);
+    setProgress(0);
+    setError(null);
+
+    try {
+      await emailAnalysisApi.analyzeEmails();
+      setProgress(50);
+
+      const data = await emailAnalysisApi.getAnalysis(currentPage, pageSize);
+      setResults(data.emails);
+      setTotalCount(data.totalCount);
       setProgress(100);
 
-      // 添加分析完成的通知
-      const statusChanges = newResults.filter(
-        result => result.status !== result.detected_status,
-      );
-
       toast({
-        title: "Email Analysis Complete",
-        description: (
-          <div className="mt-2 space-y-2">
-            <p>
-              Found
-              {" "}
-              {newResults.length}
-              {" "}
-              new emails.
-            </p>
-            {statusChanges.length > 0 && (
-              <p>
-                Detected
-                {" "}
-                {statusChanges.length}
-                {" "}
-                status changes that need your
-                attention.
-              </p>
-            )}
-          </div>
-        ),
+        title: "Analysis Complete",
+        description: "Email analysis has been updated.",
         duration: 5000,
       });
     } catch (err) {
       setError("Analysis failed. Please try again.");
       console.error("Analysis failed:", err);
-
       toast({
         title: "Analysis Failed",
         description: "Failed to analyze emails. Please try again.",
@@ -341,76 +303,26 @@ export default function AIAnalysis() {
     }
   };
 
-  // 添加处理批量更新的函数
-  const handleBatchUpdate = async () => {
-    const statusChanges = results.filter(
-      result => result.status !== result.detected_status,
-    );
-
-    if (statusChanges.length === 0) {
-      toast({
-        title: "No Updates Needed",
-        description: "All job statuses are up to date.",
-      });
-      return;
-    }
-
-    try {
-      // 这里应该是实际的API调用
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // 更新本地状态
-      const updatedResults = results.map(result => ({
-        ...result,
-        status: result.detected_status, // 将当前状态更新为检测到的状态
-      }));
-
-      setResults(updatedResults);
-
-      toast({
-        title: "Batch Update Complete",
-        description: `Successfully updated ${statusChanges.length} job statuses.`,
-      });
-    } catch (error) {
-      toast({
-        title: "Update Failed",
-        description: `Failed to update job statuses. Please try again.${error}`,
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <Button
-            size="lg"
-            onClick={startAnalysis}
-            disabled={isAnalyzing}
-            className="w-[200px]"
-          >
-            {isAnalyzing
-              ? (
-                  <>Analyzing Emails...</>
-                )
-              : (
-                  <>
-                    <IconBrain className="mr-2" />
-                    Analyze Emails
-                  </>
-                )}
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            onClick={handleBatchUpdate}
-            disabled={isAnalyzing}
-            className="w-[200px]"
-          >
-            Update All Statuses
-          </Button>
-        </div>
+        <Button
+          size="lg"
+          onClick={startNewAnalysis}
+          disabled={isAnalyzing}
+          className="w-[200px]"
+        >
+          {isAnalyzing
+            ? (
+                <>Analyzing Emails...</>
+              )
+            : (
+                <>
+                  <IconBrain className="mr-2" />
+                  Analyze Emails
+                </>
+              )}
+        </Button>
         {isAnalyzing && (
           <div className="flex items-center gap-2">
             <Progress value={progress} className="w-[200px]" />
@@ -430,16 +342,24 @@ export default function AIAnalysis() {
             <AnalysisTable
               data={results}
               columns={columns}
-              pageSize={10}
-              currentPage={1}
-              totalCount={results.length}
-              onPageChange={() => {}}
-              onDataChange={() => {}}
-              onPageSizeChange={() => {}}
-              onSearch={() => {}}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              totalCount={totalCount}
+              onPageChange={handlePageChange}
+              onDataChange={setResults}
+              onPageSizeChange={handlePageSizeChange}
+              onSearch={handleSearch}
               onSort={() => {}}
             />
           )}
     </div>
+  );
+}
+
+export default function AIAnalysis() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <AIAnalysisContent />
+    </Suspense>
   );
 }

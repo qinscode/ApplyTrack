@@ -29,6 +29,7 @@ export default function ProtectedRoute({
 
   if (!isAuthenticated) {
     router.push("/sign-in");
+    return null;
   }
 
   return <>{children}</>;

@@ -5,7 +5,7 @@ import React from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Job Tracker",
+  title: "Smart Apply",
   description: "Track your job applications",
 };
 

@@ -55,6 +55,11 @@ export const data = {
       icon: <IconBriefcase size={18} />,
       items: [
         {
+          title: "My",
+          url: "/jobs/my",
+          icon: <IconPlus size={18} />,
+        },
+        {
           title: "New",
           url: "/jobs/new",
           icon: <IconPlus size={18} />,

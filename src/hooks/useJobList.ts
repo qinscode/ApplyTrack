@@ -16,7 +16,6 @@ type UseJobListConfig = {
 
 export function useJobList({
   apiEndpoint,
-  defaultStatus,
   extraParams = {},
   onDataChange,
 }: UseJobListConfig) {
@@ -54,9 +53,6 @@ export function useJobList({
 
       const adaptedJobs = response.data.jobs.map((job: any) => {
         const adaptedJob = adaptJob(job);
-        if (!adaptedJob.status && defaultStatus) {
-          adaptedJob.status = defaultStatus;
-        }
         return adaptedJob;
       });
 
@@ -74,7 +70,6 @@ export function useJobList({
     sortBy,
     sortDescending,
     extraParams,
-    defaultStatus,
   ]);
 
   useEffect(() => {

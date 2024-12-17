@@ -31,6 +31,7 @@ import {
   IconSend,
   IconSettings,
   IconUsers,
+  IconUserSearch,
   IconX,
 } from "@tabler/icons-react";
 import * as React from "react";
@@ -49,6 +50,11 @@ export const data = {
       icon: <IconMoodHappy size={18} />,
     },
     {
+      title: "New",
+      url: "/jobs/new",
+      icon: <IconPlus size={18} />,
+    },
+    {
       title: "Jobs",
       url: "/jobs/new",
       isActive: true,
@@ -57,13 +63,9 @@ export const data = {
         {
           title: "My",
           url: "/jobs/my",
-          icon: <IconPlus size={18} />,
+          icon: <IconUserSearch size={18} />,
         },
-        {
-          title: "New",
-          url: "/jobs/new",
-          icon: <IconPlus size={18} />,
-        },
+
         {
           title: "Pending",
           url: "/jobs/pending",

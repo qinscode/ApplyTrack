@@ -18,6 +18,8 @@ type BackendJob = {
 };
 
 export function adaptJob(backendJob: BackendJob): Job {
+  const status = backendJob.status || "New";
+
   return {
     job_id: backendJob.id,
     job_title: backendJob.jobTitle,
@@ -28,7 +30,7 @@ export function adaptJob(backendJob: BackendJob): Job {
     suburb: backendJob.suburb || "N/A",
     area: backendJob.area || "N/A",
     url: backendJob.url || "N/A",
-    status: backendJob.status as Job["status"],
+    status: status as Job["status"],
     posted_date: backendJob.postedDate || "N/A",
     job_description: backendJob.jobDescription || "N/A",
   };

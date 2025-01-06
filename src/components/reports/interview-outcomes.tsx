@@ -1,32 +1,19 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useThemesConfig } from "@/hooks/use-themes-config";
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useThemesConfig } from '@/hooks/use-themes-config'
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
-type InterviewOutcomeData = {
-  stage: string;
-  passed: number;
-  total: number;
-};
+interface InterviewOutcomeData {
+  stage: string
+  passed: number
+  total: number
+}
 
-type InterviewOutcomesProps = {
-  data: InterviewOutcomeData[];
-};
+interface InterviewOutcomesProps {
+  data: InterviewOutcomeData[]
+}
 
 export function InterviewOutcomes({ data }: InterviewOutcomesProps) {
-  const { themesConfig } = useThemesConfig();
+  const { themesConfig } = useThemesConfig()
 
   return (
     <Card className="flex h-full flex-col">
@@ -42,17 +29,17 @@ export function InterviewOutcomes({ data }: InterviewOutcomesProps) {
             <Tooltip />
             <Bar
               dataKey="passed"
-              fill={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`}
+              fill={`hsl(${themesConfig.activeTheme.cssVars.light['--chart-1']})`}
               radius={[4, 4, 0, 0]}
             />
             <Bar
               dataKey="total"
-              fill={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`}
+              fill={`hsl(${themesConfig.activeTheme.cssVars.light['--chart-2']})`}
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  );
+  )
 }

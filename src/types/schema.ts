@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const jobSchema = z.object({
   job_id: z.number(),
@@ -11,36 +11,37 @@ export const jobSchema = z.object({
   area: z.string(),
   url: z.string(),
   status: z.enum([
-    "New",
-    "Pending",
-    "Applied",
-    "Archived",
-    "Reviewed",
-    "Interviewing",
-    "TechnicalAssessment",
-    "Offered",
-    "Ghosting",
-    "Pass",
-    "Rejected",
+    'New',
+    'Pending',
+    'Applied',
+    'Archived',
+    'Reviewed',
+    'Interviewing',
+    'TechnicalAssessment',
+    'Offered',
+    'Ghosting',
+    'Pass',
+    'Rejected'
   ]),
   posted_date: z.string(),
   job_description: z.string(),
-});
+  techStack: z.array(z.string()).optional()
+})
 
-export type Job = z.infer<typeof jobSchema>;
+export type Job = z.infer<typeof jobSchema>
 
-export type EmailAnalysisResult = {
-  subject: string;
-  receivedDate: string;
-  isRecognized: boolean;
+export interface EmailAnalysisResult {
+  subject: string
+  receivedDate: string
+  isRecognized: boolean
   job: {
-    id: number;
-    jobTitle: string;
-    businessName: string;
-  };
-  status: Job["status"];
-  keyPhrases: string[];
-  suggestedActions: string;
-  similarity: number;
-  job_id?: number;
-};
+    id: number
+    jobTitle: string
+    businessName: string
+  }
+  status: Job['status']
+  keyPhrases: string[]
+  suggestedActions: string
+  similarity: number
+  job_id?: number
+}

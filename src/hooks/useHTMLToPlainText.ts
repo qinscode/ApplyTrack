@@ -1,18 +1,18 @@
-import { useMemo } from "react";
+import { useMemo } from 'react'
 
 const useHTMLToPlainText = (htmlContent) => {
   return useMemo(() => {
-    const temp = document.createElement("div");
-    temp.innerHTML = htmlContent;
-    const text = temp.textContent || "";
-    return text.replace(/\s+/g, " ").trim();
-  }, [htmlContent]);
-};
+    const temp = document.createElement('div')
+    temp.innerHTML = htmlContent
+    const text = temp.textContent || ''
+    return text.replace(/\s+/g, ' ').trim()
+  }, [htmlContent])
+}
 
 const HTMLToPlainTextCell = ({ htmlContent }) => {
-  const plainText = useHTMLToPlainText(htmlContent);
+  const plainText = useHTMLToPlainText(htmlContent)
 
-  return { plainText };
-};
+  return { plainText }
+}
 
-export default HTMLToPlainTextCell;
+export default HTMLToPlainTextCell

@@ -1,103 +1,90 @@
-"use client";
+'use client'
 
-import type { DailyStatistic } from "@/api/statistics";
-import type { ChartConfig } from "@/components/ui/chart";
-import { statisticsApi } from "@/api/statistics";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import type { DailyStatistic } from '@/api/statistics'
+import { statisticsApi } from '@/api/statistics'
+import type { ChartConfig } from '@/components/ui/chart'
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+  ChartTooltipContent
+} from '@/components/ui/chart'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
-import * as React from "react";
-import { useEffect } from "react";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from "recharts";
+  SelectValue
+} from '@/components/ui/select'
+import { EyeIcon, EyeOffIcon, Loader2 } from 'lucide-react'
+import * as React from 'react'
+import { useEffect } from 'react'
+import { Area, AreaChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
 
 const chartConfig = {
   visitors: {
-    label: "Jobs",
+    label: 'Jobs'
   },
   activeJobsCount: {
-    label: "Active Jobs",
-    color: "hsl(var(--chart-1))",
+    label: 'Active JobsTable',
+    color: 'hsl(var(--chart-1))'
   },
   newJobsCount: {
-    label: "New Jobs",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
+    label: 'New JobsTable',
+    color: 'hsl(var(--chart-2))'
+  }
+} satisfies ChartConfig
 
 export function MonthlyTrend() {
-  const [timeRange, setTimeRange] = React.useState("30");
-  const [data, setData] = React.useState<DailyStatistic[]>([]);
-  const [showLabels, setShowLabels] = React.useState(true);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const [timeRange, setTimeRange] = React.useState('30')
+  const [data, setData] = React.useState<DailyStatistic[]>([])
+  const [showLabels, setShowLabels] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [error, setError] = React.useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true);
-        setError(null);
-        const response = await statisticsApi.getJobsStatistics(Number(timeRange));
-        const cutoffDate = new Date("2024-11-11");
+        setIsLoading(true)
+        setError(null)
+        const response = await statisticsApi.getJobsStatistics(Number(timeRange))
+        const cutoffDate = new Date('2024-11-11')
         const processedData = response.dailyStatistics.map((stat) => {
-          const statDate = new Date(stat.date);
+          const statDate = new Date(stat.date)
           if (statDate < cutoffDate) {
             return {
               ...stat,
               activeJobsCount: 0,
-              newJobsCount: 0,
-            };
+              newJobsCount: 0
+            }
           }
-          return stat;
-        });
-        setData(processedData);
+          return stat
+        })
+        setData(processedData)
       } catch (error) {
-        console.error("Error fetching jobs statistics:", error);
-        setError("Failed to load statistics data");
+        console.error('Error fetching jobs statistics:', error)
+        setError('Failed to load statistics data')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [timeRange]);
+    fetchData()
+  }, [timeRange])
 
   useEffect(() => {
-    setShowLabels(timeRange !== "90");
-  }, [timeRange]);
+    setShowLabels(timeRange !== '90')
+  }, [timeRange])
 
   const handleTimeRangeChange = (value: string) => {
-    setTimeRange(value);
-    if (value === "90") {
-      setShowLabels(false);
+    setTimeRange(value)
+    if (value === '90') {
+      setShowLabels(false)
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -109,7 +96,7 @@ export function MonthlyTrend() {
           <Loader2 className="size-8 animate-spin" />
         </CardContent>
       </Card>
-    );
+    )
   }
 
   if (error) {
@@ -122,7 +109,7 @@ export function MonthlyTrend() {
           {error}
         </CardContent>
       </Card>
-    );
+    )
   }
 
   return (
@@ -131,7 +118,8 @@ export function MonthlyTrend() {
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Job Market Trends</CardTitle>
           <CardDescription>
-            Track active and new job postings over time. The blue area shows total active jobs, while the green area represents new job listings.
+            Track active and new job postings over time. The blue area shows total active jobs,
+            while the green area represents new job listings.
           </CardDescription>
         </div>
         <div className="flex items-center gap-2">
@@ -140,15 +128,9 @@ export function MonthlyTrend() {
             size="icon"
             onClick={() => setShowLabels(!showLabels)}
             className="size-9"
-            title={showLabels ? "Hide labels" : "Show labels"}
+            title={showLabels ? 'Hide labels' : 'Show labels'}
           >
-            {showLabels
-              ? (
-                  <EyeOffIcon className="size-4" />
-                )
-              : (
-                  <EyeIcon className="size-4" />
-                )}
+            {showLabels ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
           </Button>
           <Select value={timeRange} onValueChange={handleTimeRangeChange}>
             <SelectTrigger
@@ -172,38 +154,16 @@ export function MonthlyTrend() {
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
-        >
-          <AreaChart
-            data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
+        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+          <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="fillActive" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-activeJobsCount)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-activeJobsCount)"
-                  stopOpacity={0.1}
-                />
+                <stop offset="5%" stopColor="var(--color-activeJobsCount)" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="var(--color-activeJobsCount)" stopOpacity={0.1} />
               </linearGradient>
               <linearGradient id="fillNew" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-newJobsCount)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-newJobsCount)"
-                  stopOpacity={0.1}
-                />
+                <stop offset="5%" stopColor="var(--color-newJobsCount)" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="var(--color-newJobsCount)" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid vertical={false} />
@@ -214,37 +174,37 @@ export function MonthlyTrend() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                });
+                const date = new Date(value)
+                return date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                })
               }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={value => value.toLocaleString()}
+              tickFormatter={(value) => value.toLocaleString()}
             />
             <ChartTooltip
               cursor={false}
               content={(props) => {
-                const { active, payload, label } = props;
+                const { active, payload, label } = props
                 if (active && payload && payload.length) {
                   return (
                     <ChartTooltipContent
                       labelFormatter={() => {
-                        return new Date(label).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                        });
+                        return new Date(label).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric'
+                        })
                       }}
                       indicator="dot"
                     />
-                  );
+                  )
                 }
-                return null;
+                return null
               }}
             />
             <Area
@@ -258,7 +218,7 @@ export function MonthlyTrend() {
                 <LabelList
                   dataKey="newJobsCount"
                   position="top"
-                  style={{ fill: "var(--foreground)", fontSize: 12 }}
+                  style={{ fill: 'var(--foreground)', fontSize: 12 }}
                 />
               )}
             </Area>
@@ -273,7 +233,7 @@ export function MonthlyTrend() {
                 <LabelList
                   dataKey="activeJobsCount"
                   position="top"
-                  style={{ fill: "var(--foreground)", fontSize: 12 }}
+                  style={{ fill: 'var(--foreground)', fontSize: 12 }}
                 />
               )}
             </Area>
@@ -282,5 +242,5 @@ export function MonthlyTrend() {
         </ChartContainer>
       </CardContent>
     </Card>
-  );
+  )
 }

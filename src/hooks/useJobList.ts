@@ -1,66 +1,73 @@
-"use client";
-import type { Job } from "@/types/schema";
-import api from "@/api/axios";
-import { adaptJob } from "@/utils/jobAdapter";
-import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import type { Job } from '@/types/schema'
+import api from '@/api/axios'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
-const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_PAGE_SIZE = 20
 
-type UseJobListConfig = {
-  apiEndpoint: string;
-  defaultStatus?: Job["status"];
-  extraParams?: Record<string, any>;
-  onDataChange?: () => void;
-};
+interface UseJobListConfig {
+  apiEndpoint: string
+  hideStatus?: boolean
+  extraParams?: Record<string, any>
+  onDataChange?: () => void
+}
+
+type SortingState = {
+  id: string
+  desc: boolean
+}[]
 
 export function useJobList({
   apiEndpoint,
+  hideStatus = false,
   extraParams = {},
-  onDataChange,
+  onDataChange
 }: UseJobListConfig) {
-  const searchParams = useSearchParams();
-  const pageSize = Number.parseInt(
-    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString(),
-    10,
-  );
-  const currentPage = Number.parseInt(
-    searchParams.get("pageNumber") || "1",
-    10,
-  );
-  const searchTerm = searchParams.get("searchTerm") || "";
-  const sortBy = searchParams.get("sortBy") || "";
-  const sortDescending = searchParams.get("sortDescending") === "true";
+  const [searchParams, setSearchParams] = useSearchParams()
+  const pageSize = Number.parseInt(searchParams.get('pageSize') || DEFAULT_PAGE_SIZE.toString(), 10)
+  const currentPage = Number.parseInt(searchParams.get('pageNumber') || '1', 10)
+  const searchTerm = searchParams.get('searchTerm') || ''
+  const sortBy = searchParams.get('sortBy') || ''
+  const sortDescending = searchParams.get('sortDescending') === 'true'
 
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [totalJobsCount, setTotalJobsCount] = useState(0);
+  const [jobs, setJobs] = useState<Job[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [totalJobsCount, setTotalJobsCount] = useState(0)
+
+  const totalPages = Math.ceil(totalJobsCount / pageSize)
 
   const fetchJobs = useCallback(async () => {
-    setError(null);
+    setLoading(true)
+    setError(null)
 
     try {
       const response = await api.get(apiEndpoint, {
         params: {
-          searchTerm,
+          searchTerm: searchTerm || '',
           pageNumber: currentPage,
           pageSize,
-          sortBy,
-          sortDescending,
-          ...extraParams,
-        },
-      });
+          sortBy: sortBy || '',
+          sortDescending: sortDescending || false,
+          includeStatus: !hideStatus,
+          ...extraParams
+        }
+      })
 
-      const adaptedJobs = response.data.jobs.map((job: any) => {
-        const adaptedJob = adaptJob(job);
-        return adaptedJob;
-      });
+      const processedJobs = hideStatus
+        ? response.data.jobs.map((job: any) => {
+            const { status, ...rest } = job
+            return rest
+          })
+        : response.data.jobs
 
-      setJobs(adaptedJobs);
-      setTotalJobsCount(response.data.totalCount);
+      setJobs(processedJobs)
+      setTotalJobsCount(response.data.totalCount)
     } catch (err) {
-      console.error("Error fetching jobs:", err);
-      setError("Failed to fetch jobs");
+      console.error('Error fetching jobs:', err)
+      setError('Failed to fetch jobs')
+    } finally {
+      setLoading(false)
     }
   }, [
     apiEndpoint,
@@ -69,67 +76,94 @@ export function useJobList({
     searchTerm,
     sortBy,
     sortDescending,
-    extraParams,
-  ]);
+    hideStatus,
+    extraParams
+  ])
 
   useEffect(() => {
-    fetchJobs();
-  }, [searchParams]);
+    fetchJobs()
+  }, [currentPage, pageSize, searchTerm, sortBy, sortDescending, apiEndpoint])
+
+  const updateSearchParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      const newSearchParams = new URLSearchParams(searchParams)
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === null) {
+          newSearchParams.delete(key)
+        } else {
+          newSearchParams.set(key, value)
+        }
+      })
+      setSearchParams(newSearchParams)
+    },
+    [searchParams, setSearchParams]
+  )
 
   const handlePageChange = useCallback(
     (page: number) => {
-      const url = new URL(window.location.href);
-      url.searchParams.set("pageNumber", page.toString());
-      url.searchParams.set("pageSize", pageSize.toString());
-      window.history.pushState({}, "", url);
+      updateSearchParams({
+        pageNumber: page.toString(),
+        pageSize: pageSize.toString()
+      })
     },
-    [pageSize],
-  );
+    [updateSearchParams, pageSize]
+  )
+
+  const handlePageSizeChange = useCallback(
+    (newPageSize: number) => {
+      updateSearchParams({
+        pageSize: newPageSize.toString(),
+        pageNumber: '1'
+      })
+    },
+    [updateSearchParams]
+  )
+
+  const handleSearch = useCallback(
+    (term: string) => {
+      updateSearchParams({
+        searchTerm: term || null,
+        pageNumber: '1'
+      })
+    },
+    [updateSearchParams]
+  )
+
+  const handleSort = useCallback(
+    (column: string, descending: boolean) => {
+      updateSearchParams({
+        sortBy: column,
+        sortDescending: descending.toString(),
+        pageNumber: '1'
+      })
+    },
+    [updateSearchParams]
+  )
 
   const handleDataChange = useCallback(
     (updatedData: Job[]) => {
-      setJobs(updatedData);
-      fetchJobs();
-      onDataChange?.();
+      setJobs(updatedData)
+      onDataChange?.()
     },
-    [fetchJobs, onDataChange],
-  );
-
-  const handlePageSizeChange = useCallback((newPageSize: number) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("pageSize", newPageSize.toString());
-    url.searchParams.set("pageNumber", "1");
-    window.history.pushState({}, "", url);
-  }, []);
-
-  const handleSearch = useCallback((term: string) => {
-    const url = new URL(window.location.href);
-    if (term) {
-      url.searchParams.set("searchTerm", term);
-    } else {
-      url.searchParams.delete("searchTerm");
-    }
-    window.history.pushState({}, "", url);
-  }, []);
-
-  const handleSort = useCallback((column: string, descending: boolean) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("sortBy", column);
-    url.searchParams.set("sortDescending", String(descending));
-    window.history.pushState({}, "", url);
-  }, []);
+    [onDataChange]
+  )
 
   return {
     jobs,
+    loading,
     error,
     totalJobsCount,
+    totalPages,
     pageSize,
     currentPage,
+    searchTerm,
+    sortBy,
+    sortDescending,
     handlePageChange,
     handleDataChange,
     handlePageSizeChange,
     handleSearch,
     handleSort,
-    fetchJobs,
-  };
+    fetchJobs
+  }
 }

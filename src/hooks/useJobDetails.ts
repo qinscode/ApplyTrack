@@ -1,37 +1,37 @@
-import type { Job } from "@/types/schema";
-import api from "@/api/axios";
-import { adaptJob } from "@/utils/jobAdapter";
-import { useEffect, useState } from "react";
+import type { Job } from '@/types/schema'
+import api from '@/api/axios'
+import { adaptJob } from '@/utils/jobAdapter'
+import { useEffect, useState } from 'react'
 
 export function useJobDetails(jobId: string | undefined) {
-  const [job, setJob] = useState<Job | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [job, setJob] = useState<Job | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchJobDetails = async () => {
       if (!jobId) {
-        setLoading(false);
-        return;
+        setLoading(false)
+        return
       }
 
       try {
-        setLoading(true);
-        const response = await api.get(`/Jobs/${jobId}`);
-        const adaptedJob = adaptJob(response.data);
-        setJob(adaptedJob);
-        setError(null);
+        setLoading(true)
+        const response = await api.get(`/Jobs/${jobId}`)
+        const adaptedJob = adaptJob(response.data)
+        setJob(adaptedJob)
+        setError(null)
       } catch (err) {
-        console.error("Error fetching job details:", err);
-        setError("Failed to fetch job details");
-        setJob(null);
+        console.error('Error fetching job details:', err)
+        setError('Failed to fetch job details')
+        setJob(null)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchJobDetails();
-  }, [jobId]);
+    fetchJobDetails()
+  }, [jobId])
 
-  return { job, loading, error };
+  return { job, loading, error }
 }

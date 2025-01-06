@@ -1,25 +1,27 @@
-import { statisticsApi } from "@/api";
-import { useQuery } from "@tanstack/react-query";
+import { statisticsApi } from '@/api'
+import { useQuery } from '@tanstack/react-query'
 
-type FormattedDailyCount = {
-  day: string;
-  applications: number;
-};
+interface FormattedDailyCount {
+  day: string
+  applications: number
+}
 
 const formatDayOfWeek = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();
-};
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase()
+}
 
 export const useDailyApplications = () => {
   return useQuery({
-    queryKey: ["dailyApplications"],
+    queryKey: ['dailyApplications'],
     queryFn: async () => {
-      const data = await statisticsApi.getDailyApplicationCounts();
-      return data.map((item): FormattedDailyCount => ({
-        day: formatDayOfWeek(item.date),
-        applications: item.count,
-      }));
-    },
-  });
-};
+      const data = await statisticsApi.getDailyApplicationCounts()
+      return data.map(
+        (item): FormattedDailyCount => ({
+          day: formatDayOfWeek(item.date),
+          applications: item.count
+        })
+      )
+    }
+  })
+}

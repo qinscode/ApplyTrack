@@ -1,31 +1,23 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useThemesConfig } from "@/hooks/use-themes-config";
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useThemesConfig } from '@/hooks/use-themes-config'
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
-type LocationData = {
-  name: string;
-  value: number;
-};
+interface LocationData {
+  name: string
+  value: number
+}
 
-type LocationDistributionProps = {
-  data: LocationData[];
-};
+interface LocationDistributionProps {
+  data: LocationData[]
+}
 
 export function LocationDistribution({ data }: LocationDistributionProps) {
-  const { themesConfig } = useThemesConfig();
+  const { themesConfig } = useThemesConfig()
 
   const chartData = data.map((item, index) => ({
     ...item,
-    fill: `hsl(${
-      themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]
-    })`,
-  }));
+    fill: `hsl(${themesConfig.activeTheme.cssVars.light[`--chart-${index + 1}`]})`
+  }))
 
   return (
     <Card>
@@ -45,7 +37,7 @@ export function LocationDistribution({ data }: LocationDistributionProps) {
               outerRadius={100}
               label={({ name, value }) => `${name} (${value}%)`}
             >
-              {chartData.map(entry => (
+              {chartData.map((entry) => (
                 <Cell key={`cell-${entry.name}`} fill={entry.fill} />
               ))}
             </Pie>
@@ -54,5 +46,5 @@ export function LocationDistribution({ data }: LocationDistributionProps) {
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  );
+  )
 }

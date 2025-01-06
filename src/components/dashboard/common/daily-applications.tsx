@@ -4,73 +4,69 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useDailyApplications } from "@/hooks/use-daily-applications";
-import { useThemesConfig } from "@/hooks/use-themes-config";
+  CardTitle
+} from '@/components/ui/card'
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useDailyApplications } from '@/hooks/use-daily-applications'
+import { useThemesConfig } from '@/hooks/use-themes-config'
 
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
+import { TrendingUp } from 'lucide-react'
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from 'recharts'
 
-type DayConfig = {
-  label: string;
-  color: `hsl(${string})`;
-};
+interface DayConfig {
+  label: string
+  color: `hsl(${string})`
+}
 
-type ChartConfigType = {
-  applications: { label: string };
-  mon: DayConfig;
-  tue: DayConfig;
-  wed: DayConfig;
-  thu: DayConfig;
-  fri: DayConfig;
-  sat: DayConfig;
-  sun: DayConfig;
-};
+interface ChartConfigType {
+  applications: { label: string }
+  mon: DayConfig
+  tue: DayConfig
+  wed: DayConfig
+  thu: DayConfig
+  fri: DayConfig
+  sat: DayConfig
+  sun: DayConfig
+}
 
 export function DailyApplications() {
-  const { themesConfig } = useThemesConfig();
-  const { data: chartData, isLoading, error } = useDailyApplications();
+  const { themesConfig } = useThemesConfig()
+  const { data: chartData, isLoading, error } = useDailyApplications()
 
   const chartConfig: ChartConfigType = {
     applications: {
-      label: "Applications",
+      label: 'Applications'
     },
     mon: {
-      label: "Monday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`,
+      label: 'Monday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-1']})`
     },
     tue: {
-      label: "Tuesday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`,
+      label: 'Tuesday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-2']})`
     },
     wed: {
-      label: "Wednesday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-3"]})`,
+      label: 'Wednesday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-3']})`
     },
     thu: {
-      label: "Thursday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-4"]})`,
+      label: 'Thursday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-4']})`
     },
     fri: {
-      label: "Friday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-5"]})`,
+      label: 'Friday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-5']})`
     },
     sat: {
-      label: "Saturday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`,
+      label: 'Saturday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-1']})`
     },
     sun: {
-      label: "Sunday",
-      color: `hsl(${themesConfig.activeTheme.cssVars.light["--chart-2"]})`,
-    },
-  };
+      label: 'Sunday',
+      color: `hsl(${themesConfig.activeTheme.cssVars.light['--chart-2']})`
+    }
+  }
 
   if (isLoading) {
     return (
@@ -83,7 +79,7 @@ export function DailyApplications() {
           <Skeleton className="h-[300px] w-full" />
         </CardContent>
       </Card>
-    );
+    )
   }
 
   if (error || !chartData) {
@@ -97,15 +93,16 @@ export function DailyApplications() {
           Failed to load daily applications data
         </CardContent>
       </Card>
-    );
+    )
   }
 
-  const chartDataWithColors = chartData.map(item => ({
+  const chartDataWithColors = chartData.map((item) => ({
     ...item,
-    fill: (item.day in chartConfig && item.day !== "applications")
-      ? (chartConfig[item.day as keyof Omit<ChartConfigType, "applications">]).color
-      : undefined,
-  }));
+    fill:
+      item.day in chartConfig && item.day !== 'applications'
+        ? chartConfig[item.day as keyof Omit<ChartConfigType, 'applications'>].color
+        : undefined
+  }))
 
   return (
     <Card className="flex h-full flex-col">
@@ -123,19 +120,15 @@ export function DailyApplications() {
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={value =>
-                  chartConfig[value as keyof typeof chartConfig]?.label}
+                tickFormatter={(value) => chartConfig[value as keyof typeof chartConfig]?.label}
               />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
               <Bar
                 dataKey="applications"
                 strokeWidth={2}
                 radius={8}
                 activeIndex={2}
-                fill={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-1"]})`}
+                fill={`hsl(${themesConfig.activeTheme.cssVars.light['--chart-1']})`}
                 activeBar={({ ...props }) => (
                   <Rectangle
                     {...props}
@@ -152,14 +145,12 @@ export function DailyApplications() {
       </CardContent>
       <CardFooter className="flex flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this week
-          {" "}
-          <TrendingUp className="size-4" />
+          Trending up by 5.2% this week <TrendingUp className="size-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Showing daily application submissions for the current week
         </div>
       </CardFooter>
     </Card>
-  );
+  )
 }

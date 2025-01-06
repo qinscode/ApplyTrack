@@ -1,4 +1,5 @@
-import type { ChartConfig } from "@/components/ui/chart";
+import type { ChartConfig } from '@/components/ui/chart'
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 
 import {
   Card,
@@ -6,34 +7,29 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
+  CardTitle
+} from '@/components/ui/card'
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts'
 
 const chartConfig = {
   desktop: {
-    label: "Total Jobs",
-    color: "hsl(var(--chart-1))",
+    label: 'Total JobsTable',
+    color: 'hsl(var(--chart-1))'
   },
   mobile: {
-    label: "New Jobs",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
+    label: 'New JobsTable',
+    color: 'hsl(var(--chart-2))'
+  }
+} satisfies ChartConfig
 
 export function TotalJobs({ totalCount, newJobCount = 0 }) {
   const chartData = [
     {
-      month: "january",
+      month: 'january',
       desktop: totalCount,
-      mobile: newJobCount,
-    },
-  ];
+      mobile: newJobCount
+    }
+  ]
 
   return (
     <Card className="flex flex-col">
@@ -42,24 +38,13 @@ export function TotalJobs({ totalCount, newJobCount = 0 }) {
         <CardDescription>Current Market Overview</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[250px]"
-        >
-          <RadialBarChart
-            data={chartData}
-            endAngle={180}
-            innerRadius={80}
-            outerRadius={130}
-          >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+        <ChartContainer config={chartConfig} className="mx-auto aspect-square w-full max-w-[250px]">
+          <RadialBarChart data={chartData} endAngle={180} innerRadius={80} outerRadius={130}>
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                         <tspan
@@ -77,10 +62,10 @@ export function TotalJobs({ totalCount, newJobCount = 0 }) {
                           Jobs
                         </tspan>
                       </text>
-                    );
+                    )
                   }
                   // Return null for cases where viewBox is invalid
-                  return null;
+                  return null
                 }}
               />
             </PolarRadiusAxis>
@@ -103,14 +88,12 @@ export function TotalJobs({ totalCount, newJobCount = 0 }) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          {totalCount > 0
-            ? `${totalCount} Total Jobs Available`
-            : "Loading jobs..."}
+          {totalCount > 0 ? `${totalCount} Total Jobs Available` : 'Loading jobs...'}
         </div>
         <div className="leading-none text-muted-foreground">
           Jobs will be updated every 12 hours
         </div>
       </CardFooter>
     </Card>
-  );
+  )
 }

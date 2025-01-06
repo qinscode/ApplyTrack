@@ -1,8 +1,7 @@
-import { useJobList } from "./useJobList";
+import { useJobList } from './useJobList'
 
 export function useAllJobs() {
   return useJobList({
-    apiEndpoint: "/Jobs/search",
-    defaultStatus: "New",
-  });
+    apiEndpoint: '/JobsTable/search'
+  })
 }

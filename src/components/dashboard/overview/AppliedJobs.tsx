@@ -1,4 +1,5 @@
-import type { ChartConfig } from "@/components/ui/chart";
+import type { ChartConfig } from '@/components/ui/chart'
+import { ChartContainer } from '@/components/ui/chart'
 
 import {
   Card,
@@ -6,36 +7,27 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ChartContainer } from "@/components/ui/chart";
-import {
-  Label,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "recharts";
+  CardTitle
+} from '@/components/ui/card'
+import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts'
 
-export const description = "A radial chart with text";
+export const description = 'A radial chart with text'
 
 // TODO: 精投数量和海投数量的统计
 export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
-  const chartData = [
-    { browser: "applied", visitors: appliedCount, fill: "var(--color-safari)" },
-  ];
+  const chartData = [{ browser: 'applied', visitors: appliedCount, fill: 'var(--color-safari)' }]
 
-  const progressAngle = Math.min((appliedCount / totalTarget) * 360, 360) + 90;
+  const progressAngle = Math.min((appliedCount / totalTarget) * 360, 360) + 90
 
   const chartConfig = {
     visitors: {
-      label: "Applied",
+      label: 'Applied'
     },
     safari: {
-      label: "applied Jobs",
-      color: "hsl(var(--chart-2))",
-    },
-  } satisfies ChartConfig;
+      label: 'applied JobsTable',
+      color: 'hsl(var(--chart-2))'
+    }
+  } satisfies ChartConfig
 
   return (
     <Card className="flex flex-col">
@@ -44,10 +36,7 @@ export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
         <CardDescription>Application Progress</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
+        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
           <RadialBarChart
             data={chartData}
             startAngle={90}
@@ -66,8 +55,8 @@ export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
-                  if (!viewBox || !("cx" in viewBox) || !("cy" in viewBox)) {
-                    return null;
+                  if (!viewBox || !('cx' in viewBox) || !('cy' in viewBox)) {
+                    return null
                   }
 
                   return (
@@ -82,21 +71,13 @@ export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
                         y={viewBox.cy}
                         className="fill-foreground p-1 text-4xl font-bold"
                       >
-                        {chartData[0]!.visitors.toLocaleString()}
-                        {" "}
-                        /
-                        {" "}
-                        {totalTarget}
+                        {chartData[0]!.visitors.toLocaleString()} / {totalTarget}
                       </tspan>
-                      <tspan
-                        x={viewBox.cx}
-                        y={viewBox.cy! + 36}
-                        className="fill-muted-foreground"
-                      >
+                      <tspan x={viewBox.cx} y={viewBox.cy! + 36} className="fill-muted-foreground">
                         Jobs
                       </tspan>
                     </text>
-                  );
+                  )
                 }}
               />
             </PolarRadiusAxis>
@@ -105,13 +86,12 @@ export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          {appliedCount > 0 ? "Active Applications" : "No applications yet"}
+          {appliedCount > 0 ? 'Active Applications' : 'No applications yet'}
         </div>
         <div className="leading-none text-muted-foreground">
-          {Math.round((appliedCount / totalTarget) * 100)}
-          % of target reached
+          {Math.round((appliedCount / totalTarget) * 100)}% of target reached
         </div>
       </CardFooter>
     </Card>
-  );
+  )
 }

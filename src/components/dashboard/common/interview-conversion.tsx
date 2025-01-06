@@ -1,31 +1,18 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useThemesConfig } from "@/hooks/use-themes-config";
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useThemesConfig } from '@/hooks/use-themes-config'
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
-type InterviewConversionData = {
-  stage: string;
-  rate: number;
-};
+interface InterviewConversionData {
+  stage: string
+  rate: number
+}
 
-type InterviewConversionProps = {
-  data: InterviewConversionData[];
-};
+interface InterviewConversionProps {
+  data: InterviewConversionData[]
+}
 
 export function InterviewConversion({ data }: InterviewConversionProps) {
-  const { themesConfig } = useThemesConfig();
+  const { themesConfig } = useThemesConfig()
 
   return (
     <Card>
@@ -38,15 +25,15 @@ export function InterviewConversion({ data }: InterviewConversionProps) {
           <BarChart data={data} layout="vertical">
             <XAxis type="number" domain={[0, 100]} />
             <YAxis dataKey="stage" type="category" width={150} />
-            <Tooltip formatter={value => `${value}%`} />
+            <Tooltip formatter={(value) => `${value}%`} />
             <Bar
               dataKey="rate"
-              fill={`hsl(${themesConfig.activeTheme.cssVars.light["--chart-3"]})`}
+              fill={`hsl(${themesConfig.activeTheme.cssVars.light['--chart-3']})`}
               radius={[0, 4, 4, 0]}
             />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  );
+  )
 }

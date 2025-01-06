@@ -1,7 +1,7 @@
 export const pkg = {
-  name: "job-hunt",
+  name: 'job-hunt',
   repository: {
-    url: "https://github.com/yourusername/job-hunt",
-    type: "git",
-  },
-};
+    url: 'https://github.com/yourusername/job-hunt',
+    type: 'git'
+  }
+}

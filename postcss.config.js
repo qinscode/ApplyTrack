@@ -1,11 +1,17 @@
-// Please do not use the array form (like ['tailwindcss', 'postcss-preset-env'])
-// it will create an unexpected error: Invalid PostCSS Plugin found: [0]
-
-/** @type {import('postcss-load-config').Config} */
-module.exports = {
+export default {
   plugins: {
+    'postcss-preset-env': {
+      features: {
+        'nesting-rules': false,
+        'is-pseudo-class': false
+      }
+    },
+    'postcss-import': {},
+    'tailwindcss/nesting': 'postcss-nesting',
     tailwindcss: {},
     autoprefixer: {},
-    ...(process.env.NODE_ENV === "production" ? { cssnano: {} } : {}),
-  },
-};
+    'postcss-logical': {
+      preserve: true // Preserve logical properties and don't convert them
+    }
+  }
+}

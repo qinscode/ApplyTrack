@@ -1,18 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
-import jobStatusReducer from "./jobStatusSlice";
+import { configureStore } from '@reduxjs/toolkit'
+import jobStatusReducer from './jobStatusSlice'
 
 export const store = configureStore({
   reducer: {
-    jobStatus: jobStatusReducer,
+    jobStatus: jobStatusReducer
   },
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["your-action-type"],
-        ignoredPaths: ["some.path", "config.themesConfig.activeTheme"],
-      },
-    }),
-});
+        ignoredActions: ['your-action-type'],
+        ignoredPaths: ['some.path', 'config.themesConfig.activeTheme']
+      }
+    })
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

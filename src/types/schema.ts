@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const jobSchema = z.object({
   job_id: z.number(),
+  id: z.number(),
   job_title: z.string(),
   business_name: z.string(),
   work_type: z.string(),
@@ -20,7 +21,6 @@ export const jobSchema = z.object({
     'TechnicalAssessment',
     'Offered',
     'Ghosting',
-    'Pass',
     'Rejected'
   ]),
   posted_date: z.string(),

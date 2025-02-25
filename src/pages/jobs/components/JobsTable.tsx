@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-import React, { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Column, ColumnDef, Row, RowSelectionState, Table } from '@tanstack/react-table';
+import React, { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Column, ColumnDef, Row, RowSelectionState, Table } from '@tanstack/react-table'
 import {
   DataGrid,
   DataGridColumnHeader,
@@ -10,16 +9,16 @@ import {
   DataGridRowSelectAll,
   KeenIcon,
   useDataGrid
-} from '@/components';
-import { toast } from 'sonner';
-import { Input } from '@/components/ui/input.tsx';
+} from '@/components'
+import { toast } from 'sonner'
+import { Input } from '@/components/ui/input.tsx'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu.tsx';
-import type { Job } from '@/types/schema.ts';
+} from '@/components/ui/dropdown-menu.tsx'
+import type { Job } from '@/types/schema.ts'
 
 interface IColumnFilterProps<TData, TValue> {
   column: Column<TData, TValue>
@@ -136,16 +135,20 @@ const JobsTable = ({
             column={column}
           />
         ),
-        cell: ({ row, getValue }: { row: Row<Job>; getValue: () => unknown }) => (
-          <div className="flex flex-col justify-center min-h-[40px]">
-            <Link
-              className="leading-normal font-medium text-sm text-gray-900 hover:text-primary line-clamp-2 text-center"
-              to={`/jobs/${row.original.id}`}
-            >
-              {truncateText(getValue() as string, 50)}
-            </Link>
-          </div>
-        ),
+        cell: ({ row, getValue }: { row: Row<Job>; getValue: () => unknown }) => {
+          console.log('Job row original data:', row.original)
+
+          return (
+            <div className="flex flex-col justify-center min-h-[40px]">
+              <Link
+                className="leading-normal font-medium text-sm text-gray-900 hover:text-primary line-clamp-2 text-center"
+                to={`/details/${row.original.id}`}
+              >
+                {truncateText(getValue() as string, 50)}
+              </Link>
+            </div>
+          )
+        },
         meta: {
           headerClassName: 'min-w-[100px]'
         }
@@ -316,31 +319,35 @@ const JobsTable = ({
       id: 'actions',
       header: () => <></>,
       enableSorting: false,
-      cell: ({ row }: { row: Row<Job> }) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="btn btn-sm btn-icon btn-clear btn-light">
-              <KeenIcon icon="dots-horizontal" className="text-gray-500" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuItem className="cursor-pointer" asChild>
-              <Link to={`/jobs/${row.original.id}`}>
-                <KeenIcon icon="eye" className="mr-2 h-4 w-4" />
-                <span>查看详情</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              <KeenIcon icon="notepad-edit" className="mr-2 h-4 w-4" />
-              <span>编辑</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer text-red-600">
-              <KeenIcon icon="trash" className="mr-2 h-4 w-4" />
-              <span>删除</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
+      cell: ({ row }: { row: Row<Job> }) => {
+        console.log('Action row original data:', row.original)
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="btn btn-sm btn-icon btn-clear btn-light">
+                <KeenIcon icon="dots-horizontal" className="text-gray-500" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[160px]">
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link to={`/details/${row.original.id}`}>
+                  <KeenIcon icon="eye" className="mr-2 h-4 w-4" />
+                  <span>View Details</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <KeenIcon icon="notepad-edit" className="mr-2 h-4 w-4" />
+                <span>Edit</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer text-red-600">
+                <KeenIcon icon="trash" className="mr-2 h-4 w-4" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
       meta: {
         headerClassName: 'w-[50px]'
       }

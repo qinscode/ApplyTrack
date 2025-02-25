@@ -1,5 +1,6 @@
 import { statisticsApi } from '@/api'
 import { useQuery } from '@tanstack/react-query'
+import { StatusCounts } from '@/api/statistics.ts'
 
 interface FunnelStatus {
   status: string
@@ -16,7 +17,7 @@ const STATUS_LABELS = {
   offered: 'Offered'
 } as const
 
-const calculatePercentages = (counts: Record<string, number>): FunnelStatus[] => {
+const calculatePercentages = (counts: StatusCounts): FunnelStatus[] => {
   const total = counts.applied || 1
 
   return Object.entries(counts)

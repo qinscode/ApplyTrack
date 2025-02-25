@@ -28,6 +28,7 @@ interface ChartConfigType {
   fri: DayConfig
   sat: DayConfig
   sun: DayConfig
+  [key: string]: { label: string; color?: `hsl(${string})` } | DayConfig
 }
 
 export function DailyApplications() {

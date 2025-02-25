@@ -6,6 +6,7 @@ import { RequireAuth } from '@/auth/RequireAuth'
 import { MainLayout } from '@/layouts'
 import { ErrorsRouting } from '@/errors'
 import { JobsPage } from '@/pages/jobs/JobsPage'
+import Details from '@/pages/jobs/JobDetails.tsx'
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -14,6 +15,7 @@ const AppRoutingSetup = (): ReactElement => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<DefaultPage />} />
           <Route path="/jobs/:type" element={<JobsPage />} />
+          <Route path="/details/:id" element={<Details />} />
         </Route>
       </Route>
       <Route path="error/*" element={<ErrorsRouting />} />

@@ -22,6 +22,7 @@ export function adaptJob(backendJob: BackendJob): Job {
 
   return {
     job_id: backendJob.id,
+    id: backendJob.id,
     job_title: backendJob.jobTitle,
     business_name: backendJob.businessName || 'N/A',
     work_type: backendJob.workType || 'N/A',

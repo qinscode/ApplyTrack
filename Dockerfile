@@ -52,4 +52,4 @@ USER viteuser
 EXPOSE 3000
 
 # Use http-server to serve static files
-CMD ["http-server", "dist", "-p", "3000", "--cors", "--gzip", "-S"]
+CMD ["http-server", "dist", "-p", "3000", "--cors", "--gzip"]

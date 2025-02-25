@@ -75,3 +75,5 @@ local
 
 /dist
 /.yarn
+
+stats.html

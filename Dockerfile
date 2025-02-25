@@ -25,7 +25,7 @@ ENV HUSKY=0
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED=1
+# Build the application
 RUN npm install -g pnpm && \
     pnpm build
 
@@ -34,19 +34,22 @@ FROM node:${NODE_VERSION}-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HUSKY=0
 
 RUN apk add --no-cache libc6-compat && \
     addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
+    adduser --system --uid 1001 viteuser
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+# Copy build artifacts from builder
+COPY --from=builder --chown=viteuser:nodejs /app/dist ./dist
+COPY --from=builder --chown=viteuser:nodejs /app/public ./public
 
-USER nextjs
+# Install necessary server for production environment
+RUN npm install -g http-server
+
+USER viteuser
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+# Use http-server to serve static files
+CMD ["http-server", "dist", "-p", "3000", "--cors", "--gzip", "-S"]

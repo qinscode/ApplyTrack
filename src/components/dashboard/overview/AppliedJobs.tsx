@@ -33,7 +33,7 @@ export function AppliedJobs({ appliedCount = 0, totalTarget = 5 }) {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Applied Jobs</CardTitle>
-        <CardDescription>Application Progress</CardDescription>
+        <CardDescription>Today Application Progress</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">

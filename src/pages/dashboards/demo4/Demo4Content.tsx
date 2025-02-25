@@ -101,8 +101,9 @@ const Demo4Content = () => {
         setJobTypes(topJobType.data)
 
         // Fetch applied jobs
-        const appliedJobsResponse = await api.get(`/UserJobs/status/Applied`)
-        setAppliedJobs(appliedJobsResponse.data.totalCount)
+        const appliedJobsResponse = await api.get(`/Jobs/daily-counts?days=1`)
+        setAppliedJobs(appliedJobsResponse.data[0].count)
+        console.log('appliedJobsResponse', appliedJobsResponse.data[0].count)
 
         // Fetch new jobs for today
         const newJobsResponse = await api.get(`/Jobs/new`)

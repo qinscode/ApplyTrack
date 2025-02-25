@@ -32,13 +32,13 @@ const AuthPage = () => (
     {/*</Route>*/}
 
     <Route element={<AuthLayout />}>
-      {/* 使用 RequireNoAuth 保护登录和注册页面 */}
+      {/* Protect login and registration pages with RequireNoAuth */}
       <Route element={<RequireNoAuth />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Route>
 
-      {/* 其他不需要保护的认证相关页面 */}
+      {/* Other authentication related pages that don't need protection */}
       <Route path="/2fa" element={<TwoFactorAuth />} />
       <Route path="/check-email" element={<CheckEmail />} />
       <Route path="/google-callback" element={<GoogleCallback />} />

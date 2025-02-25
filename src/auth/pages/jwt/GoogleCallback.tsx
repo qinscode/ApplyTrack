@@ -145,9 +145,6 @@ export const GoogleCallback = () => {
           } catch (messageError) {
             console.error('Failed to send error message to parent window:', messageError)
           }
-
-          // // 延迟关闭窗口，让用户有机会看到错误信息
-          // setTimeout(() => window.close(), 3000)
         }
       } finally {
         setLoading(false)

@@ -57,18 +57,20 @@ const Signup = () => {
           throw new Error('JWTProvider is required for this form.')
         }
 
-        // 调用注册API
+        // Call registration API
         const auth = await register(values.email, values.password, values.changepassword)
 
-        // 注册成功后跳转到首页或指定页面
+        // Navigate to home page or specified page after successful registration
         navigate(from, { replace: true })
       } catch (error: any) {
         console.error('Registration error:', error)
-        // 显示更详细的错误信息
+        // Display more detailed error information
         if (error.response && error.response.data) {
-          setStatus(error.response.data.message || '注册失败，请检查您的信息')
+          setStatus(
+            error.response.data.message || 'Registration failed, please check your information'
+          )
         } else {
-          setStatus('注册失败，请稍后再试')
+          setStatus('Registration failed, please try again later')
         }
         setSubmitting(false)
         setLoading(false)
@@ -77,25 +79,26 @@ const Signup = () => {
   })
 
   const handleGoogleSignupSuccess = (response: any) => {
-    console.log('Google 注册成功，准备导航到:', from)
-    // 确保在导航前有一个短暂的延迟，以便其他操作完成
+    console.log('Google signup successful, preparing to navigate to:', from)
+    // Ensure a brief delay before navigation to allow other operations to complete
     setTimeout(() => {
       navigate(from, { replace: true })
-      console.log('导航已触发')
+      console.log('Navigation triggered')
     }, 100)
   }
 
   const handleGoogleSignupFailure = (error: any) => {
     console.error('Google signup failed:', error)
 
-    let errorMessage = 'Google 注册失败，请稍后再试'
+    let errorMessage = 'Google signup failed, please try again later'
 
-    // 尝试提取更详细的错误信息
+    // Try to extract more detailed error information
     if (error && error.message) {
       if (error.message.includes('localStorage')) {
-        errorMessage = 'Google 注册失败：浏览器存储问题，请确保未禁用 cookies 和本地存储'
+        errorMessage =
+          'Google signup failed: Browser storage issue, please ensure cookies and local storage are not disabled'
       } else {
-        errorMessage = `Google 注册失败：${error.message}`
+        errorMessage = `Google signup failed: ${error.message}`
       }
     }
 

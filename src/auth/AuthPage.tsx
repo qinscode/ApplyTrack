@@ -10,7 +10,6 @@ import {
   TwoFactorAuth,
   GoogleCallback
 } from './pages/jwt'
-import { AuthBrandedLayout } from '@/layouts/auth-branded'
 import { AuthLayout } from '@/layouts/auth'
 import { CheckEmail } from '@/auth/pages/jwt'
 import { RequireNoAuth } from './RequireNoAuth'

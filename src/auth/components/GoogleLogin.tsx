@@ -5,7 +5,7 @@ import { toAbsoluteUrl } from '@/utils'
 import { useAuthContext } from '@/auth/useAuthContext'
 import { AuthModel } from '@/auth'
 
-// 谷歌登录配置
+// Google login configuration
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 const GOOGLE_REDIRECT_URI = import.meta.env.VITE_GOOGLE_REDIRECT_URI || window.location.origin
 
@@ -31,7 +31,7 @@ export const GoogleLogin = ({
   const checkIntervalRef = useRef<number | null>(null)
   const { saveAuth } = useAuthContext()
 
-  // 使用弹出窗口方式进行 Google 登录
+  // Use popup window for Google login
   const handlePopupLogin = () => {
     try {
       setLoading(true)
@@ -39,7 +39,7 @@ export const GoogleLogin = ({
 
       console.log('Opening Google OAuth popup...')
 
-      // 构建 OAuth URL
+      // Build OAuth URL
       const oauthUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth')
       oauthUrl.searchParams.append('client_id', GOOGLE_CLIENT_ID)
       oauthUrl.searchParams.append('redirect_uri', GOOGLE_REDIRECT_URI)
@@ -48,13 +48,13 @@ export const GoogleLogin = ({
       oauthUrl.searchParams.append('prompt', 'select_account')
       oauthUrl.searchParams.append('access_type', 'online')
 
-      // 计算弹出窗口的位置（居中）
+      // Calculate popup window position (centered)
       const width = 500
       const height = 600
       const left = window.screenX + (window.outerWidth - width) / 2
       const top = window.screenY + (window.outerHeight - height) / 2
 
-      // 打开弹出窗口
+      // Open popup window
       popupRef.current = window.open(
         oauthUrl.toString(),
         'googleLoginPopup',
@@ -62,30 +62,30 @@ export const GoogleLogin = ({
       )
 
       if (!popupRef.current || popupRef.current.closed) {
-        throw new Error('弹出窗口被阻止，请允许浏览器弹出窗口')
+        throw new Error('Popup window was blocked, please allow browser popups')
       }
 
-      // 监听弹出窗口的关闭和消息
+      // Monitor popup window for closure and messages
       const checkPopup = () => {
         if (!popupRef.current || popupRef.current.closed) {
-          // 弹出窗口已关闭
+          // Popup window is closed
           clearInterval(checkIntervalRef.current as number)
           setLoading(false)
           return
         }
 
         try {
-          // 尝试获取弹出窗口的 URL
+          // Try to get popup window URL
           const currentUrl = popupRef.current.location.href
 
           if (currentUrl.includes(GOOGLE_REDIRECT_URI) || currentUrl.includes('callback')) {
-            // 已重定向到回调 URL
+            // Redirected to callback URL
             clearInterval(checkIntervalRef.current as number)
 
-            // 解析 URL 中的 token
+            // Parse token from URL
             let token: string | null = null
 
-            // 尝试从 URL hash 中获取 token
+            // Try to get token from URL hash
             if (popupRef.current.location.hash) {
               const hashParams = new URLSearchParams(popupRef.current.location.hash.substring(1))
               const idToken = hashParams.get('id_token')
@@ -94,7 +94,7 @@ export const GoogleLogin = ({
               token = idToken || accessToken || simpleToken
             }
 
-            // 如果没有找到 token，尝试从 URL 参数中获取
+            // If token not found, try to get from URL parameters
             if (!token) {
               const params = new URLSearchParams(popupRef.current.location.search)
               const urlToken = params.get('token')
@@ -104,41 +104,41 @@ export const GoogleLogin = ({
             }
 
             if (token) {
-              // 关闭弹出窗口
+              // Close popup window
               popupRef.current.close()
 
-              // 处理 token
+              // Process token
               handleToken(token)
             } else {
-              // 未找到 token
+              // Token not found
               popupRef.current.close()
-              setError('未能获取认证令牌')
+              setError('Failed to get authentication token')
               setLoading(false)
 
               if (onFailure) {
-                onFailure(new Error('未能获取认证令牌'))
+                onFailure(new Error('Failed to get authentication token'))
               }
             }
           }
         } catch (e) {
-          // 跨域错误，忽略
-          // 当弹出窗口导航到其他域时，会发生这种情况
+          // Cross-domain error, ignore
+          // This happens when the popup window navigates to another domain
         }
       }
 
-      // 每 500ms 检查一次弹出窗口状态
+      // Check popup window status every 500ms
       checkIntervalRef.current = window.setInterval(checkPopup, 500)
 
-      // 添加消息事件监听器，用于接收弹出窗口发送的消息
+      // Add message event listener to receive messages from popup window
       const handleMessage = (event: MessageEvent) => {
-        // 验证消息来源
+        // Verify message origin
         if (event.origin !== window.location.origin) {
           return
         }
 
         if (event.data && event.data.type === 'google-login') {
           if (event.data.token) {
-            // 处理 token
+            // Process token
             handleToken(event.data.token)
           } else if (event.data.error) {
             setError(event.data.error)
@@ -153,7 +153,7 @@ export const GoogleLogin = ({
 
       window.addEventListener('message', handleMessage)
 
-      // 清理函数
+      // Cleanup function
       return () => {
         if (checkIntervalRef.current) {
           clearInterval(checkIntervalRef.current)
@@ -165,7 +165,7 @@ export const GoogleLogin = ({
       }
     } catch (error: any) {
       console.error('Failed to open Google OAuth popup:', error)
-      setError(error.message || '无法打开登录窗口')
+      setError(error.message || 'Unable to open login window')
       setLoading(false)
 
       if (onFailure) {
@@ -174,62 +174,62 @@ export const GoogleLogin = ({
     }
   }
 
-  // 处理获取到的 token
+  // Process the received token
   const handleToken = async (token: string) => {
     try {
       console.log('Token received, calling backend API...')
       console.log('Token length:', token.length)
 
-      // 调用后端 API 验证 token
+      // Call backend API to validate token
       const response = await authApi.googleLogin(token)
 
       console.log('Backend response received')
 
       if (response && response.access_token) {
-        // 登录成功
+        // Login successful
         console.log('Authentication successful')
 
-        // 更新认证上下文
+        // Update authentication context
         const authModel: AuthModel = {
           access_token: response.access_token,
           api_token: response.access_token
         }
-        console.log('更新认证上下文...')
+        console.log('Updating authentication context...')
         saveAuth(authModel)
-        console.log('认证上下文已更新')
+        console.log('Authentication context updated')
 
-        // 尝试在本地存储 token
+        // Try to store token in local storage
         try {
           if (typeof window !== 'undefined' && window.localStorage) {
             localStorage.setItem('access_token', response.access_token)
-            console.log('Token 已保存到 localStorage')
+            console.log('Token saved to localStorage')
           }
         } catch (storageError) {
           console.error('Failed to store token in localStorage:', storageError)
-          // 继续执行，不中断登录流程
+          // Continue execution, don't interrupt login flow
         }
 
         if (onSuccess) {
-          console.log('调用 onSuccess 回调...')
+          console.log('Calling onSuccess callback...')
           onSuccess(response)
         } else {
-          console.log('准备导航到路径:', from)
+          console.log('Preparing to navigate to path:', from)
           navigate(from, { replace: true })
-          console.log('导航已触发')
+          console.log('Navigation triggered')
         }
       } else {
-        throw new Error('认证失败，未收到有效的访问令牌')
+        throw new Error('Authentication failed, no valid access token received')
       }
     } catch (error: any) {
       console.error('Google login API error:', error)
 
-      let errorMessage = '认证失败，请稍后再试'
+      let errorMessage = 'Authentication failed, please try again later'
 
       if (error.response) {
         if (error.response.data && error.response.data.message) {
-          errorMessage = `认证失败: ${error.response.data.message}`
+          errorMessage = `Authentication failed: ${error.response.data.message}`
         } else {
-          errorMessage = `认证失败 (${error.response.status}): 服务器返回错误`
+          errorMessage = `Authentication failed (${error.response.status}): Server returned an error`
         }
       } else if (error.message) {
         errorMessage = error.message
@@ -245,7 +245,7 @@ export const GoogleLogin = ({
     }
   }
 
-  // 清理弹出窗口和定时器
+  // Clean up popup window and timer
   useEffect(() => {
     return () => {
       if (checkIntervalRef.current) {
@@ -273,7 +273,7 @@ export const GoogleLogin = ({
   )
 }
 
-// 为 window 对象添加 google 类型
+// Add google type to window object
 declare global {
   interface Window {
     google?: {

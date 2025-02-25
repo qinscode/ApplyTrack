@@ -22,10 +22,6 @@ const loginSchema = Yup.object().shape({
   remember: Yup.boolean()
 })
 
-interface LoginResponse {
-  access_token: string
-}
-
 const initialValues = {
   email: 'user@example.com',
   password: 'test',
@@ -39,7 +35,6 @@ const Login = () => {
   const location = useLocation()
   const from = location.state?.from?.pathname || '/'
   const [showPassword, setShowPassword] = useState(false)
-  const { currentLayout } = useLayout()
   const [loginError, setLoginError] = useState<string | null>(null)
 
   const formik = useFormik({
@@ -66,9 +61,9 @@ const Login = () => {
       } catch (error: any) {
         console.error('Login error:', error)
         if (error.response && error.response.data) {
-          setStatus(error.response.data.message || '登录失败，请检查您的凭据')
+          setStatus(error.response.data.message || 'Login failed, please check your credentials')
         } else {
-          setStatus('登录失败，请稍后再试')
+          setStatus('Login failed, please try again later')
         }
         setSubmitting(false)
       }
@@ -77,24 +72,25 @@ const Login = () => {
   })
 
   const handleGoogleLoginSuccess = (response: any) => {
-    console.log('Google 登录成功，准备导航到:', from)
+    console.log('Google login successful, preparing to navigate to:', from)
     setTimeout(() => {
       navigate(from, { replace: true })
-      console.log('导航已触发')
+      console.log('Navigation triggered')
     }, 100)
   }
 
   const handleGoogleLoginFailure = (error: any) => {
     console.error('Google login failed:', error)
 
-    let errorMessage = 'Google 登录失败，请稍后再试'
+    let errorMessage = 'Google login failed, please try again later'
 
-    // 尝试提取更详细的错误信息
+    // Try to extract more detailed error information
     if (error && error.message) {
       if (error.message.includes('localStorage')) {
-        errorMessage = 'Google 登录失败：浏览器存储问题，请确保未禁用 cookies 和本地存储'
+        errorMessage =
+          'Google login failed: Browser storage issue, please ensure cookies and local storage are not disabled'
       } else {
-        errorMessage = `Google 登录失败：${error.message}`
+        errorMessage = `Google login failed: ${error.message}`
       }
     }
 

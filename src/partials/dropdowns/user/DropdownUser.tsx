@@ -7,6 +7,7 @@ import { toAbsoluteUrl } from '@/utils'
 import { DropdownUserLanguages } from './DropdownUserLanguages'
 import { useSettings } from '@/providers/SettingsProvider'
 import { DefaultTooltip, KeenIcon } from '@/components'
+import { useCurrentUser } from '@/hooks'
 import {
   MenuItem,
   MenuLink,
@@ -25,6 +26,7 @@ const DropdownUser = ({ menuItemRef }: IDropdownUserProps) => {
   const { settings, storeSettings } = useSettings()
   const { logout } = useAuthContext()
   const { isRTL } = useLanguage()
+  const { user, loading } = useCurrentUser()
 
   const handleThemeMode = (event: ChangeEvent<HTMLInputElement>) => {
     const newThemeMode = event.target.checked ? 'dark' : 'light'
@@ -48,13 +50,13 @@ const DropdownUser = ({ menuItemRef }: IDropdownUserProps) => {
               to="/account/hoteme/get-stard"
               className="text-sm text-gray-800 hover:text-primary font-semibold leading-none"
             >
-              Cody Fisher
+              {loading ? 'Loading...' : user?.username || 'Unknown User'}
             </Link>
             <a
-              href="mailto:c.fisher@gmail.com"
+              href={`mailto:${user?.email || ''}`}
               className="text-xs text-gray-600 hover:text-primary font-medium leading-none"
             >
-              c.fisher@gmail.com
+              {loading ? 'Loading...' : user?.email || 'Unknown Email'}
             </a>
           </div>
         </div>

@@ -15,15 +15,15 @@ export const GoogleCallback = () => {
   useEffect(() => {
     const processCallback = async () => {
       try {
-        console.log('GoogleCallback: 处理回调...')
-        console.log('当前URL:', window.location.href)
+        console.log('GoogleCallback: Processing callback...')
+        console.log('Current URL:', window.location.href)
 
-        // 尝试从 URL 获取令牌
+        // Try to get token from URL
         let token: string | null = null
 
-        // 首先尝试从 URL hash 中获取令牌
+        // First try to get token from URL hash
         if (location.hash) {
-          console.log('从 hash 中查找令牌')
+          console.log('Looking for token in hash')
           const hashParams = new URLSearchParams(location.hash.substring(1))
           const idToken = hashParams.get('id_token')
           const accessToken = hashParams.get('access_token')
@@ -31,13 +31,13 @@ export const GoogleCallback = () => {
           token = idToken || accessToken || simpleToken
 
           if (token) {
-            console.log('在 hash 中找到令牌，长度:', token.length)
+            console.log('Token found in hash, length:', token.length)
           }
         }
 
-        // 如果在 hash 中没有找到令牌，尝试从 URL 参数中获取
+        // If token not found in hash, try to get from URL parameters
         if (!token) {
-          console.log('从 URL 参数中查找令牌')
+          console.log('Looking for token in URL parameters')
           const params = new URLSearchParams(location.search)
           const urlToken = params.get('token')
           const code = params.get('code')
@@ -45,50 +45,50 @@ export const GoogleCallback = () => {
           token = urlToken || code || credential
 
           if (token) {
-            console.log('在 URL 参数中找到令牌，长度:', token.length)
+            console.log('Token found in URL parameters, length:', token.length)
           }
         }
 
-        // 检查是否找到令牌
+        // Check if token was found
         if (!token) {
-          console.error('未找到令牌')
-          throw new Error('未能获取认证令牌')
+          console.error('No token found')
+          throw new Error('Failed to get authentication token')
         }
 
-        console.log('调用后端 API 验证令牌...')
+        console.log('Calling backend API to validate token...')
 
-        // 调用后端 API 验证令牌
+        // Call backend API to validate token
         const response = await authApi.googleLogin(token)
 
-        console.log('后端响应:', response)
+        console.log('Backend response:', response)
 
         if (response && response.access_token) {
-          console.log('认证成功，准备导航或发送消息')
+          console.log('Authentication successful, preparing to navigate or send message')
 
-          // 更新认证上下文
+          // Update authentication context
           const authModel: AuthModel = {
             access_token: response.access_token,
             api_token: response.access_token
           }
-          console.log('更新认证上下文...')
+          console.log('Updating authentication context...')
           saveAuth(authModel)
-          console.log('认证上下文已更新')
+          console.log('Authentication context updated')
 
-          // 尝试在本地存储 token
+          // Try to store token in local storage
           try {
             if (typeof window !== 'undefined' && window.localStorage) {
               localStorage.setItem('access_token', response.access_token)
-              console.log('Token 已保存到 localStorage')
+              console.log('Token saved to localStorage')
             }
           } catch (storageError) {
             console.error('Failed to store token in localStorage:', storageError)
-            // 继续执行，不中断登录流程
+            // Continue execution, don't interrupt login flow
           }
 
-          // 检查是否在弹出窗口中
+          // Check if in popup window
           if (window.opener && window.opener !== window) {
-            // 在弹出窗口中，向父窗口发送消息
-            console.log('在弹出窗口中，向父窗口发送成功消息')
+            // In popup window, send message to parent window
+            console.log('In popup window, sending success message to parent window')
             try {
               window.opener.postMessage(
                 {
@@ -98,33 +98,33 @@ export const GoogleCallback = () => {
                 },
                 window.location.origin
               )
-              console.log('消息已发送到父窗口')
+              console.log('Message sent to parent window')
             } catch (messageError) {
               console.error('Failed to send message to parent window:', messageError)
             }
 
-            // 关闭弹出窗口
-            console.log('准备关闭弹出窗口')
+            // Close popup window
+            console.log('Preparing to close popup window')
             window.close()
           } else {
-            // 不在弹出窗口中，正常导航
-            console.log('不在弹出窗口中，准备导航到首页')
+            // Not in popup window, navigate normally
+            console.log('Not in popup window, preparing to navigate to home page')
             navigate('/', { replace: true })
-            console.log('导航已触发')
+            console.log('Navigation triggered')
           }
         } else {
-          throw new Error('认证失败，未收到有效的访问令牌')
+          throw new Error('Authentication failed, no valid access token received')
         }
       } catch (error: any) {
-        console.error('Google 回调处理错误:', error)
+        console.error('Google callback processing error:', error)
 
-        let errorMessage = '认证失败，请稍后再试'
+        let errorMessage = 'Authentication failed, please try again later'
 
         if (error.response) {
           if (error.response.data && error.response.data.message) {
-            errorMessage = `认证失败: ${error.response.data.message}`
+            errorMessage = `Authentication failed: ${error.response.data.message}`
           } else {
-            errorMessage = `认证失败 (${error.response.status}): 服务器返回错误`
+            errorMessage = `Authentication failed (${error.response.status}): Server returned an error`
           }
         } else if (error.message) {
           errorMessage = error.message
@@ -132,7 +132,7 @@ export const GoogleCallback = () => {
 
         setError(errorMessage)
 
-        // 如果在弹出窗口中，向父窗口发送错误消息
+        // If in popup window, send error message to parent window
         if (window.opener && window.opener !== window) {
           try {
             window.opener.postMessage(
@@ -159,17 +159,17 @@ export const GoogleCallback = () => {
       {loading ? (
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-          <p className="text-lg">正在处理 Google 登录...</p>
+          <p className="text-lg">Processing Google login...</p>
         </div>
       ) : error ? (
         <Alert variant="danger" className="max-w-md">
           <div>
-            <h4 className="font-medium mb-1">登录失败</h4>
+            <h4 className="font-medium mb-1">Login Failed</h4>
             <p>{error}</p>
           </div>
         </Alert>
       ) : (
-        <p className="text-lg">登录成功，正在跳转...</p>
+        <p className="text-lg">Login successful, redirecting...</p>
       )}
     </div>
   )

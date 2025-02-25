@@ -26,6 +26,11 @@ export const register = async (userData: {
 }
 
 export const getCurrentUser = async (): Promise<User> => {
-  const response = await api.get('/Users')
-  return response.data
+  try {
+    const response = await api.get('/Users/GetUser')
+    return response.data
+  } catch (error) {
+    console.error('Failed to fetch current user:', error)
+    throw error
+  }
 }

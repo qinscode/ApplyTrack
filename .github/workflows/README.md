@@ -25,7 +25,7 @@ The workflow consists of two main jobs:
 
 1. **build-and-deploy**:
    - Checks out the code
-   - Sets up Node.js and pnpm
+   - Sets up pnpm and Node.js
    - Generates environment variable file
    - Builds and pushes the Docker image to GHCR
 
@@ -54,4 +54,4 @@ If the deployment fails, check:
 1. Error messages in the GitHub Actions logs
 2. Ensure all necessary secrets are correctly set up
 3. Make sure the deployment server can access GHCR and has sufficient permissions to pull images
-4. Check Docker logs on the server: `docker logs jobtracker-container` 
+4. Check Docker logs on the server: `docker logs ApplyTrack-Frontend` 

@@ -6,8 +6,8 @@ pipeline {
         DOCKER_IMAGE = 'jobtracker'
         DOCKER_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = 'jobtracker-container'
-        NEXT_PUBLIC_API_URL = credentials('API_URL_SECRET')
-        NEXT_PUBLIC_GOOGLE_CLIENT_ID = credentials('VITE_GOOGLE_CLIENT_ID')
+        VITE_APP_API_URL = credentials('API_URL_SECRET')
+        VITE_GOOGLE_CLIENT_ID = credentials('VITE_GOOGLE_CLIENT_ID')
         DOCKER_BUILDKIT=1
     }
 
@@ -21,8 +21,8 @@ pipeline {
         stage('Generate .env file') {
             steps {
                 sh '''
-                    echo "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}" > .env
-                    echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=${NEXT_PUBLIC_GOOGLE_CLIENT_ID}" >> .env
+                    echo "VITE_APP_API_URL=${VITE_APP_API_URL}" > .env
+                    echo "VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}" >> .env
                 '''
             }
         }

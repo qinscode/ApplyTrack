@@ -136,11 +136,11 @@ const JobsTable = ({
             column={column}
           />
         ),
-        cell: ({ getValue }: { getValue: () => unknown }) => (
+        cell: ({ row, getValue }: { row: Row<Job>; getValue: () => unknown }) => (
           <div className="flex flex-col justify-center min-h-[40px]">
             <Link
               className="leading-normal font-medium text-sm text-gray-900 hover:text-primary line-clamp-2 text-center"
-              to="#"
+              to={`/jobs/${row.original.id}`}
             >
               {truncateText(getValue() as string, 50)}
             </Link>
@@ -324,17 +324,19 @@ const JobsTable = ({
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuItem className="cursor-pointer">
-              <KeenIcon icon="eye" className="mr-2 h-4 w-4" />
-              <span>View Details</span>
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link to={`/jobs/${row.original.id}`}>
+                <KeenIcon icon="eye" className="mr-2 h-4 w-4" />
+                <span>查看详情</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer">
               <KeenIcon icon="notepad-edit" className="mr-2 h-4 w-4" />
-              <span>Edit</span>
+              <span>编辑</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer text-red-600">
               <KeenIcon icon="trash" className="mr-2 h-4 w-4" />
-              <span>Delete</span>
+              <span>删除</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

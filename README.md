@@ -1,4 +1,4 @@
-# Job Application Tracker
+# ApplyTrack
 
 A modern web application built with React and TypeScript to help job seekers track their job applications, manage documents, and analyze their job search progress.
 

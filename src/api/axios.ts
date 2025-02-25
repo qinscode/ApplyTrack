@@ -39,14 +39,22 @@ api.interceptors.response.use(
 )
 
 export const updateToken = (newToken: string) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('access_token', newToken)
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('access_token', newToken)
+    }
+  } catch (error) {
+    console.error('Failed to store token in localStorage:', error)
   }
 }
 
 export const clearToken = () => {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('access_token')
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('access_token')
+    }
+  } catch (error) {
+    console.error('Failed to remove token from localStorage:', error)
   }
 }
 

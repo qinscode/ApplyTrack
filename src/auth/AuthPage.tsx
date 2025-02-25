@@ -7,7 +7,8 @@ import {
   ResetPasswordCheckEmail,
   ResetPasswordEnterEmail,
   Signup,
-  TwoFactorAuth
+  TwoFactorAuth,
+  GoogleCallback
 } from './pages/jwt'
 import { AuthBrandedLayout } from '@/layouts/auth-branded'
 import { AuthLayout } from '@/layouts/auth'
@@ -34,6 +35,7 @@ const AuthPage = () => (
       <Route path="/signup" element={<Signup />} />
       <Route path="/2fa" element={<TwoFactorAuth />} />
       <Route path="/check-email" element={<CheckEmail />} />
+      <Route path="/google-callback" element={<GoogleCallback />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/reset-password/enter-email" element={<ResetPasswordEnterEmail />} />
       <Route path="/reset-password/check-email" element={<ResetPasswordCheckEmail />} />

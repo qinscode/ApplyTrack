@@ -8,7 +8,7 @@ import { useAuthContext } from '../../useAuthContext'
 import { toAbsoluteUrl } from '@/utils'
 import { Alert, KeenIcon } from '@/components'
 import { useLayout } from '@/providers'
-import { authApi } from '@/api'
+import { GoogleLogin } from '@/auth/components'
 
 const initialValues = {
   email: '',
@@ -37,7 +37,6 @@ const signupSchema = Yup.object().shape({
 
 const Signup = () => {
   const [loading, setLoading] = useState(false)
-  const [googleLoading, setGoogleLoading] = useState(false)
   const { register } = useAuthContext()
   const navigate = useNavigate()
   const location = useLocation()
@@ -45,12 +44,14 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { currentLayout } = useLayout()
+  const [signupError, setSignupError] = useState<string | null>(null)
 
   const formik = useFormik({
     initialValues,
     validationSchema: signupSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true)
+      setSignupError(null)
       try {
         if (!register) {
           throw new Error('JWTProvider is required for this form.')
@@ -75,22 +76,30 @@ const Signup = () => {
     }
   })
 
-  const handleGoogleSignup = async () => {
-    try {
-      setGoogleLoading(true)
-      // 这里应该调用 Google OAuth API 获取 access_token
-      // 这里仅作为示例，实际实现需要集成 Google OAuth
-      const googleAccessToken = 'google-access-token'
+  const handleGoogleSignupSuccess = (response: any) => {
+    console.log('Google 注册成功，准备导航到:', from)
+    // 确保在导航前有一个短暂的延迟，以便其他操作完成
+    setTimeout(() => {
+      navigate(from, { replace: true })
+      console.log('导航已触发')
+    }, 100)
+  }
 
-      const response = await authApi.googleLogin(googleAccessToken)
-      if (response && response.access_token) {
-        navigate(from, { replace: true })
+  const handleGoogleSignupFailure = (error: any) => {
+    console.error('Google signup failed:', error)
+
+    let errorMessage = 'Google 注册失败，请稍后再试'
+
+    // 尝试提取更详细的错误信息
+    if (error && error.message) {
+      if (error.message.includes('localStorage')) {
+        errorMessage = 'Google 注册失败：浏览器存储问题，请确保未禁用 cookies 和本地存储'
+      } else {
+        errorMessage = `Google 注册失败：${error.message}`
       }
-    } catch (error) {
-      console.error('Google signup failed:', error)
-    } finally {
-      setGoogleLoading(false)
     }
+
+    setSignupError(errorMessage)
   }
 
   const togglePassword = (event: { preventDefault: () => void }) => {
@@ -124,18 +133,11 @@ const Signup = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-2.5">
-          <button
-            type="button"
-            className="btn btn-light btn-sm justify-center"
-            onClick={handleGoogleSignup}
-            disabled={googleLoading}
-          >
-            <img
-              src={toAbsoluteUrl('/media/brand-logos/google.svg')}
-              className="size-3.5 shrink-0"
-            />
-            {googleLoading ? 'Loading...' : 'Use Google'}
-          </button>
+          <GoogleLogin
+            buttonText="Use Google"
+            onSuccess={handleGoogleSignupSuccess}
+            onFailure={handleGoogleSignupFailure}
+          />
 
           <a href="#" className="btn btn-light btn-sm justify-center">
             <img
@@ -157,6 +159,7 @@ const Signup = () => {
         </div>
 
         {formik.status && <Alert variant="danger">{formik.status}</Alert>}
+        {signupError && <Alert variant="danger">{signupError}</Alert>}
 
         <div className="flex flex-col gap-1">
           <label className="form-label text-gray-900">Email</label>

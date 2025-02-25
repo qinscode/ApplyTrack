@@ -7,7 +7,7 @@ import { Alert, KeenIcon } from '@/components'
 import { toAbsoluteUrl } from '@/utils'
 import { useAuthContext } from '@/auth'
 import { useLayout } from '@/providers'
-import { authApi } from '@/api'
+import { GoogleLogin } from '@/auth/components'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -34,19 +34,20 @@ const initialValues = {
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
-  const [googleLoading, setGoogleLoading] = useState(false)
   const { login } = useAuthContext()
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state?.from?.pathname || '/'
   const [showPassword, setShowPassword] = useState(false)
   const { currentLayout } = useLayout()
+  const [loginError, setLoginError] = useState<string | null>(null)
 
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true)
+      setLoginError(null)
 
       try {
         if (!login) {
@@ -62,30 +63,42 @@ const Login = () => {
         }
 
         navigate(from, { replace: true })
-      } catch {
-        setStatus('The login details are incorrect')
+      } catch (error: any) {
+        console.error('Login error:', error)
+        if (error.response && error.response.data) {
+          setStatus(error.response.data.message || '登录失败，请检查您的凭据')
+        } else {
+          setStatus('登录失败，请稍后再试')
+        }
         setSubmitting(false)
       }
       setLoading(false)
     }
   })
 
-  const handleGoogleLogin = async () => {
-    try {
-      setGoogleLoading(true)
-      // 这里应该调用 Google OAuth API 获取 access_token
-      // 这里仅作为示例，实际实现需要集成 Google OAuth
-      const googleAccessToken = 'google-access-token'
+  const handleGoogleLoginSuccess = (response: any) => {
+    console.log('Google 登录成功，准备导航到:', from)
+    setTimeout(() => {
+      navigate(from, { replace: true })
+      console.log('导航已触发')
+    }, 100)
+  }
 
-      const response = await authApi.googleLogin(googleAccessToken)
-      if (response && response.access_token) {
-        navigate(from, { replace: true })
+  const handleGoogleLoginFailure = (error: any) => {
+    console.error('Google login failed:', error)
+
+    let errorMessage = 'Google 登录失败，请稍后再试'
+
+    // 尝试提取更详细的错误信息
+    if (error && error.message) {
+      if (error.message.includes('localStorage')) {
+        errorMessage = 'Google 登录失败：浏览器存储问题，请确保未禁用 cookies 和本地存储'
+      } else {
+        errorMessage = `Google 登录失败：${error.message}`
       }
-    } catch (error) {
-      console.error('Google login failed:', error)
-    } finally {
-      setGoogleLoading(false)
     }
+
+    setLoginError(errorMessage)
   }
 
   const togglePassword = (event: MouseEvent<HTMLButtonElement>) => {
@@ -111,19 +124,7 @@ const Login = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-2.5">
-          <button
-            type="button"
-            className="btn btn-light btn-sm justify-center"
-            onClick={handleGoogleLogin}
-            disabled={googleLoading}
-          >
-            <img
-              src={toAbsoluteUrl('/media/brand-logos/google.svg')}
-              className="size-3.5 shrink-0"
-              alt=""
-            />
-            {googleLoading ? 'Loading...' : 'Use Google'}
-          </button>
+          <GoogleLogin onSuccess={handleGoogleLoginSuccess} onFailure={handleGoogleLoginFailure} />
 
           <a href="#" className="btn btn-light btn-sm justify-center">
             <img
@@ -152,6 +153,7 @@ const Login = () => {
         </Alert>
 
         {formik.status && <Alert variant="danger">{formik.status}</Alert>}
+        {loginError && <Alert variant="danger">{loginError}</Alert>}
 
         <div className="flex flex-col gap-1">
           <label className="form-label text-gray-900">Email</label>

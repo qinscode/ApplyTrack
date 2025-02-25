@@ -88,6 +88,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Get first image tag
+        id: get-tag
+        run: echo "IMAGE_TAG=$(echo '${{ steps.meta.outputs.tags }}' | head -n 1)" >> $GITHUB_OUTPUT
+
       - name: Deploy Docker Container
         run: |
           # Stop and remove the existing container if it exists
@@ -100,7 +104,7 @@ jobs:
             -p 4173:3000 \
             --env-file .env \
             --restart unless-stopped \
-            ${{ steps.meta.outputs.tags | split('\n') | first }}
+            ${{ steps.get-tag.outputs.IMAGE_TAG }}
 
           # Clean up unused Docker resources
           docker system prune -af

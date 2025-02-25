@@ -28,6 +28,7 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 3000,
     rollupOptions: {
+      external: ['hoist-non-react-statics'],
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],

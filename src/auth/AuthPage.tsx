@@ -13,6 +13,7 @@ import {
 import { AuthBrandedLayout } from '@/layouts/auth-branded'
 import { AuthLayout } from '@/layouts/auth'
 import { CheckEmail } from '@/auth/pages/jwt'
+import { RequireNoAuth } from './RequireNoAuth'
 
 const AuthPage = () => (
   <Routes>
@@ -31,8 +32,13 @@ const AuthPage = () => (
     {/*</Route>*/}
 
     <Route element={<AuthLayout />}>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      {/* 使用 RequireNoAuth 保护登录和注册页面 */}
+      <Route element={<RequireNoAuth />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Route>
+
+      {/* 其他不需要保护的认证相关页面 */}
       <Route path="/2fa" element={<TwoFactorAuth />} />
       <Route path="/check-email" element={<CheckEmail />} />
       <Route path="/google-callback" element={<GoogleCallback />} />

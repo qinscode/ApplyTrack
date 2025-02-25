@@ -87,10 +87,7 @@ const Login = () => {
           <h3 className="text-lg font-semibold text-gray-900 leading-none mb-2.5">Sign in</h3>
           <div className="flex items-center justify-center font-medium">
             <span className="text-2sm text-gray-600 me-1.5">Need an account?</span>
-            <Link
-              to={currentLayout?.name === 'auth-branded' ? '/auth/signup' : '/auth/classic/signup'}
-              className="text-2sm link"
-            >
+            <Link to="/auth/signup" className="text-2sm link">
               Sign up
             </Link>
           </div>
@@ -156,14 +153,7 @@ const Login = () => {
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between gap-1">
             <label className="form-label text-gray-900">Password</label>
-            <Link
-              to={
-                currentLayout?.name === 'auth-branded'
-                  ? '/auth/reset-password'
-                  : '/auth/classic/reset-password'
-              }
-              className="text-2sm link shrink-0"
-            >
+            <Link to="/auth/reset-password" className="text-2sm link shrink-0">
               Forgot Password?
             </Link>
           </div>

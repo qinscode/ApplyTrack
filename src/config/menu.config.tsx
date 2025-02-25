@@ -8,10 +8,6 @@ export const MENU_SIDEBAR: TMenuConfig = [
       {
         title: 'Overview',
         path: '/'
-      },
-      {
-        title: 'Dark Sidebar',
-        path: '/dark-sidebar'
       }
     ]
   },
@@ -25,10 +21,6 @@ export const MENU_SIDEBAR: TMenuConfig = [
       {
         title: 'Overview',
         path: '/'
-      },
-      {
-        title: 'Dark Sidebar',
-        path: '/dark-sidebar'
       }
     ]
   },
@@ -447,112 +439,6 @@ export const MENU_SIDEBAR: TMenuConfig = [
         title: 'Donators',
         path: '/network/donators',
         disabled: true
-      }
-    ]
-  },
-  {
-    title: 'Authentication',
-    icon: 'security-user',
-    children: [
-      {
-        title: 'Classic',
-        children: [
-          {
-            title: 'Sign In',
-            path: '/auth/classic/login'
-          },
-          {
-            title: 'Sign Up',
-            path: '/auth/classic/signup'
-          },
-          {
-            title: '2FA',
-            path: '/auth/classic/2fa'
-          },
-          {
-            title: 'Check Email',
-            path: '/auth/classic/check-email'
-          },
-          {
-            title: 'Reset Password',
-            children: [
-              {
-                title: 'Enter Email',
-                path: '/auth/classic/reset-password/enter-email'
-              },
-              {
-                title: 'Check Email',
-                path: '/auth/classic/reset-password/check-email'
-              },
-              {
-                title: 'Change Password',
-                path: '/auth/classic/reset-password/change'
-              },
-              {
-                title: 'Password Changed',
-                path: '/auth/classic/reset-password/changed'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: 'Branded',
-        children: [
-          {
-            title: 'Sign In',
-            path: '/auth/login'
-          },
-          {
-            title: 'Sign Up',
-            path: '/auth/signup'
-          },
-          {
-            title: '2FA',
-            path: '/auth/2fa'
-          },
-          {
-            title: 'Check Email',
-            path: '/auth/check-email'
-          },
-          {
-            title: 'Reset Password',
-            children: [
-              {
-                title: 'Enter Email',
-                path: '/auth/reset-password/enter-email'
-              },
-              {
-                title: 'Check Email',
-                path: '/auth/reset-password/check-email'
-              },
-              {
-                title: 'Change Password',
-                path: '/auth/reset-password/change'
-              },
-              {
-                title: 'Password Changed',
-                path: '/auth/reset-password/changed'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: 'Welcome Message',
-        path: '/auth/welcome-message'
-      },
-      {
-        title: 'Account Deactivated',
-        path: '/auth/account-deactivated'
-      },
-      {
-        title: 'Error 404',
-        path: '/error/404'
-      },
-      {
-        title: 'Error 500',
-        path: '/error/500'
       }
     ]
   },

@@ -60,15 +60,8 @@ storybook-static
 /build
 
 # misc
-.DS_Store
 *.pem
 Thumbs.db
-
-# debug
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # local env files
 .env*.local

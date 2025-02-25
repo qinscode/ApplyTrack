@@ -63,7 +63,7 @@ const SidebarHeader = forwardRef<HTMLDivElement, any>((props, ref) => {
           >
             <MenuLabel className="cursor-pointer text-gray-900 font-medium grow justify-between">
               <span className="text-base font-medium text-gray-900 grow justify-start">
-                HireDingo
+                ApplyTrack
               </span>
               <MenuArrow>
                 <KeenIcon icon="down" />

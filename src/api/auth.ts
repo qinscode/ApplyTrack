@@ -6,12 +6,12 @@ export const login = async (email: string, password: string) => {
     password
   })
 
-  if (!response.data.token) {
+  if (!response.data.access_token) {
     throw new Error('No token received from server')
   }
 
-  const { token } = response.data
-  updateToken(token)
+  const { access_token } = response.data
+  updateToken(access_token)
   return response.data
 }
 
@@ -19,11 +19,27 @@ export const googleLogin = async (accessToken: string) => {
   const response = await api.post('/auth/google', {
     access_token: accessToken
   })
-  const { token } = response.data
-  updateToken(token)
+  const { access_token } = response.data
+  updateToken(access_token)
+  return response.data
+}
+
+export const register = async (username: string, email: string, password: string) => {
+  const response = await api.post('/auth/register', {
+    username,
+    email,
+    password
+  })
+
+  if (!response.data.access_token) {
+    throw new Error('No token received from server')
+  }
+
+  const { access_token } = response.data
+  updateToken(access_token)
   return response.data
 }
 
 export const logout = () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('access_token')
 }

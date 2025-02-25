@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { toAbsoluteUrl } from '@/utils'
 
 const CheckEmail = () => {
+  const location = useLocation()
+  const email = new URLSearchParams(location.search).get('email') || 'your email'
+
   return (
     <div className="card max-w-[440px] w-full">
       <div className="card-body p-10">
@@ -23,7 +26,7 @@ const CheckEmail = () => {
         <div className="text-2sm text-center text-gray-700 mb-7.5">
           Please click the link sent to your email&nbsp;
           <a href="#" className="text-2sm text-gray-900 font-medium hover:text-primary-active">
-            bob@keenthemes.com
+            {email}
           </a>
           <br />
           to verify your account. Thank you
@@ -36,8 +39,8 @@ const CheckEmail = () => {
         </div>
 
         <div className="flex items-center justify-center gap-1">
-          <span className="text-xs text-gray-700">Didn’t receive an email?</span>
-          <Link to="/auth/classic/login" className="text-xs font-medium link">
+          <span className="text-xs text-gray-700">Didn't receive an email?</span>
+          <Link to="/auth/login" className="text-xs font-medium link">
             Resend
           </Link>
         </div>

@@ -40,13 +40,13 @@ api.interceptors.response.use(
 
 export const updateToken = (newToken: string) => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem('token', newToken)
+    localStorage.setItem('access_token', newToken)
   }
 }
 
 export const clearToken = () => {
   if (typeof window !== 'undefined') {
-    localStorage.removeItem('token')
+    localStorage.removeItem('access_token')
   }
 }
 

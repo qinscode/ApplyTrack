@@ -8,6 +8,7 @@ import { useAuthContext } from '../../useAuthContext'
 import { toAbsoluteUrl } from '@/utils'
 import { Alert, KeenIcon } from '@/components'
 import { useLayout } from '@/providers'
+import { authApi } from '@/api'
 
 const initialValues = {
   email: '',
@@ -23,11 +24,11 @@ const signupSchema = Yup.object().shape({
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(6, 'Minimum 6 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Password is required'),
   changepassword: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(6, 'Minimum 6 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Password confirmation is required')
     .oneOf([Yup.ref('password')], "Password and Confirm Password didn't match"),
@@ -36,6 +37,7 @@ const signupSchema = Yup.object().shape({
 
 const Signup = () => {
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
   const { register } = useAuthContext()
   const navigate = useNavigate()
   const location = useLocation()
@@ -53,16 +55,43 @@ const Signup = () => {
         if (!register) {
           throw new Error('JWTProvider is required for this form.')
         }
-        await register(values.email, values.password, values.changepassword)
+
+        // 调用注册API
+        const auth = await register(values.email, values.password, values.changepassword)
+
+        // 注册成功后跳转到首页或指定页面
         navigate(from, { replace: true })
-      } catch (error) {
-        console.error(error)
-        setStatus('The sign up details are incorrect')
+      } catch (error: any) {
+        console.error('Registration error:', error)
+        // 显示更详细的错误信息
+        if (error.response && error.response.data) {
+          setStatus(error.response.data.message || '注册失败，请检查您的信息')
+        } else {
+          setStatus('注册失败，请稍后再试')
+        }
         setSubmitting(false)
         setLoading(false)
       }
     }
   })
+
+  const handleGoogleSignup = async () => {
+    try {
+      setGoogleLoading(true)
+      // 这里应该调用 Google OAuth API 获取 access_token
+      // 这里仅作为示例，实际实现需要集成 Google OAuth
+      const googleAccessToken = 'google-access-token'
+
+      const response = await authApi.googleLogin(googleAccessToken)
+      if (response && response.access_token) {
+        navigate(from, { replace: true })
+      }
+    } catch (error) {
+      console.error('Google signup failed:', error)
+    } finally {
+      setGoogleLoading(false)
+    }
+  }
 
   const togglePassword = (event: { preventDefault: () => void }) => {
     event.preventDefault()
@@ -95,13 +124,18 @@ const Signup = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-2.5">
-          <a href="#" className="btn btn-light btn-sm justify-center">
+          <button
+            type="button"
+            className="btn btn-light btn-sm justify-center"
+            onClick={handleGoogleSignup}
+            disabled={googleLoading}
+          >
             <img
               src={toAbsoluteUrl('/media/brand-logos/google.svg')}
               className="size-3.5 shrink-0"
             />
-            Use Google
-          </a>
+            {googleLoading ? 'Loading...' : 'Use Google'}
+          </button>
 
           <a href="#" className="btn btn-light btn-sm justify-center">
             <img

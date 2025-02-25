@@ -9,7 +9,7 @@ interface EmailAnalysisResponse {
 export const emailAnalysisApi = {
   getAnalysis: async (pageNumber: number, pageSize: number): Promise<EmailAnalysisResponse> => {
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('access_token')
       const response = await api.get<EmailAnalysisResponse>(`/emailanalysis`, {
         params: {
           pageNumber,
@@ -28,7 +28,7 @@ export const emailAnalysisApi = {
 
   analyzeEmails: async (): Promise<void> => {
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('access_token')
       await api.post(
         '/emailconfig/scan-incremental',
         {},
@@ -46,7 +46,7 @@ export const emailAnalysisApi = {
 
   updateStatus: async (jobId: number, newStatus: Job['status']): Promise<void> => {
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('access_token')
       await api.put(
         `/emailanalysis/${jobId}/status`,
         { status: newStatus },
@@ -64,7 +64,7 @@ export const emailAnalysisApi = {
 
   search: async (searchTerm: string): Promise<EmailAnalysisResponse> => {
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('access_token')
       const response = await api.get<EmailAnalysisResponse>(`/emailanalysis/search`, {
         params: {
           searchTerm: encodeURIComponent(searchTerm)

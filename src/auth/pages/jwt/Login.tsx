@@ -7,6 +7,7 @@ import { Alert, KeenIcon } from '@/components'
 import { toAbsoluteUrl } from '@/utils'
 import { useAuthContext } from '@/auth'
 import { useLayout } from '@/providers'
+import { authApi } from '@/api'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -33,6 +34,7 @@ const initialValues = {
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
   const { login } = useAuthContext()
   const navigate = useNavigate()
   const location = useLocation()
@@ -53,9 +55,6 @@ const Login = () => {
 
         const auth = await login(values.email, values.password)
 
-        // 直接使用 auth.access_token
-        localStorage.setItem('access_token', auth.access_token)
-
         if (values.remember) {
           localStorage.setItem('email', values.email)
         } else {
@@ -70,6 +69,24 @@ const Login = () => {
       setLoading(false)
     }
   })
+
+  const handleGoogleLogin = async () => {
+    try {
+      setGoogleLoading(true)
+      // 这里应该调用 Google OAuth API 获取 access_token
+      // 这里仅作为示例，实际实现需要集成 Google OAuth
+      const googleAccessToken = 'google-access-token'
+
+      const response = await authApi.googleLogin(googleAccessToken)
+      if (response && response.access_token) {
+        navigate(from, { replace: true })
+      }
+    } catch (error) {
+      console.error('Google login failed:', error)
+    } finally {
+      setGoogleLoading(false)
+    }
+  }
 
   const togglePassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -94,14 +111,19 @@ const Login = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-2.5">
-          <a href="#" className="btn btn-light btn-sm justify-center">
+          <button
+            type="button"
+            className="btn btn-light btn-sm justify-center"
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+          >
             <img
               src={toAbsoluteUrl('/media/brand-logos/google.svg')}
               className="size-3.5 shrink-0"
               alt=""
             />
-            Use Google
-          </a>
+            {googleLoading ? 'Loading...' : 'Use Google'}
+          </button>
 
           <a href="#" className="btn btn-light btn-sm justify-center">
             <img

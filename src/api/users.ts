@@ -6,8 +6,7 @@ interface User {
 }
 
 interface RegisterResponse {
-  user: User
-  token: string
+  access_token: string
 }
 
 export const getUsers = async (): Promise<User[]> => {
@@ -21,9 +20,9 @@ export const register = async (userData: {
   password: string
 }): Promise<RegisterResponse> => {
   const response = await api.post('/auth/register', userData)
-  const { user, token } = response.data
-  updateToken(token)
-  return { user, token }
+  const { access_token } = response.data
+  updateToken(access_token)
+  return response.data
 }
 
 export const getCurrentUser = async (): Promise<User> => {

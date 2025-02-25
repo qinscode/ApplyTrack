@@ -14,6 +14,16 @@ const getAuth = (): AuthModel | undefined => {
     if (auth) {
       return auth
     } else {
+      // 尝试从 localStorage 中获取 access_token
+      const access_token = localStorage.getItem('access_token')
+      if (access_token) {
+        const newAuth: AuthModel = {
+          access_token,
+          api_token: access_token
+        }
+        setAuth(newAuth)
+        return newAuth
+      }
       return undefined
     }
   } catch (error) {
@@ -23,6 +33,11 @@ const getAuth = (): AuthModel | undefined => {
 
 const setAuth = (auth: AuthModel | Auth0UserModel) => {
   setData(AUTH_LOCAL_STORAGE_KEY, auth)
+
+  // 同时在 localStorage 中存储 access_token，以便其他组件使用
+  if ('access_token' in auth && auth.access_token) {
+    localStorage.setItem('access_token', auth.access_token)
+  }
 }
 
 const removeAuth = () => {
@@ -32,6 +47,7 @@ const removeAuth = () => {
 
   try {
     localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY)
+    localStorage.removeItem('access_token')
   } catch (error) {
     console.error('AUTH LOCAL STORAGE REMOVE ERROR', error)
   }

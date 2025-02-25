@@ -1,4 +1,4 @@
-name: Deploy JobTracker
+name: Deploy ApplyTrack
 
 on:
   push:
@@ -10,11 +10,10 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  CONTAINER_NAME: jobtracker-container
   DOCKER_BUILDKIT: 1
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,12 +41,6 @@ jobs:
           pnpm --version
           echo "Docker version:"
           docker --version
-
-      - name: Generate .env file
-        run: |
-          # Create environment variables from GitHub secrets
-          echo "VITE_APP_API_URL=${{ secrets.API_URL_SECRET }}" > .env
-          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}" >> .env
 
       #      - name: Lint and Format
       #        run: |
@@ -88,39 +81,69 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Get first image tag
-        id: get-tag
-        run: echo "IMAGE_TAG=$(echo '${{ steps.meta.outputs.tags }}' | head -n 1)" >> $GITHUB_OUTPUT
-
-      - name: Deploy Docker Container
+        id: get-image
         run: |
-          # Stop and remove the existing container if it exists
-          docker stop ${{ env.CONTAINER_NAME }} || true
-          docker rm ${{ env.CONTAINER_NAME }} || true
+          echo "IMAGE_TAG=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]'):${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-          # Run the new container using the image from GHCR
-          docker run -d \
-            --name ${{ env.CONTAINER_NAME }} \
-            -p 4173:3000 \
-            --env-file .env \
-            --restart unless-stopped \
-            ${{ steps.get-tag.outputs.IMAGE_TAG }}
-
-          # Clean up unused Docker resources
-          docker system prune -af
-
-          echo "Waiting for container to start..."
-          sleep 10
-
-          # Verify that the container is running properly
-          if ! docker ps | grep -q ${{ env.CONTAINER_NAME }}; then
-            echo "Container failed to start"
-            exit 1
-          fi
-
-      - name: Clean up on failure
-        if: failure()
+      - name: Generate .env file
         run: |
-          # Clean up resources if any step fails
-          docker stop ${{ env.CONTAINER_NAME }} || true
-          docker rm ${{ env.CONTAINER_NAME }} || true
+          # Create .env file with secrets
+          echo "VITE_APP_API_URL=${{ secrets.API_URL_SECRET }}" > .env
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}" >> .env
+
+      - name: Copy .env file to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: .env
+          target: ~/applytrack/
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            # Create directory if it doesn't exist
+            mkdir -p ~/applytrack
+            cd ~/applytrack
+            
+            # Login to GitHub Container Registry
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            # Pull the image
+            docker pull ghcr.io/${{ steps.get-image.outputs.IMAGE_TAG }}
+            
+            # Stop and remove existing container
+            docker stop applytrack-container || true
+            docker rm applytrack-container || true
+            
+            # Run new container
+            docker run -d \
+              --name applytrack-container \
+              -p 4173:3000 \
+              --env-file .env \
+              --restart unless-stopped \
+              ghcr.io/${{ steps.get-image.outputs.IMAGE_TAG }}
+            
+            # Clean up
+            docker system prune -af
+            
+            # Verify container is running
+            if ! docker ps | grep -q applytrack-container; then
+              echo "Container failed to start"
+              exit 1
+            fi
+            
+            echo "Deployment successful"

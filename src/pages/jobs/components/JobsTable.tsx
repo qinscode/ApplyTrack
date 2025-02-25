@@ -388,7 +388,7 @@ const JobsTable = ({
           <DataGridColumnVisibility table={table} />
           <label className="switch switch-sm">
             <input name="check" type="checkbox" value="1" className="order-2" readOnly />
-            <span className="switch-label order-1">Only Active JobsTable</span>
+            <span className="switch-label order-1">Only Show Active Jobs</span>
           </label>
         </div>
       </div>

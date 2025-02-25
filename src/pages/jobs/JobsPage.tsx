@@ -14,6 +14,26 @@ const JOBS_CONFIG = {
     apiEndpoint: '/UserJobs/status/applied',
     hideStatus: false
   },
+  interviewing: {
+    apiEndpoint: '/UserJobs/status/interviewing',
+    hideStatus: false
+  },
+  archived: {
+    apiEndpoint: '/UserJobs/status/archived',
+    hideStatus: false
+  },
+  assessment: {
+    apiEndpoint: '/UserJobs/status/technicalassessment',
+    hideStatus: false
+  },
+  offered: {
+    apiEndpoint: '/UserJobs/status/offered',
+    hideStatus: false
+  },
+  rejected: {
+    apiEndpoint: '/UserJobs/status/rejected',
+    hideStatus: false
+  },
   new: {
     apiEndpoint: '/Jobs/new',
     hideStatus: false

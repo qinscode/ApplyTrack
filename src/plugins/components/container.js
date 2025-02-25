@@ -11,11 +11,11 @@ export default plugin(({ addComponents, theme }) => {
     },
     [`@media (min-width: ${theme('screens.xl')})`]: {
       '.container-fixed': {
-        'margin-inline-start': 'auto',  // Logical property for LTR/RTL
-        'margin-inline-end': 'auto',    // Logical property for LTR/RTL
+        // 'margin-inline-start': 'auto',  // Logical property for LTR/RTL
+        // 'margin-inline-end': 'auto',    // Logical property for LTR/RTL
         'padding-inline-start': theme('custom.components.container.fixed.px.xl'),  // Logical property for LTR/RTL
         'padding-inline-end': theme('custom.components.container.fixed.px.xl'),    // Logical property for LTR/RTL
-        'max-width': theme('custom.components.container.fixed')['max-width'],
+        // 'max-width': theme('custom.components.container.fixed')['max-width'],
       },
     },
   });

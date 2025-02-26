@@ -3,14 +3,21 @@ import { toAbsoluteUrl } from '@/utils'
 import { useAuthContext } from '@/auth'
 import { KeenIcon, Menu, MenuIcon, MenuItem, MenuToggle } from '@/components'
 import { DropdownUser } from '@/partials/dropdowns/user'
-import { DropdownNotifications } from '@/partials/dropdowns/notifications'
 import { useLanguage } from '@/i18n'
+import { useCurrentUser } from '@/hooks'
 
 const SidebarFooter = forwardRef<HTMLDivElement, any>((props, ref) => {
   const { logout } = useAuthContext()
   const itemNotificationsRef = useRef<any>(null)
   const itemUserRef = useRef<any>(null)
   const { isRTL } = useLanguage()
+  const { user, loading } = useCurrentUser()
+  const getUserInitial = () => {
+    if (loading || !user?.username) {
+      return '?'
+    }
+    return user.username.charAt(0).toUpperCase()
+  }
 
   return (
     <div ref={ref} className="flex flex-center justify-between shrink-0 ps-4 pe-3.5 mb-3.5">
@@ -32,11 +39,9 @@ const SidebarFooter = forwardRef<HTMLDivElement, any>((props, ref) => {
           }}
         >
           <MenuToggle className="btn btn-icon rounded-full">
-            <img
-              className="size-8 rounded-full justify-center border border-gray-500 shrink-0"
-              src={toAbsoluteUrl('/media/avatars/gray/5.png')}
-              alt=""
-            />
+            <div className="size-9 rounded-full border-2 border-success flex items-center justify-center bg-primary text-white font-bold">
+              {getUserInitial()}
+            </div>
           </MenuToggle>
           {DropdownUser({ menuItemRef: itemUserRef })}
         </MenuItem>
@@ -59,12 +64,7 @@ const SidebarFooter = forwardRef<HTMLDivElement, any>((props, ref) => {
                 }
               ]
             }}
-          >
-            <MenuToggle className="btn btn-icon btn-icon-lg relative size-8 hover:bg-light hover:text-primary dropdown-open:bg-gray-200 text-gray-600">
-              <KeenIcon icon="notification-status" />
-            </MenuToggle>
-            {DropdownNotifications({ menuTtemRef: itemNotificationsRef })}
-          </MenuItem>
+          ></MenuItem>
 
           <MenuItem
             toggle="dropdown"

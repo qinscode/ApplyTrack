@@ -2,10 +2,10 @@ import { KeenIcon } from '@/components'
 import { Container } from '@/components/container'
 import { toAbsoluteUrl } from '@/utils'
 import { Link } from 'react-router-dom'
-import { useDemo6Layout } from '../index.ts'
+import { useLayoutContext } from '../index.ts'
 
 const Header = () => {
-  const { setMobileSidebarOpen } = useDemo6Layout()
+  const { setMobileSidebarOpen } = useLayoutContext()
 
   const handleMobileSidebarOpen = () => {
     setMobileSidebarOpen(true)
@@ -18,10 +18,12 @@ const Header = () => {
           <img
             src={toAbsoluteUrl('/media/app/mini-logo-gray.svg')}
             className="dark:hidden min-h-[30px]"
+            alt="logo"
           />
           <img
             src={toAbsoluteUrl('/media/app/mini-logo-gray-dark.svg')}
             className="hidden dark:block min-h-[30px]"
+            alt="logo-dark"
           />
         </Link>
 

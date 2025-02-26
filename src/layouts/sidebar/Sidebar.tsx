@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useResponsive, useViewport } from '@/hooks'
-import { useDemo6Layout } from '../index.ts'
+import { useLayoutContext } from '../index.ts'
 import { SidebarFooter, SidebarHeader, SidebarMenu } from './index.ts'
 import { getHeight } from '@/utils'
 import { usePathname } from '@/providers'
@@ -18,7 +18,7 @@ const Sidebar = () => {
   const desktopMode = useResponsive('up', 'lg')
   const { pathname, prevPathname } = usePathname()
   const [viewportHeight] = useViewport()
-  const { mobileSidebarOpen, setMobileSidebarOpen } = useDemo6Layout()
+  const { mobileSidebarOpen, setMobileSidebarOpen } = useLayoutContext()
   const [scrollableHeight, setScrollableHeight] = useState<number>(0)
   const scrollableOffset = 50
 

@@ -15,12 +15,7 @@ export const MENU_SIDEBAR: TMenuConfig = [
   {
     title: 'Dashboard',
     icon: 'element-11',
-    children: [
-      {
-        title: 'Overview',
-        path: '/'
-      }
-    ]
+    path: '/'
   },
   {
     title: 'Jobs',
@@ -73,6 +68,16 @@ export const MENU_SIDEBAR: TMenuConfig = [
         icon: 'x-circle'
       }
     ]
+  },
+  {
+    title: 'Resume Manager',
+    icon: 'document',
+    path: '/resume'
+  },
+  {
+    title: 'Interview Prep',
+    icon: 'clipboard',
+    path: '/interview-checklist'
   },
   // {
   //   title: 'Public Profile',

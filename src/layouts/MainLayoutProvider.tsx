@@ -23,6 +23,7 @@ const initalLayoutProps: ILayoutProviderProps = {
 const LayoutContext = createContext<ILayoutProviderProps>(initalLayoutProps)
 
 // Custom hook to access the layout context in other components
+// eslint-disable-next-line react-refresh/only-export-components
 export const useLayoutContext = () => useContext(LayoutContext)
 
 // Provider component that sets up the layout state and context for  layout

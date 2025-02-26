@@ -7,6 +7,8 @@ import { MainLayout } from '@/layouts'
 import { ErrorsRouting } from '@/errors'
 import { JobsPage } from '@/pages/jobs/JobsPage'
 import Details from '@/pages/jobs/JobDetails.tsx'
+import { ResumePage } from '@/pages/resume'
+import { InterviewChecklistPage } from '@/pages/interview'
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -16,6 +18,8 @@ const AppRoutingSetup = (): ReactElement => {
           <Route path="/" element={<DefaultPage />} />
           <Route path="/jobs/:type" element={<JobsPage />} />
           <Route path="/details/:id" element={<Details />} />
+          <Route path="/resume" element={<ResumePage />} />
+          <Route path="/interview-checklist" element={<InterviewChecklistPage />} />
         </Route>
       </Route>
       <Route path="error/*" element={<ErrorsRouting />} />

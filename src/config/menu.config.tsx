@@ -69,6 +69,16 @@ export const MENU_SIDEBAR: TMenuConfig = [
       }
     ]
   },
+  {
+    title: 'Resume Manager',
+    icon: 'document-text',
+    path: '/resume'
+  },
+  {
+    title: 'Interview Prep',
+    icon: 'clipboard-tick',
+    path: '/interview-checklist'
+  },
   // {
   //   title: 'Public Profile',
   //   icon: 'profile-circle',

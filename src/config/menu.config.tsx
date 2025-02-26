@@ -15,12 +15,7 @@ export const MENU_SIDEBAR: TMenuConfig = [
   {
     title: 'Dashboard',
     icon: 'element-11',
-    children: [
-      {
-        title: 'Overview',
-        path: '/'
-      }
-    ]
+    path: '/'
   },
   {
     title: 'Jobs',

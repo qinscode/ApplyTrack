@@ -14,21 +14,21 @@ import React, {
   useState
 } from 'react'
 import useResponsiveProp from '@/hooks/useResponsiveProp'
-import { useMatchPath } from '../../hooks/useMatchPath'
+import { useMatchPath } from '@/hooks'
 import {
-  IMenuItemRef,
   IMenuItemProps,
+  IMenuItemRef,
   IMenuLabelProps,
   IMenuLinkProps,
   IMenuSubProps,
+  IMenuToggleProps,
   MenuHeading,
   MenuLabel,
   MenuLink,
   MenuSub,
+  MenuToggle,
   TMenuToggle,
   TMenuTrigger,
-  IMenuToggleProps,
-  MenuToggle,
   useMenu
 } from './'
 import { usePathname } from '@/providers'
@@ -306,7 +306,7 @@ const MenuItemComponent = forwardRef<IMenuItemRef | null, IMenuItemProps>(
     }
 
     const renderChildren = () => {
-      const modifiedChildren = Children.map(children, (child) => {
+      return Children.map(children, (child) => {
         if (isValidElement(child)) {
           if (child.type === MenuLink) {
             return renderLink(child)
@@ -325,8 +325,6 @@ const MenuItemComponent = forwardRef<IMenuItemRef | null, IMenuItemProps>(
 
         return child
       })
-
-      return modifiedChildren
     }
 
     useImperativeHandle(

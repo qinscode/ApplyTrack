@@ -2,14 +2,15 @@
 <html class="h-full" lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-		<link rel="icon" href="/media/app/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ApplyTrack - Job Application Tracking System</title>
+    <link rel="icon" href="/media/app/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="ApplyTrack - Job Application Tracking System" />
-		<meta name="keywords" content="job tracking,application,dashboard,job search,career" />
-		<meta name="author" content="ApplyTrack" />
+    <meta name="keywords" content="job tracking,application,dashboard,job search,career" />
+    <meta name="author" content="ApplyTrack" />
     
     <!-- Preload critical resources -->
-    <link rel="modulepreload" href="/src/main.tsx" as="script" crossorigin />
+    <link rel="modulepreload" href="/src/main.tsx" as="script" />
     
     <!-- Optimize font loading -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap" />    
     
     <!-- Inline critical CSS -->
-    <style type="text/css">
+    <style>
       /* Basic styles for critical rendering path */
       body {
         margin: 0;
@@ -44,6 +45,6 @@
         <div>Loading...</div>
       </div>
     </div> 
-    <script type="module" src="/src/main.tsx" fetchpriority="high" crossorigin></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>  
 </html>

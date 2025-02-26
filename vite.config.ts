@@ -33,7 +33,8 @@ function optimizePreloadPlugin(): Plugin {
         const preloadTags = criticalScripts
           .map((chunk) => {
             const fileName = chunk.fileName
-            return `<link rel="preload" href="${fileName}" as="script" fetchpriority="high" crossorigin />`
+            // Use standard preload without non-standard attributes
+            return `<link rel="preload" href="${fileName}" as="script" />`
           })
           .join('\n')
 

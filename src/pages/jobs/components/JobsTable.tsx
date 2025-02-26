@@ -136,8 +136,6 @@ const JobsTable = ({
           />
         ),
         cell: ({ row, getValue }: { row: Row<Job>; getValue: () => unknown }) => {
-          console.log('Job row original data:', row.original)
-
           return (
             <div className="flex flex-col justify-center min-h-[40px]">
               <Link
@@ -320,8 +318,6 @@ const JobsTable = ({
       header: () => <></>,
       enableSorting: false,
       cell: ({ row }: { row: Row<Job> }) => {
-        console.log('Action row original data:', row.original)
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

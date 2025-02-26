@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
 import { AuthLayoutProvider } from './AuthLayoutProvider'
-import { toAbsoluteUrl } from '@/utils'
 import useBodyClasses from '@/hooks/useBodyClasses'
 import { Fragment } from 'react'
 
@@ -10,16 +9,16 @@ const Layout = () => {
 
   return (
     <Fragment>
-      <style>
-        {`
-          .page-bg {
-            background-image: url('${toAbsoluteUrl('/media/images/2600x1200/bg-10.png')}');
-          }
-          .dark .page-bg {
-            background-image: url('${toAbsoluteUrl('/media/images/2600x1200/bg-10-dark.png')}');
-          }
-        `}
-      </style>
+      {/*<style>*/}
+      {/*  {`*/}
+      {/*    .page-bg {*/}
+      {/*      background-image: url('${toAbsoluteUrl('/media/images/2600x1200/bg-10.png')}');*/}
+      {/*    }*/}
+      {/*    .dark .page-bg {*/}
+      {/*      background-image: url('${toAbsoluteUrl('/media/images/2600x1200/bg-10-dark.png')}');*/}
+      {/*    }*/}
+      {/*  `}*/}
+      {/*</style>*/}
       <div className="flex items-center justify-center grow bg-center bg-no-repeat page-bg">
         <Outlet />
       </div>

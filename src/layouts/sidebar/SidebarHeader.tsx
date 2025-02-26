@@ -34,14 +34,15 @@ const SidebarHeader = forwardRef<HTMLDivElement, any>((props, ref) => {
     <div ref={ref}>
       <div className="flex items-center gap-2.5 px-3.5 h-[70px]">
         <Link to="/">
-          <img
-            src={toAbsoluteUrl('/media/app/mini-logo-circle.svg')}
-            className="dark:hidden h-[42px]"
-          />
-          <img
-            src={toAbsoluteUrl('/media/app/mini-logo-circle-dark.svg')}
-            className="hidden dark:inline-block h-[42px]"
-          />
+          {/*<img*/}
+          {/*  src={toAbsoluteUrl('/media/app/mini-logo-circle.svg')}*/}
+          {/*  className="dark:hidden h-[42px]"*/}
+          {/*/>*/}
+          <img src={toAbsoluteUrl('/media/app/mini-logo.svg')} className="h-[30px]" />
+          {/*<img*/}
+          {/*  src={toAbsoluteUrl('/media/app/mini-logo-circle-dark.svg')}*/}
+          {/*  className="hidden dark:inline-block h-[42px]"*/}
+          {/*/>*/}
         </Link>
 
         <Menu className="menu-default grow">

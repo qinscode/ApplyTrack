@@ -3,8 +3,6 @@ import { toAbsoluteUrl } from '@/utils'
 import { useLayout } from '@/providers'
 
 const ResetPasswordChanged = () => {
-  const { currentLayout } = useLayout()
-
   return (
     <div className="card max-w-[440px] w-full">
       <div className="card-body p-10">
@@ -31,10 +29,7 @@ const ResetPasswordChanged = () => {
         </div>
 
         <div className="flex justify-center">
-          <Link
-            to={currentLayout?.name === 'auth-branded' ? '/auth/login' : '/auth/classic/login'}
-            className="btn btn-primary"
-          >
+          <Link to="/auth/login" className="btn btn-primary">
             Sign in
           </Link>
         </div>

@@ -125,15 +125,15 @@ const Login = () => {
           <a href="#" className="btn btn-light btn-sm justify-center">
             <img
               alt=""
-              src={toAbsoluteUrl('/media/brand-logos/apple-black.svg')}
+              src={toAbsoluteUrl('/media/brand-logos/github.svg')}
               className="size-3.5 shrink-0 dark:hidden"
             />
             <img
               alt=""
-              src={toAbsoluteUrl('/media/brand-logos/apple-white.svg')}
+              src={toAbsoluteUrl('/media/brand-logos/github-white.svg')}
               className="size-3.5 shrink-0 light:hidden"
             />
-            Use Apple
+            Use GitHub
           </a>
         </div>
 

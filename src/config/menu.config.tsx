@@ -71,12 +71,12 @@ export const MENU_SIDEBAR: TMenuConfig = [
   },
   {
     title: 'Resume Manager',
-    icon: 'document-text',
+    icon: 'document',
     path: '/resume'
   },
   {
     title: 'Interview Prep',
-    icon: 'clipboard-tick',
+    icon: 'clipboard',
     path: '/interview-checklist'
   },
   // {

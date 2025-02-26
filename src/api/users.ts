@@ -9,11 +9,6 @@ interface RegisterResponse {
   access_token: string
 }
 
-export const getUsers = async (): Promise<User[]> => {
-  const response = await api.get('/Users')
-  return response.data
-}
-
 export const register = async (userData: {
   username: string
   email: string
@@ -27,7 +22,7 @@ export const register = async (userData: {
 
 export const getCurrentUser = async (): Promise<User> => {
   try {
-    const response = await api.get('/Users/GetUser')
+    const response = await api.get('/user')
     return response.data
   } catch (error) {
     console.error('Failed to fetch current user:', error)

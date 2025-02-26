@@ -1,19 +1,17 @@
 import { type TMenuConfig } from '@/components/menu'
 
 export const MENU_SIDEBAR: TMenuConfig = [
-  {
-    title: 'Dashboards',
-    icon: 'element-11',
-    children: [
-      {
-        title: 'Overview',
-        path: '/'
-      }
-    ]
-  },
-  {
-    heading: 'User'
-  },
+  // {
+  //   title: 'Dashboards',
+  //   icon: 'element-11',
+  //   children: [
+  //     {
+  //       title: 'Overview',
+  //       path: '/'
+  //     }
+  //   ]
+  // },
+
   {
     title: 'Dashboard',
     icon: 'element-11',
@@ -76,120 +74,120 @@ export const MENU_SIDEBAR: TMenuConfig = [
       }
     ]
   },
-  {
-    title: 'Public Profile',
-    icon: 'profile-circle',
-    children: [
-      {
-        title: 'Profiles',
-        children: [
-          {
-            title: 'Default',
-            path: '/public-profile/profiles/default'
-          },
-          {
-            title: 'Creator',
-            path: '/public-profile/profiles/creator'
-          },
-          {
-            title: 'Company',
-            path: '/public-profile/profiles/company'
-          },
-          {
-            title: 'NFT',
-            path: '/public-profile/profiles/nft'
-          },
-          {
-            title: 'Blogger',
-            path: '/public-profile/profiles/blogger'
-          },
-          {
-            title: 'CRM',
-            path: '/public-profile/profiles/crm'
-          },
-          {
-            title: 'More',
-            collapse: true,
-            collapseTitle: 'Show less',
-            expandTitle: 'Show 4 more',
-            dropdownProps: {
-              placement: 'right-start'
-            },
-            children: [
-              {
-                title: 'Gamer',
-                path: '/public-profile/profiles/gamer'
-              },
-              {
-                title: 'Feeds',
-                path: '/public-profile/profiles/feeds'
-              },
-              {
-                title: 'Plain',
-                path: '/public-profile/profiles/plain'
-              },
-              {
-                title: 'Modal',
-                path: '/public-profile/profiles/modal'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: 'Projects',
-        children: [
-          {
-            title: '3 Columns',
-            path: '/public-profile/projects/3-columns'
-          },
-          {
-            title: '2 Columns',
-            path: '/public-profile/projects/2-columns'
-          }
-        ]
-      },
-      {
-        title: 'Works',
-        path: '/public-profile/works'
-      },
-      {
-        title: 'Teams',
-        path: '/public-profile/teams'
-      },
-      {
-        title: 'Network',
-        path: '/public-profile/network'
-      },
-      {
-        title: 'Activity',
-        path: '/public-profile/activity'
-      },
-      {
-        title: 'More',
-        collapse: true,
-        collapseTitle: 'Show less',
-        expandTitle: 'Show 3 more',
-        dropdownProps: {
-          placement: 'right-start'
-        },
-        children: [
-          {
-            title: 'Campaigns - Card',
-            path: '/public-profile/campaigns/card'
-          },
-          {
-            title: 'Campaigns - List',
-            path: '/public-profile/campaigns/list'
-          },
-          {
-            title: 'Empty',
-            path: '/public-profile/empty'
-          }
-        ]
-      }
-    ]
-  },
+  // {
+  //   title: 'Public Profile',
+  //   icon: 'profile-circle',
+  //   children: [
+  //     {
+  //       title: 'Profiles',
+  //       children: [
+  //         {
+  //           title: 'Default',
+  //           path: '/public-profile/profiles/default'
+  //         },
+  //         {
+  //           title: 'Creator',
+  //           path: '/public-profile/profiles/creator'
+  //         },
+  //         {
+  //           title: 'Company',
+  //           path: '/public-profile/profiles/company'
+  //         },
+  //         {
+  //           title: 'NFT',
+  //           path: '/public-profile/profiles/nft'
+  //         },
+  //         {
+  //           title: 'Blogger',
+  //           path: '/public-profile/profiles/blogger'
+  //         },
+  //         {
+  //           title: 'CRM',
+  //           path: '/public-profile/profiles/crm'
+  //         },
+  //         {
+  //           title: 'More',
+  //           collapse: true,
+  //           collapseTitle: 'Show less',
+  //           expandTitle: 'Show 4 more',
+  //           dropdownProps: {
+  //             placement: 'right-start'
+  //           },
+  //           children: [
+  //             {
+  //               title: 'Gamer',
+  //               path: '/public-profile/profiles/gamer'
+  //             },
+  //             {
+  //               title: 'Feeds',
+  //               path: '/public-profile/profiles/feeds'
+  //             },
+  //             {
+  //               title: 'Plain',
+  //               path: '/public-profile/profiles/plain'
+  //             },
+  //             {
+  //               title: 'Modal',
+  //               path: '/public-profile/profiles/modal'
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       title: 'Projects',
+  //       children: [
+  //         {
+  //           title: '3 Columns',
+  //           path: '/public-profile/projects/3-columns'
+  //         },
+  //         {
+  //           title: '2 Columns',
+  //           path: '/public-profile/projects/2-columns'
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       title: 'Works',
+  //       path: '/public-profile/works'
+  //     },
+  //     {
+  //       title: 'Teams',
+  //       path: '/public-profile/teams'
+  //     },
+  //     {
+  //       title: 'Network',
+  //       path: '/public-profile/network'
+  //     },
+  //     {
+  //       title: 'Activity',
+  //       path: '/public-profile/activity'
+  //     },
+  //     {
+  //       title: 'More',
+  //       collapse: true,
+  //       collapseTitle: 'Show less',
+  //       expandTitle: 'Show 3 more',
+  //       dropdownProps: {
+  //         placement: 'right-start'
+  //       },
+  //       children: [
+  //         {
+  //           title: 'Campaigns - Card',
+  //           path: '/public-profile/campaigns/card'
+  //         },
+  //         {
+  //           title: 'Campaigns - List',
+  //           path: '/public-profile/campaigns/list'
+  //         },
+  //         {
+  //           title: 'Empty',
+  //           path: '/public-profile/empty'
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   {
     title: 'My Account',
     icon: 'setting-2',
@@ -363,85 +361,85 @@ export const MENU_SIDEBAR: TMenuConfig = [
       }
     ]
   },
-  {
-    title: 'Network',
-    icon: 'users',
-    children: [
-      {
-        title: 'Get Started',
-        path: '/network/get-started'
-      },
-      {
-        title: 'User Cards',
-        children: [
-          {
-            title: 'Mini Cards',
-            path: '/network/user-cards/mini-cards'
-          },
-          {
-            title: 'Team Crew',
-            path: '/network/user-cards/team-crew'
-          },
-          {
-            title: 'Author',
-            path: '/network/user-cards/author'
-          },
-          {
-            title: 'NFT',
-            path: '/network/user-cards/nft'
-          },
-          {
-            title: 'Social',
-            path: '/network/user-cards/social'
-          }
-        ]
-      },
-      {
-        title: 'User Table',
-        children: [
-          {
-            title: 'Team Crew',
-            path: '/network/user-table/team-crew'
-          },
-          {
-            title: 'App Roster',
-            path: '/network/user-table/app-roster'
-          },
-          {
-            title: 'Market Authors',
-            path: '/network/user-table/market-authors'
-          },
-          {
-            title: 'SaaS Users',
-            path: '/network/user-table/saas-users'
-          },
-          {
-            title: 'Store Clients',
-            path: '/network/user-table/store-clients'
-          },
-          {
-            title: 'Visitors',
-            path: '/network/user-table/visitors'
-          }
-        ]
-      },
-      {
-        title: 'Cooperations',
-        path: '/network/cooperations',
-        disabled: true
-      },
-      {
-        title: 'Leads',
-        path: '/network/leads',
-        disabled: true
-      },
-      {
-        title: 'Donators',
-        path: '/network/donators',
-        disabled: true
-      }
-    ]
-  },
+  // {
+  //   title: 'Network',
+  //   icon: 'users',
+  //   children: [
+  //     {
+  //       title: 'Get Started',
+  //       path: '/network/get-started'
+  //     },
+  //     {
+  //       title: 'User Cards',
+  //       children: [
+  //         {
+  //           title: 'Mini Cards',
+  //           path: '/network/user-cards/mini-cards'
+  //         },
+  //         {
+  //           title: 'Team Crew',
+  //           path: '/network/user-cards/team-crew'
+  //         },
+  //         {
+  //           title: 'Author',
+  //           path: '/network/user-cards/author'
+  //         },
+  //         {
+  //           title: 'NFT',
+  //           path: '/network/user-cards/nft'
+  //         },
+  //         {
+  //           title: 'Social',
+  //           path: '/network/user-cards/social'
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       title: 'User Table',
+  //       children: [
+  //         {
+  //           title: 'Team Crew',
+  //           path: '/network/user-table/team-crew'
+  //         },
+  //         {
+  //           title: 'App Roster',
+  //           path: '/network/user-table/app-roster'
+  //         },
+  //         {
+  //           title: 'Market Authors',
+  //           path: '/network/user-table/market-authors'
+  //         },
+  //         {
+  //           title: 'SaaS Users',
+  //           path: '/network/user-table/saas-users'
+  //         },
+  //         {
+  //           title: 'Store Clients',
+  //           path: '/network/user-table/store-clients'
+  //         },
+  //         {
+  //           title: 'Visitors',
+  //           path: '/network/user-table/visitors'
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       title: 'Cooperations',
+  //       path: '/network/cooperations',
+  //       disabled: true
+  //     },
+  //     {
+  //       title: 'Leads',
+  //       path: '/network/leads',
+  //       disabled: true
+  //     },
+  //     {
+  //       title: 'Donators',
+  //       path: '/network/donators',
+  //       disabled: true
+  //     }
+  //   ]
+  // },
   { heading: 'Apps' },
   {
     title: 'User Management',

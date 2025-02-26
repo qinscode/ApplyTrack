@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
 import { AuthLayoutProvider } from './AuthLayoutProvider'
-import { toAbsoluteUrl } from '@/utils'
 import useBodyClasses from '@/hooks/useBodyClasses'
 import { Fragment } from 'react'
 

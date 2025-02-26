@@ -3,8 +3,6 @@ import { toAbsoluteUrl } from '@/utils'
 import { useLayout } from '@/providers'
 
 const ResetPasswordChanged = () => {
-  const { currentLayout } = useLayout()
-
   return (
     <div className="card max-w-[440px] w-full">
       <div className="card-body p-10">

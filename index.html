@@ -4,18 +4,46 @@
     <meta charset="utf-8" />
 		<link rel="icon" href="/media/app/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charSet="utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="keenthemes,react,material,kit,application,dashboard,admin,template" />
-		<meta name="author" content="Metronic - Tailwind React Template" />
+    <meta name="description" content="ApplyTrack - Job Application Tracking System" />
+		<meta name="keywords" content="job tracking,application,dashboard,job search,career" />
+		<meta name="author" content="ApplyTrack" />
+    
+    <!-- Preload critical resources -->
+    <link rel="modulepreload" href="/src/main.tsx" as="script" crossorigin />
+    
+    <!-- Optimize font loading -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap" />    
+    
+    <!-- Inline critical CSS -->
     <style type="text/css">
- 
+      /* Basic styles for critical rendering path */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+      }
+      #root {
+        height: 100%;
+        width: 100%;
+      }
+      .app-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: #f9fafb;
+      }
     </style>
-		<link rel="preconnect" href="https://fonts.gstatic.com" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />    
   </head>
   <body class="antialiased flex h-full text-base text-gray-700" style="overflow:visible !important; margin-right:0 !important; position:static !important;">
-    <div class="flex grow" id="root"></div> 
-    <script type="module" src="/src/main.tsx"></script>
+    <div class="flex grow" id="root">
+      <div class="app-loading">
+        <div>Loading...</div>
+      </div>
+    </div> 
+    <script type="module" src="/src/main.tsx" fetchpriority="high" crossorigin></script>
   </body>  
 </html>

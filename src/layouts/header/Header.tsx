@@ -2,10 +2,10 @@ import { KeenIcon } from '@/components'
 import { Container } from '@/components/container'
 import { toAbsoluteUrl } from '@/utils'
 import { Link } from 'react-router-dom'
-import { useDemo6Layout } from '../index.ts'
+import { useLayoutContext } from '../index.ts'
 
 const Header = () => {
-  const { setMobileSidebarOpen } = useDemo6Layout()
+  const { setMobileSidebarOpen } = useLayoutContext()
 
   const handleMobileSidebarOpen = () => {
     setMobileSidebarOpen(true)

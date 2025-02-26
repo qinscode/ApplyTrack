@@ -5,14 +5,13 @@ import { deepMerge } from '@/utils'
 import { MainLayoutConfig } from './index.ts'
 
 // Interface defining the properties of the layout provider context
-export interface IDemo6LayoutProviderProps {
+export interface ILayoutProviderProps {
   layout: ILayoutConfig // The layout configuration object
   mobileSidebarOpen: boolean // Whether the mobile sidebar is open
   setMobileSidebarOpen: (open: boolean) => void // Function to toggle the mobile sidebar
 }
 
-// Initial layout provider properties, using Demo6 layout configuration as the default
-const initalLayoutProps: IDemo6LayoutProviderProps = {
+const initalLayoutProps: ILayoutProviderProps = {
   layout: MainLayoutConfig, // Default layout configuration
   mobileSidebarOpen: false, // Mobile sidebar is closed by default
   setMobileSidebarOpen: (open: boolean) => {
@@ -20,18 +19,18 @@ const initalLayoutProps: IDemo6LayoutProviderProps = {
   }
 }
 
-// Create a context to manage the layout-related state and logic for Demo6 layout
-const Demo6LayoutContext = createContext<IDemo6LayoutProviderProps>(initalLayoutProps)
+// Create a context to manage the layout-related state and logic for  layout
+const LayoutContext = createContext<ILayoutProviderProps>(initalLayoutProps)
 
 // Custom hook to access the layout context in other components
-export const useDemo6Layout = () => useContext(Demo6LayoutContext)
+export const useLayoutContext = () => useContext(LayoutContext)
 
-// Provider component that sets up the layout state and context for Demo6 layout
+// Provider component that sets up the layout state and context for  layout
 const MainLayoutProvider = ({ children }: PropsWithChildren) => {
   const { setMenuConfig } = useMenus() // Hook to manage menu configurations
   const { getLayout, setCurrentLayout } = useLayout() // Hook to get and set layout configuration
 
-  // Merge the Demo6 layout configuration with the current layout configuration fetched via getLayout
+  // Merge the  layout configuration with the current layout configuration fetched via getLayout
   const layoutConfig = deepMerge(MainLayoutConfig, getLayout(MainLayoutConfig.name))
 
   // Set the initial state for layout and mobile sidebar
@@ -48,7 +47,7 @@ const MainLayoutProvider = ({ children }: PropsWithChildren) => {
 
   // Provide the layout state, sticky header state, and sidebar state to children components via context
   return (
-    <Demo6LayoutContext.Provider
+    <LayoutContext.Provider
       value={{
         layout, // The current layout configuration
         mobileSidebarOpen, // Whether the mobile sidebar is currently open
@@ -56,7 +55,7 @@ const MainLayoutProvider = ({ children }: PropsWithChildren) => {
       }}
     >
       {children} {/* Render child components that consume this context */}
-    </Demo6LayoutContext.Provider>
+    </LayoutContext.Provider>
   )
 }
 

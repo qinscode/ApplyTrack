@@ -373,7 +373,7 @@ const MenuItemComponent = forwardRef<IMenuItemRef | null, IMenuItemProps>(
 
           setHere(true)
         } else {
-          if (propToggle === 'accordion') {
+          if (propToggle === 'accordion' && !multipleExpand) {
             setShow(false)
           }
 

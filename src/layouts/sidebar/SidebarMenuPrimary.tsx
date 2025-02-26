@@ -27,7 +27,7 @@ const SidebarMenuPrimary = () => {
   const buildMenuItemRoot = (item: IMenuItemConfig, index: number, level: number) => {
     if (item.children) {
       return (
-        <MenuItem key={index} toggle="accordion" trigger="click">
+        <MenuItem key={index} toggle="accordion" trigger="click" open={true}>
           <MenuLink className="gap-2.5 py-2 px-2.5 rounded-md border border-transparent">
             <MenuIcon className="items-start text-gray-600 text-lg menu-item-here:text-gray-800 menu-item-show:text-gray-800 menu-link-hover:text-gray-800 dark:menu-item-here:text-gray-900 dark:menu-item-show:text-gray-900 dark:menu-link-hover:text-gray-900">
               {item.icon && <KeenIcon icon={item.icon} />}
@@ -79,6 +79,7 @@ const SidebarMenuPrimary = () => {
           key={index}
           toggle="accordion"
           trigger="click"
+          open={true}
           className={clsx(item.collapse && 'flex-col-reverse')}
         >
           <MenuLink className="py-2 px-2.5 rounded-md border border-transparent">
@@ -129,7 +130,7 @@ const SidebarMenuPrimary = () => {
   const menuConfig = getMenuConfig('primary')
 
   return (
-    <Menu highlight={true} multipleExpand={false} className="flex flex-col w-full gap-1.5 px-3.5">
+    <Menu highlight={true} multipleExpand={true} className="flex flex-col w-full gap-1.5 px-3.5">
       {menuConfig && buildMenu(menuConfig)}
     </Menu>
   )

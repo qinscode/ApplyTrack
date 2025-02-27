@@ -1,0 +1,467 @@
+/* Excel-style table styles */
+body {
+  overflow: hidden;
+}
+
+.excel-table-container {
+  height: calc(100vh - 200px);
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden !important; /* 强制禁止外层容器滚动 */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-height: calc(100vh - 200px); /* 限制最大高度 */
+}
+
+/* Excel toolbar */
+.excel-toolbar {
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+/* Custom cell spacing to override DataGrid defaults */
+/* Target DataGrid cells directly */
+.custom-cell-spacing th {
+  padding: 2px 8px !important;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: #f1f3f5;
+}
+
+.custom-cell-spacing td {
+  padding: 2px 8px !important;
+}
+
+/* Excel formula bar */
+.excel-formula-bar {
+  padding: 6px 12px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+/* Excel grid container - 这是唯一应该滚动的部分 */
+.excel-grid-container {
+  flex: 1;
+  overflow: auto !important; /* 强制允许滚动 */
+  min-height: 0; /* 重要：确保flex子项可以正确滚动 */
+  position: relative;
+  max-height: calc(100vh - 350px); /* 限制最大高度，留出工具栏和状态栏的空间 */
+}
+
+/* Excel header cells */
+.excel-header {
+  background-color: #f1f3f5;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Excel cells */
+.excel-cell {
+  padding: 6px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  font-size: 0.875rem;
+  transition: background-color 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*!* Selected cell *!*/
+/*.selected-cell {*/
+/*  background-color: #e8f0fe;*/
+/*  outline: 2px solid #4285f4;*/
+/*  outline-offset: -2px;*/
+/*  position: relative;*/
+/*  z-index: 1;*/
+/*}*/
+
+/* Alternating row colors */
+.excel-grid tr:nth-child(even) .excel-cell {
+  background-color: #f8f9fa;
+}
+
+/* Row hover effect */
+.excel-grid tr:hover .excel-cell {
+  background-color: #f1f3f5;
+}
+
+/* Excel tabs */
+.excel-tabs {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.excel-tab {
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.excel-tab:hover {
+  background-color: #e8f0fe;
+}
+
+/* Excel status bar */
+.excel-status-bar {
+  padding: 4px 12px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+/* Status colors */
+.status-new {
+  background-color: #e0f2f1;
+  color: #00796b;
+}
+
+.status-pending {
+  background-color: #e8eaf6;
+  color: #3949ab;
+}
+
+.status-applied {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-interviewing {
+  background-color: #e8eaf6;
+  color: #3949ab;
+}
+
+.status-technicalassessment {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.status-offered {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-archived {
+  background-color: #f5f5f5;
+  color: #616161;
+}
+
+.status-reviewed {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.status-ghosting {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+/* Make the table look more like Excel */
+.excel-grid {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Excel grid container */
+.excel-grid-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.excel-grid-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.excel-grid-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 5px;
+}
+
+.excel-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Resizable columns */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.resize-handle:hover, 
+.resize-handle:active {
+  background-color: #4285f4;
+}
+
+/* When resizing is active */
+.excel-table-container.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Ensure the table cells don't wrap */
+.excel-grid td, 
+.excel-grid th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Pagination styles */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-button {
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #e8f0fe;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-button.active {
+  background-color: #4285f4;
+  color: white;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+}
+
+/* 修复 DataGrid 在容器内的显示 */
+.excel-grid-container .data-grid-container {
+  height: 100%;
+  overflow: visible;
+}
+
+.excel-grid-container .data-grid-wrapper {
+  height: 100%;
+  overflow: visible;
+}
+
+.excel-grid-container .data-grid {
+  height: 100%;
+  overflow: visible;
+}
+
+.excel-grid-container .data-grid-body {
+  overflow: visible;
+}
+
+/* 确保表格内容可以滚动但不影响外部容器 */
+.excel-grid-container .data-grid-table-container {
+  overflow: visible;
+}
+
+/* 确保 DataGrid 表格占满可用空间 */
+.excel-grid > div {
+  height: 100%;
+}
+
+/* 禁止页面滚动，只允许表格内容滚动 */
+.excel-table-container-wrapper {
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+/* 确保表格内容可以滚动 */
+.excel-grid-container {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+/* 确保表格头部固定 */
+.excel-grid-container table thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f1f3f5;
+}
+
+/* 确保 DataGrid 容器占满可用空间 */
+.excel-grid {
+  height: 100%;
+  overflow: visible;
+}
+
+/* 确保表格头部固定 */
+.excel-grid-container .data-grid-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f1f3f5;
+}
+
+/* 确保分页控件固定在底部 */
+.excel-grid-container .data-grid-pagination {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background-color: white;
+}
+
+/* 禁用外部容器的滚动条 */
+.excel-table-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 自定义表格容器的滚动条 */
+.excel-grid-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.excel-grid-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.excel-grid-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 5px;
+}
+
+.excel-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* 修复 DataGrid 在容器内的显示 */
+.excel-grid-container .data-grid-container {
+  height: 100%;
+  overflow: visible;
+}
+
+.excel-grid-container .data-grid-wrapper {
+  height: 100%;
+  overflow: visible;
+}
+
+.excel-grid-container .data-grid {
+  height: 100%;
+  overflow: visible;
+}
+
+.excel-grid-container .data-grid-body {
+  overflow: visible;
+}
+
+/* 确保表格内容可以滚动但不影响外部容器 */
+.excel-grid-container .data-grid-table-container {
+  overflow: visible;
+}
+
+/* 确保 DataGrid 表格占满可用空间 */
+.excel-grid > div {
+  height: 100%;
+}
+
+/* 禁止页面滚动，只允许表格内容滚动 */
+.excel-table-container-wrapper {
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+/* 确保表格内容可以滚动 */
+.excel-grid-container {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+/* 确保表格头部固定 */
+.excel-grid-container table thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f1f3f5;
+}
+
+/* Pagination styles */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-button {
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #e8f0fe;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-button.active {
+  background-color: #4285f4;
+  color: white;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+} 

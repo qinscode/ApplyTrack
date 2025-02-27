@@ -19,12 +19,7 @@ jobs:
       contents: read
       packages: write  # Required to push packages to GHCR
 
-
-
     steps:
-      - name: Print all environment variables
-        run: printenv
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -100,8 +95,6 @@ jobs:
           # Create .env file with secrets
           echo "VITE_APP_API_URL=${{ secrets.API_URL_SECRET }}" > .env
           echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}" >> .env
-          echo "VITE_APP_API_URL: ${{secrets.API_URL_SECRET }}"
-          echo "VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}"
 
       - name: Copy .env file to server
         uses: appleboy/scp-action@v0.1.4

@@ -1,14 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react'
-import { Column, ColumnDef, Row, RowSelectionState, Table } from '@tanstack/react-table'
-import {
-  DataGrid,
-  DataGridColumnHeader,
-  DataGridColumnVisibility,
-  DataGridRowSelect,
-  DataGridRowSelectAll,
-  KeenIcon,
-  useDataGrid
-} from '@/components'
+import { Column, ColumnDef, Row, RowSelectionState } from '@tanstack/react-table'
+import { DataGrid, DataGridRowSelect, DataGridRowSelectAll, KeenIcon } from '@/components'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input.tsx'
 
@@ -293,42 +285,6 @@ const ExcelJobsTable = ({
         }
       },
       {
-        accessorKey: 'location',
-        header: ({ column }: { column: Column<Job> }) => (
-          <div
-            className="er cursor-pointer flex items-center gap-1"
-            onClick={() => setSortColumnAndDirection('location')}
-            style={{ width: `${columnWidths.location}px` }}
-          >
-            <span>Location</span>
-            {sortColumn === 'location' && (
-              <KeenIcon
-                icon={sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'}
-                className="w-4 h-4"
-              />
-            )}
-            <div className="resize-handle" onMouseDown={(e) => handleResizeStart(e, 'location')} />
-          </div>
-        ),
-        cell: ({ row }: { row: Row<Job> }) => {
-          const value = `${row.original.suburb || ''}, ${row.original.area || ''}`.replace(
-            /(^,\s*|\s*,\s*$)/,
-            ''
-          )
-          const isSelected = selectedCell?.rowId === row.id && selectedCell?.columnId === 'location'
-
-          return (
-            <div
-              className={` ${isSelected ? 'selected-cell' : ''}`}
-              onClick={() => handleCellClick(row.id, 'location', value)}
-              style={{ width: `${columnWidths.location}px` }}
-            >
-              {truncateText(value, 30)}
-            </div>
-          )
-        }
-      },
-      {
         accessorKey: 'appliedDate',
         header: ({ column }: { column: Column<Job> }) => (
           <div
@@ -453,6 +409,43 @@ const ExcelJobsTable = ({
           )
         }
       },
+      {
+        accessorKey: 'location',
+        header: ({ column }: { column: Column<Job> }) => (
+          <div
+            className="er cursor-pointer flex items-center gap-1"
+            onClick={() => setSortColumnAndDirection('location')}
+            style={{ width: `${columnWidths.location}px` }}
+          >
+            <span>Location</span>
+            {sortColumn === 'location' && (
+              <KeenIcon
+                icon={sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'}
+                className="w-4 h-4"
+              />
+            )}
+            <div className="resize-handle" onMouseDown={(e) => handleResizeStart(e, 'location')} />
+          </div>
+        ),
+        cell: ({ row }: { row: Row<Job> }) => {
+          const value = `${row.original.suburb || ''}, ${row.original.area || ''}`.replace(
+            /(^,\s*|\s*,\s*$)/,
+            ''
+          )
+          const isSelected = selectedCell?.rowId === row.id && selectedCell?.columnId === 'location'
+
+          return (
+            <div
+              className={` ${isSelected ? 'selected-cell' : ''}`}
+              onClick={() => handleCellClick(row.id, 'location', value)}
+              style={{ width: `${columnWidths.location}px` }}
+            >
+              {truncateText(value, 30)}
+            </div>
+          )
+        }
+      },
+
       {
         accessorKey: 'notes',
         header: ({ column }: { column: Column<Job> }) => (

@@ -570,7 +570,7 @@ const ExcelJobsTable = ({
         {columnResizing && (
           <div className="absolute inset-0 z-50 bg-transparent" style={{ cursor: 'col-resize' }} />
         )}
-        <div className="excel-grid">
+        <div className="excel-grid custom-cell-spacing">
           <DataGrid
             columns={columns}
             data={filteredJobs}

@@ -13,6 +13,16 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+/* Custom cell spacing to override DataGrid defaults */
+/* Target DataGrid cells directly */
+.custom-cell-spacing th {
+  padding: 2px 8px !important;
+}
+
+.custom-cell-spacing td {
+  padding: 2px 8px !important;
+}
+
 /* Excel formula bar */
 .excel-formula-bar {
   padding: 6px 12px;

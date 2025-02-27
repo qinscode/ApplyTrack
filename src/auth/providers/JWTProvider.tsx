@@ -71,6 +71,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (email: string, password: string): Promise<AuthModel> => {
     try {
+      console.log(API_URL)
+      console.log('Logging in with email:', LOGIN_URL)
       const { data: auth } = await axios.post<AuthModel>(LOGIN_URL, {
         email,
         password
@@ -85,11 +87,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }
 
-  const register = async (
-    email: string,
-    password: string,
-    password_confirmation: string
-  ): Promise<AuthModel> => {
+  const register = async (email: string, password: string): Promise<AuthModel> => {
     try {
       const { data: auth } = await axios.post(REGISTER_URL, {
         username: email.split('@')[0],

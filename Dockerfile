@@ -1,4 +1,6 @@
 ARG NODE_VERSION=20.14.0
+ARG VITE_APP_API_URL
+ARG VITE_GOOGLE_CLIENT_ID
 
 # Dependencies stage - only for building
 FROM node:${NODE_VERSION}-alpine AS deps
@@ -21,6 +23,11 @@ FROM node:${NODE_VERSION}-alpine AS builder
 WORKDIR /app
 
 ENV HUSKY=0
+# Forward the build arguments into environment variables for Vite to use
+ARG VITE_APP_API_URL
+ARG VITE_GOOGLE_CLIENT_ID
+ENV VITE_APP_API_URL=${VITE_APP_API_URL}
+ENV VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

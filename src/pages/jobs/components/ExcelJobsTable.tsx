@@ -224,14 +224,14 @@ const ExcelJobsTable = ({
         enableSorting: false,
         enableHiding: false,
         meta: {
-          headerClassName: 'w-10 excel-header'
+          headerClassName: 'w-10 er'
         }
       },
       {
         accessorKey: 'jobTitle',
         header: ({ column }: { column: Column<Job> }) => (
           <div
-            className="excel-header cursor-pointer flex items-center gap-1"
+            className="er cursor-pointer flex items-center gap-1"
             onClick={() => setSortColumnAndDirection('jobTitle')}
             style={{ width: `${columnWidths.jobTitle}px` }}
           >
@@ -251,7 +251,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={`excel-cell min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'jobTitle', value)}
               style={{ width: `${columnWidths.jobTitle}px` }}
             >
@@ -264,7 +264,7 @@ const ExcelJobsTable = ({
         accessorKey: 'businessName',
         header: ({ column }: { column: Column<Job> }) => (
           <div
-            className="excel-header cursor-pointer flex items-center gap-1"
+            className="cursor-pointer flex items-center gap-1"
             onClick={() => setSortColumnAndDirection('businessName')}
             style={{ width: `${columnWidths.businessName}px` }}
           >
@@ -288,7 +288,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={`excel-cell min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'businessName', value)}
               style={{ width: `${columnWidths.businessName}px` }}
             >
@@ -301,7 +301,7 @@ const ExcelJobsTable = ({
         accessorKey: 'location',
         header: ({ column }: { column: Column<Job> }) => (
           <div
-            className="excel-header cursor-pointer flex items-center gap-1"
+            className="er cursor-pointer flex items-center gap-1"
             onClick={() => setSortColumnAndDirection('location')}
             style={{ width: `${columnWidths.location}px` }}
           >
@@ -324,7 +324,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={`excel-cell min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'location', value)}
               style={{ width: `${columnWidths.location}px` }}
             >
@@ -337,7 +337,7 @@ const ExcelJobsTable = ({
         accessorKey: 'appliedDate',
         header: ({ column }: { column: Column<Job> }) => (
           <div
-            className="excel-header cursor-pointer flex items-center gap-1"
+            className="er cursor-pointer flex items-center gap-1"
             onClick={() => setSortColumnAndDirection('appliedDate')}
             style={{ width: `${columnWidths.appliedDate}px` }}
           >
@@ -361,7 +361,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={`excel-cell min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'appliedDate', value)}
               style={{ width: `${columnWidths.appliedDate}px` }}
             >
@@ -374,7 +374,7 @@ const ExcelJobsTable = ({
         accessorKey: 'updatedDate',
         header: ({ column }: { column: Column<Job> }) => (
           <div
-            className="excel-header cursor-pointer flex items-center gap-1"
+            className="er cursor-pointer flex items-center gap-1"
             onClick={() => setSortColumnAndDirection('updatedDate')}
             style={{ width: `${columnWidths.updatedDate}px` }}
           >
@@ -399,7 +399,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={`excel-cell min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'updatedDate', value)}
               style={{ width: `${columnWidths.updatedDate}px` }}
             >
@@ -412,7 +412,7 @@ const ExcelJobsTable = ({
         accessorKey: 'status',
         header: ({ column }: { column: Column<Job> }) => (
           <div
-            className="excel-header cursor-pointer flex items-center gap-1"
+            className="er cursor-pointer flex items-center gap-1"
             onClick={() => setSortColumnAndDirection('status')}
             style={{ width: `${columnWidths.status}px` }}
           >
@@ -431,10 +431,7 @@ const ExcelJobsTable = ({
           const statusClass = getStatusColor(value)
 
           return (
-            <div
-              className="excel-cell min-h-[40px] p-2"
-              style={{ width: `${columnWidths.status}px` }}
-            >
+            <div className=" min-h-[40px] p-2" style={{ width: `${columnWidths.status}px` }}>
               <Select
                 defaultValue={value}
                 onValueChange={(newValue) => handleStatusChange(row.id, newValue)}
@@ -457,10 +454,7 @@ const ExcelJobsTable = ({
       {
         accessorKey: 'notes',
         header: ({ column }: { column: Column<Job> }) => (
-          <div
-            className="excel-header flex items-center gap-1"
-            style={{ width: `${columnWidths.notes}px` }}
-          >
+          <div className="er flex items-center gap-1" style={{ width: `${columnWidths.notes}px` }}>
             <span>Notes</span>
             <div className="resize-handle" onMouseDown={(e) => handleResizeStart(e, 'notes')} />
           </div>
@@ -472,7 +466,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={`excel-cell min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'notes', value)}
               style={{ width: `${columnWidths.notes}px` }}
             >

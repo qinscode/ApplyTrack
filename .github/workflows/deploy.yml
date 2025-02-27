@@ -76,6 +76,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             PORT=4173
+            VITE_APP_API_URL=${{ secrets.API_URL_SECRET }}
+            VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
           # Use GitHub Actions cache for faster builds
           cache-from: type=gha
           cache-to: type=gha,mode=max

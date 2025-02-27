@@ -11,12 +11,7 @@ import {
 } from '@/components'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input.tsx'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu.tsx'
+
 import {
   Select,
   SelectContent,
@@ -251,7 +246,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'jobTitle', value)}
               style={{ width: `${columnWidths.jobTitle}px` }}
             >
@@ -288,7 +283,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'businessName', value)}
               style={{ width: `${columnWidths.businessName}px` }}
             >
@@ -324,7 +319,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'location', value)}
               style={{ width: `${columnWidths.location}px` }}
             >
@@ -361,7 +356,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'appliedDate', value)}
               style={{ width: `${columnWidths.appliedDate}px` }}
             >
@@ -399,7 +394,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'updatedDate', value)}
               style={{ width: `${columnWidths.updatedDate}px` }}
             >
@@ -431,7 +426,7 @@ const ExcelJobsTable = ({
           const statusClass = getStatusColor(value)
 
           return (
-            <div className=" min-h-[40px] p-2" style={{ width: `${columnWidths.status}px` }}>
+            <div className=" p-2" style={{ width: `${columnWidths.status}px` }}>
               <Select
                 defaultValue={value}
                 onValueChange={(newValue) => handleStatusChange(row.id, newValue)}
@@ -466,7 +461,7 @@ const ExcelJobsTable = ({
 
           return (
             <div
-              className={` min-h-[40px] p-2 ${isSelected ? 'selected-cell' : ''}`}
+              className={` ${isSelected ? 'selected-cell' : ''}`}
               onClick={() => handleCellClick(row.id, 'notes', value)}
               style={{ width: `${columnWidths.notes}px` }}
             >
@@ -494,7 +489,7 @@ const ExcelJobsTable = ({
       className={`excel-table-container flex flex-col border rounded-md shadow-sm ${columnResizing ? 'resizing' : ''}`}
     >
       {/* Excel-style toolbar */}
-      <div className="excel-toolbar flex items-center gap-3 p-2 border-b bg-gray-50">
+      <div className="excel-toolbar flex items-center gap-3 border-b bg-gray-50">
         <Button variant="outline" size="sm" className="flex items-center gap-1">
           <KeenIcon icon="plus" className="w-4 h-4" />
           <span>Add New</span>
@@ -553,7 +548,7 @@ const ExcelJobsTable = ({
       </div>
 
       {/* Excel-style formula bar */}
-      <div className="excel-formula-bar flex items-center gap-2 p-2 border-b bg-gray-50">
+      <div className="excel-formula-bar flex items-center gaborder-b bg-gray-50">
         <div className="text-sm font-medium text-gray-500">fx</div>
         <Input
           value={cellValue}
@@ -613,7 +608,7 @@ const ExcelJobsTable = ({
       </div>
 
       {/* Excel-style status bar */}
-      <div className="excel-status-bar flex items-center justify-between p-2 border-t bg-gray-50 text-xs text-gray-500">
+      <div className="excel-status-bar flex items-center justify-between border-t bg-gray-50 text-xs text-gray-500">
         <div className="flex items-center gap-4">
           <div>Total: {totalJobsCount} applications</div>
           <div className="flex items-center gap-1">

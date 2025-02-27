@@ -1,0 +1,184 @@
+/* Excel-style table styles */
+.excel-table-container {
+  height: calc(100vh - 200px);
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Excel toolbar */
+.excel-toolbar {
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Excel formula bar */
+.excel-formula-bar {
+  padding: 6px 12px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Excel grid container */
+.excel-grid-container {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Excel header cells */
+.excel-header {
+  background-color: #f1f3f5;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Excel cells */
+.excel-cell {
+  padding: 6px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  font-size: 0.875rem;
+  transition: background-color 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Selected cell */
+.selected-cell {
+  background-color: #e8f0fe;
+  outline: 2px solid #4285f4;
+  outline-offset: -2px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Alternating row colors */
+.excel-grid tr:nth-child(even) .excel-cell {
+  background-color: #f8f9fa;
+}
+
+/* Row hover effect */
+.excel-grid tr:hover .excel-cell {
+  background-color: #f1f3f5;
+}
+
+/* Excel tabs */
+.excel-tabs {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e2e8f0;
+}
+
+.excel-tab {
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.excel-tab:hover {
+  background-color: #e8f0fe;
+}
+
+/* Excel status bar */
+.excel-status-bar {
+  padding: 4px 12px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Status colors */
+.status-applied {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-interviewing {
+  background-color: #e8eaf6;
+  color: #3949ab;
+}
+
+.status-assessment {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.status-offered {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-archived {
+  background-color: #f5f5f5;
+  color: #616161;
+}
+
+/* Make the table look more like Excel */
+.excel-grid {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Custom scrollbars for Excel feel */
+.excel-grid-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.excel-grid-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.excel-grid-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 5px;
+}
+
+.excel-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Resizable columns */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.resize-handle:hover, 
+.resize-handle:active {
+  background-color: #4285f4;
+}
+
+/* When resizing is active */
+.excel-table-container.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Ensure the table cells don't wrap */
+.excel-grid td, 
+.excel-grid th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} 

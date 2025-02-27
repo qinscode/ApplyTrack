@@ -350,7 +350,11 @@ const ExcelJobsTable = ({
           </div>
         ),
         cell: ({ row }: { row: Row<Job> }) => {
-          const value = row.original.posted_date || ''
+          const rawValue = row.original.createdAt || row.original.posted_date || ''
+          // Format the date if it's in ISO format
+          const value = rawValue.includes('T')
+            ? rawValue.split('T')[0] // Extract just the date part (YYYY-MM-DD)
+            : rawValue
           const isSelected =
             selectedCell?.rowId === row.id && selectedCell?.columnId === 'appliedDate'
 
@@ -387,8 +391,11 @@ const ExcelJobsTable = ({
           </div>
         ),
         cell: ({ row }: { row: Row<Job> }) => {
-          // 使用当前日期作为更新日期的模拟数据
-          const value = new Date().toISOString().split('T')[0]
+          const rawValue = row.original.updatedAt || new Date().toISOString()
+          // Format the date if it's in ISO format
+          const value = rawValue.includes('T')
+            ? rawValue.split('T')[0] // Extract just the date part (YYYY-MM-DD)
+            : rawValue
           const isSelected =
             selectedCell?.rowId === row.id && selectedCell?.columnId === 'updatedDate'
 

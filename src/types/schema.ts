@@ -25,7 +25,9 @@ export const jobSchema = z.object({
   ]),
   posted_date: z.string(),
   job_description: z.string(),
-  techStack: z.array(z.string()).optional()
+  techStack: z.array(z.string()).optional(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional()
 })
 
 export type Job = z.infer<typeof jobSchema>

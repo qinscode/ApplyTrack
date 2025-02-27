@@ -494,7 +494,7 @@ const ExcelJobsTable = ({
 
   return (
     <div
-      className={`excel-table-container flex flex-col border rounded-md shadow-sm ${columnResizing ? 'resizing' : ''}`}
+      className={`excel-table-container excel-table-container-wrapper flex flex-col border rounded-md shadow-sm ${columnResizing ? 'resizing' : ''}`}
     >
       {/* Excel-style toolbar */}
       <div className="excel-toolbar flex items-center gap-3 border-b bg-gray-50">
@@ -574,11 +574,11 @@ const ExcelJobsTable = ({
       </div>
 
       {/* Excel-style table */}
-      <div ref={tableRef} className="excel-grid-container flex-grow overflow-auto">
+      <div ref={tableRef} className="excel-grid-container">
         {columnResizing && (
           <div className="absolute inset-0 z-50 bg-transparent" style={{ cursor: 'col-resize' }} />
         )}
-        <div className="excel-grid custom-cell-spacing">
+        <div className="excel-grid custom-cell-spacing h-full w-full">
           <DataGrid
             columns={columns}
             data={filteredJobs}
@@ -589,13 +589,18 @@ const ExcelJobsTable = ({
               size: pageSize,
               count: totalJobsCount,
               more: currentPage < totalPages,
-              moreLimit: 5,
-              info: `Showing {from} to {to} of {count} entries`
+              moreLimit: totalPages,
+              info: `Showing ${(currentPage - 1) * pageSize + 1} to ${Math.min(currentPage * pageSize, totalJobsCount)} of ${totalJobsCount} entries`
             }}
             layout={{ card: false }}
-            serverSide={false}
+            serverSide={true}
             onFetchData={async ({ pageIndex, pageSize: size }) => {
-              handlePageChange(pageIndex + 1)
+              if (pageIndex + 1 !== currentPage) {
+                handlePageChange(pageIndex + 1)
+              }
+              if (size !== pageSize) {
+                handlePageSizeChange(size)
+              }
               return { data: filteredJobs, totalCount: totalJobsCount }
             }}
           />
@@ -640,8 +645,100 @@ const ExcelJobsTable = ({
             <span>Rejected</span>
           </div>
         </div>
-        <div>
-          {currentPage} of {totalPages} pages
+        <div className="flex items-center gap-4">
+          {/* Page size selector */}
+          <div className="page-size-selector">
+            <span>Show:</span>
+            <Select
+              value={pageSize.toString()}
+              onValueChange={(value) => handlePageSizeChange(parseInt(value))}
+            >
+              <SelectTrigger className="h-7 w-16">
+                <SelectValue placeholder={pageSize.toString()} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="25">25</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="100">100</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Pagination controls */}
+          <div className="pagination-controls">
+            <Button
+              variant="outline"
+              size="icon"
+              className="pagination-button"
+              onClick={() => handlePageChange(1)}
+              disabled={currentPage === 1}
+            >
+              <KeenIcon icon="double-arrow-left" className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="pagination-button"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <KeenIcon icon="arrow-left" className="h-3 w-3" />
+            </Button>
+
+            <div className="flex items-center gap-1 mx-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                // Show pages around current page
+                let pageNum = currentPage
+                if (currentPage <= 3) {
+                  pageNum = i + 1
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i
+                } else {
+                  pageNum = currentPage - 2 + i
+                }
+
+                // Ensure page numbers are within valid range
+                if (pageNum > 0 && pageNum <= totalPages) {
+                  return (
+                    <Button
+                      key={pageNum}
+                      variant={currentPage === pageNum ? 'default' : 'outline'}
+                      size="icon"
+                      className={`pagination-button ${currentPage === pageNum ? 'active' : ''}`}
+                      onClick={() => handlePageChange(pageNum)}
+                    >
+                      {pageNum}
+                    </Button>
+                  )
+                }
+                return null
+              })}
+            </div>
+
+            <Button
+              variant="outline"
+              size="icon"
+              className="pagination-button"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <KeenIcon icon="arrow-right" className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="pagination-button"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              <KeenIcon icon="double-arrow-right" className="h-3 w-3" />
+            </Button>
+          </div>
+
+          <div>
+            Page {currentPage} of {totalPages}
+          </div>
         </div>
       </div>
     </div>

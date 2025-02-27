@@ -37,12 +37,16 @@ const truncateText = (text: string, maxLength: number) => {
 }
 
 const JOB_STATUSES = [
+  'New',
+  'Pending',
   'Applied',
+  'Archived',
+  'Reviewed',
   'Interviewing',
-  'Technical Assessment',
+  'TechnicalAssessment',
   'Offered',
-  'Rejected',
-  'Archived'
+  'Ghosting',
+  'Rejected'
 ]
 
 const ExcelJobsTable = ({
@@ -190,12 +194,16 @@ const ExcelJobsTable = ({
     if (!status) return 'bg-gray-100 text-gray-800'
 
     const statusMap: Record<string, string> = {
+      new: 'bg-teal-100 text-teal-800',
+      pending: 'bg-blue-100 text-blue-800',
       applied: 'bg-blue-100 text-blue-800',
       interviewing: 'bg-purple-100 text-purple-800',
-      'technical assessment': 'bg-amber-100 text-amber-800',
+      technicalassessment: 'bg-amber-100 text-amber-800',
       offered: 'bg-green-100 text-green-800',
       rejected: 'bg-red-100 text-red-800',
-      archived: 'bg-gray-100 text-gray-800'
+      archived: 'bg-gray-100 text-gray-800',
+      reviewed: 'bg-purple-100 text-purple-800',
+      ghosting: 'bg-pink-100 text-pink-800'
     }
 
     return statusMap[status.toLowerCase()] || 'bg-gray-100 text-gray-800'

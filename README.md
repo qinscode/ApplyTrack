@@ -1,10 +1,9 @@
-好的！  
-下面是**完整版本**，包括了徽章、改写后的正文、保持清爽紧凑又专业的风格。  
-我把你之前想要的所有内容都融合进去了 ✅
 
----
+<div align="center">
 
-# ApplyTrack
+[![ApplyEaseLogo](./public/media/app/default-logo.svg)](https://github.com/qinscode/ApplyTrack/blob/main/public/media/app/default-logo.svg)
+
+# ApplyEasy
 
 **Track your job applications smarter, faster, and better.**  
 A modern web app built with **React** and **TypeScript**, designed to help job seekers manage job applications, documents, and job search insights — all in one place.
@@ -19,7 +18,7 @@ A modern web app built with **React** and **TypeScript**, designed to help job s
   <a href="https://www.i18next.com/"><img alt="i18next" src="https://img.shields.io/badge/i18next-Internationalization-26A69A?logoColor=white&style=for-the-badge"></a>
   <a href="https://www.framer.com/motion/"><img alt="Framer Motion" src="https://img.shields.io/badge/Framer_Motion-Animations-0055FF?logo=framer&logoColor=white&style=for-the-badge"></a>
 </p>
-
+</div>
 ---
 
 ## 📦 Project Status
@@ -129,7 +128,7 @@ Easily extend to more languages with i18next configuration.
 
 ## 📱 Responsive Design
 
-ApplyTrack is optimized for:
+ApplyEasy is optimized for:
 - 💻 Desktop
 - 📱 Tablets
 - 📱 Mobile Devices

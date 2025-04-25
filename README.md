@@ -1,166 +1,175 @@
+好的！  
+下面是**完整版本**，包括了徽章、改写后的正文、保持清爽紧凑又专业的风格。  
+我把你之前想要的所有内容都融合进去了 ✅
+
+---
+
 # ApplyTrack
 
-A modern web application built with React and TypeScript to help job seekers track their job applications, manage documents, and analyze their job search progress.
+**Track your job applications smarter, faster, and better.**  
+A modern web app built with **React** and **TypeScript**, designed to help job seekers manage job applications, documents, and job search insights — all in one place.
 
-## 🚧 Development Status
+<p align="center">
+  <a href="https://react.dev/"><img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white&style=for-the-badge"></a>
+  <a href="https://www.typescriptlang.org/"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&style=for-the-badge"></a>
+  <a href="https://redux.js.org/"><img alt="Redux" src="https://img.shields.io/badge/Redux-Toolkit-764ABC?logo=redux&logoColor=white&style=for-the-badge"></a>
+  <a href="https://tailwindcss.com/"><img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge"></a>
+  <a href="https://www.radix-ui.com/"><img alt="Radix UI" src="https://img.shields.io/badge/Radix_UI-Accessible-7F52FF?logoColor=white&style=for-the-badge"></a>
+  <a href="https://recharts.org/"><img alt="Recharts" src="https://img.shields.io/badge/Recharts-Charts-FF7300?logoColor=white&style=for-the-badge"></a>
+  <a href="https://www.i18next.com/"><img alt="i18next" src="https://img.shields.io/badge/i18next-Internationalization-26A69A?logoColor=white&style=for-the-badge"></a>
+  <a href="https://www.framer.com/motion/"><img alt="Framer Motion" src="https://img.shields.io/badge/Framer_Motion-Animations-0055FF?logo=framer&logoColor=white&style=for-the-badge"></a>
+</p>
 
-This system is currently under active development with the following features being implemented:
+---
 
-### Automated Job Scraping
-- Daily automated scraping of IT-related jobs from Seek
-- Currently focused on Perth region (other regions coming soon)
-- Intelligent job matching and categorization
+## 📦 Project Status
 
-### Smart Email Integration (Beta)
-- Connect your email account for automated tracking
-- AI-powered email analysis to:
-  - Automatically detect job applications
-  - Match emails with tracked jobs
-  - Update application statuses automatically
-- Privacy-focused email processing
+> **Under Active Development!**
 
-### Real-time Job Market Analysis
-- Track market trends in the IT sector
-- Salary range analysis
-- Required skills tracking
-- Company hiring patterns
+- ✅ IT job scraping from Seek (Perth region)
+- 🧠 AI-powered email integration (Beta)
+- 📈 Real-time IT market analytics
+- 🚀 Full-featured dashboard, job and document management
 
-## 🌟 Features
+---
 
-### Dashboard
-- Real-time overview of job application statistics
-- Interactive charts and visualizations
-- Recent activities tracking
-- Market insights and trends
+## ✨ Main Features
 
-### Job Management
-- Track applications across different stages:
-  - New Jobs
-  - Pending Applications
-  - Applied Positions
-  - Interview Process
-  - Technical Assessments
-  - Offers & Rejections
-- Detailed job status tracking
-- Application history
+### 🖥 Dashboard
+- Live job stats, charts, activities
+- Market trend insights
 
-### Document Management
-- Resume organization
-- Cover letter management
-- Document versioning
+### 📋 Job Management
+- Track jobs across all stages (New → Offer/Rejection)
+- Smart status updates
+- Detailed history logs
 
-### Interview Tools
-- Interview preparation checklists
-- Q&A bank
-- Interview outcome tracking
+### 📂 Document Management
+- Resume, cover letter organizer
+- Document version control
 
-### Analytics
-- Application success rate analysis
-- Response rate tracking
-- Skill demand trends
-- Salary distribution insights
+### 🧩 Interview Tools
+- Preparation checklists
+- Q&A libraries
+- Interview results tracking
 
-## 🛠 Tech Stack
+### 📊 Analytics
+- Application success rates
+- Response rates
+- Skill and salary trends
 
-### Frontend
-- **Frontend Framework**: React 18 with TypeScript
-- **Routing**: React Router v6
-- **State Management**: Redux
-- **UI Components**:
-  - Shadcn/ui (based on Radix UI)
-  - Tailwind CSS
-- **Charts**: Recharts
-- **Internationalization**: i18next
-- **Animations**: Framer Motion
-- **Form Handling**: React Hook Form
-- **API Client**: Axios
+---
 
-### Backend Services
-- **Web Scraping**: Custom scraper for Seek job listings
-- **AI Integration**:
-  - Email analysis and classification
-  - Job matching algorithms
-- **Data Processing**:
-  - Automated job categorization
-  - Email pattern recognition
-  - Status update automation
+## 🔥 Tech Stack
 
-### Data Security
-- Encrypted email processing
-- Secure credential storage
-- Privacy-first data handling
+| Area             | Tech                          |
+|------------------|-------------------------------|
+| Frontend         | React 18 + TypeScript          |
+| State Management | Redux Toolkit                 |
+| UI Framework     | Shadcn/ui, Tailwind CSS         |
+| Charts           | Recharts                      |
+| Routing          | React Router v6               |
+| Forms            | React Hook Form               |
+| Animations       | Framer Motion                 |
+| API Client       | Axios                         |
+| i18n             | i18next                       |
+| Scraping         | Custom Seek scraper           |
+| AI Integration   | Email NLP & job matching       |
+| Security         | Encrypted email processing, Secure credential storage |
 
-## 🚀 Getting Started
+---
 
-### Prerequisites
-- Node.js (v16 or higher)
+## ⚡ Quick Start
+
+### 1. Prerequisites
+- Node.js `v16+`
 - npm or yarn
 
-### Installation
+### 2. Installation
 
-1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/job-application-tracker.git
-```
-
-2. Install dependencies
-```bash
 cd job-application-tracker
 npm install
 ```
 
-3. Start the development server
+### 3. Development
+
 ```bash
 npm run dev
 ```
 
-4. Build for production
+> Access the app at: `http://localhost:3000`
+
+### 4. Production Build
+
 ```bash
 npm run build
 ```
 
-## 🎨 Theming
+---
 
-The application supports multiple themes and color schemes:
-- Light/Dark mode
-- Custom color palettes
-- Configurable UI components
+## 🎨 Theming & Customization
 
-## 🌐 Internationalization
+- Light/Dark mode support
+- Fully customizable color palettes
+- Component-level styling with TailwindCSS
 
-Currently supported languages:
-- English
-- Chinese (简体中文)
+---
+
+## 🌎 Internationalization
+
+Supported Languages:
+- English 🇺🇸
+- Chinese (简体中文 🇨🇳)
+
+Easily extend to more languages with i18next configuration.
+
+---
 
 ## 📱 Responsive Design
 
-The application is fully responsive and works on:
-- Desktop browsers
-- Tablets
-- Mobile devices
+ApplyTrack is optimized for:
+- 💻 Desktop
+- 📱 Tablets
+- 📱 Mobile Devices
 
-## 🔒 Security
+---
+
+## 🔒 Security & Privacy
 
 - Protected routes
-- Authentication system
+- Encrypted user data
+- Privacy-first email processing
 - Secure API communication
 
-## 🤝 Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🤝 Contribution Guide
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+We welcome contributions!
 
-## 📄 License
+```bash
+# Fork the repository
+git checkout -b feature/your-feature
+# Make your changes
+git commit -m "feat: add awesome feature"
+git push origin feature/your-feature
+# Create a Pull Request 🚀
+```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
 
-## 🙏 Acknowledgments
+## 📜 License
 
-- [Shadcn/ui](https://ui.shadcn.com/) for the beautiful UI components
-- [Recharts](https://recharts.org/) for the chart components
-- [Radix UI](https://www.radix-ui.com/) for the accessible UI primitives
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙏 Acknowledgements
+
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [Recharts](https://recharts.org/)
+- [Radix UI](https://www.radix-ui.com/)
+
+---

@@ -11,10 +11,11 @@ interface FunnelStatus {
 
 const STATUS_LABELS = {
   applied: 'Applied',
-  reviewed: 'Reviewed',
-  interviewing: 'Interviewing',
-  technicalAssessment: 'Technical Assessment',
-  offered: 'Offered'
+  reviewed: 'Viewed',
+  interviewing: 'Interviewed',
+  // technicalAssessment: 'Assessment',
+  rejected: 'Rejected',
+  offered: 'Offer'
 } as const
 
 const calculatePercentages = (counts: StatusCounts): FunnelStatus[] => {

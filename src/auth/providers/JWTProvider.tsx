@@ -87,12 +87,17 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }
 
-  const register = async (email: string, password: string): Promise<AuthModel> => {
+  const register = async (
+    email: string,
+    password: string,
+    password_confirmation: string
+  ): Promise<AuthModel> => {
     try {
       const { data: auth } = await axios.post(REGISTER_URL, {
         username: email.split('@')[0],
         email,
-        password
+        password,
+        password_confirmation
       })
       saveAuth(auth)
       const { data: user } = await getUser()

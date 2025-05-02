@@ -12,7 +12,7 @@ interface FunnelStatus {
 const STATUS_LABELS = {
   applied: 'Applied',
   reviewed: 'Viewed',
-  interviewing: 'Interviewed',
+  interviewing: 'Interview',
   // technicalAssessment: 'Assessment',
   rejected: 'Rejected',
   offered: 'Offer'

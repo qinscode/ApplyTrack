@@ -420,9 +420,14 @@ const JobsTable = ({
       }}
       toolbar={<Toolbar />}
       layout={{ card: true }}
-      serverSide={false}
+      serverSide={true}
       onFetchData={async ({ pageIndex, pageSize: size }) => {
-        handlePageChange(pageIndex + 1)
+        if (pageIndex + 1 !== currentPage) {
+          handlePageChange(pageIndex + 1)
+        }
+        if (size !== pageSize) {
+          handlePageSizeChange(size)
+        }
         return { data: jobs, totalCount: totalJobsCount }
       }}
     />

@@ -22,18 +22,34 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      console.group('Authentication Error Details')
+    // 记录所有API错误
+    console.group('API Error')
+    console.error('Error:', error.message)
+
+    if (error.response) {
       console.error('Status:', error.response.status)
       console.error('Message:', error.response?.data?.message)
       console.error('URL:', error.config?.url)
       console.error('Method:', error.config?.method?.toUpperCase())
-      console.error('Headers:', error.config?.headers)
-      console.error('Request Data:', error.config?.data)
       console.error('Response Data:', error.response?.data)
-      console.error('Stack:', error.stack)
-      console.groupEnd()
+
+      // 特别处理401错误（未授权）
+      if (error.response.status === 401) {
+        console.error('Authentication Error - User may need to login again')
+        // 可以在这里添加自动登出逻辑
+        // 例如: window.location.href = '/auth/login'
+      }
+
+      // 处理服务器错误
+      if (error.response.status >= 500) {
+        console.error('Server Error - This should be reported to the development team')
+      }
+    } else if (error.request) {
+      // 请求已发出但没有收到响应
+      console.error('No response received from server - Network issue or server down')
     }
+
+    console.groupEnd()
     return Promise.reject(error)
   }
 )

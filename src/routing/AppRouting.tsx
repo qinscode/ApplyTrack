@@ -24,17 +24,23 @@ const AppRouting = (): ReactElement => {
   useEffect(() => {
     if (!firstLoad) {
       setProgressBarLoader(true)
-      verify()
-        .catch(() => {
-          throw new Error('User verify request failed!')
-        })
-        .finally(() => {
-          setPreviousLocation(path)
-          setProgressBarLoader(false)
-          if (path === previousLocation) {
-            setPreviousLocation('')
-          }
-        })
+      try {
+        verify()
+          .catch((error) => {
+            console.error('User verification failed:', error)
+            // 不抛出错误，而是记录它，这样不会中断应用流程
+          })
+          .finally(() => {
+            setPreviousLocation(path)
+            setProgressBarLoader(false)
+            if (path === previousLocation) {
+              setPreviousLocation('')
+            }
+          })
+      } catch (error) {
+        console.error('Error during verification process:', error)
+        setProgressBarLoader(false)
+      }
     }
   }, [location])
 

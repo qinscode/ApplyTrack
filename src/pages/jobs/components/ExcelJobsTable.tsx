@@ -590,10 +590,10 @@ const ExcelJobsTable = ({
               count: totalJobsCount,
               more: currentPage < totalPages,
               moreLimit: totalPages,
-              info: `Showing ${(currentPage - 1) * pageSize + 1} to ${Math.min(currentPage * pageSize, totalJobsCount)} of ${totalJobsCount} entries`
+              info: `Showing {from} to {to} of {count} entries`
             }}
             layout={{ card: false }}
-            serverSide={true}
+            serverSide={false}
             onFetchData={async ({ pageIndex, pageSize: size }) => {
               if (pageIndex + 1 !== currentPage) {
                 handlePageChange(pageIndex + 1)

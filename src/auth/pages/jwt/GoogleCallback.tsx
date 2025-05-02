@@ -106,6 +106,14 @@ export const GoogleCallback = () => {
             // Close popup window
             console.log('Preparing to close popup window')
             window.close()
+
+            // Add a timeout to check if window was closed
+            setTimeout(() => {
+              // If we're still here after trying to close, show a message
+              console.log('Window may not have closed, showing message')
+              setError(null) // Clear any previous errors
+              setLoading(false) // Stop loading indicator
+            }, 1000)
           } else {
             // Not in popup window, navigate normally
             console.log('Not in popup window, preparing to navigate to home page')

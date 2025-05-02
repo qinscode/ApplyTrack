@@ -25,9 +25,7 @@ const CheckEmail = () => {
         <h3 className="text-lg font-medium text-gray-900 text-center mb-3">Check your email</h3>
         <div className="text-2sm text-center text-gray-700 mb-7.5">
           Please click the link sent to your email&nbsp;
-          <a href="#" className="text-2sm text-gray-900 font-medium hover:text-primary-active">
-            {email}
-          </a>
+          <span className="text-2sm text-gray-900 font-medium">{email}</span>
           <br />
           to verify your account. Thank you
         </div>

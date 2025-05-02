@@ -222,7 +222,8 @@ const JobsTable = ({
         ),
         cell: ({ getValue }: { getValue: () => unknown }) => {
           const workType = getValue() as string
-          const getWorkTypeColor = (type: string) => {
+          const getWorkTypeColor = (type: string | undefined) => {
+            if (!type) return 'bg-gray-100 text-gray-800'
             switch (type.toLowerCase()) {
               case 'full time':
                 return 'bg-purple-100 text-purple-800'

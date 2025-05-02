@@ -3,7 +3,7 @@ import api from '@/api/axios'
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-const DEFAULT_PAGE_SIZE = 20
+const DEFAULT_PAGE_SIZE = 50
 
 interface UseJobListConfig {
   apiEndpoint: string

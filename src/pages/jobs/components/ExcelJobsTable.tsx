@@ -399,7 +399,7 @@ const ExcelJobsTable = ({
           return (
             <div className=" p-2" style={{ width: `${columnWidths.status}px` }}>
               <Select
-                defaultValue={value}
+                value={value || ''}
                 onValueChange={(newValue) => handleStatusChange(row.id, newValue)}
               >
                 <SelectTrigger className={`w-full h-8 ${statusClass}`}>
@@ -589,11 +589,11 @@ const ExcelJobsTable = ({
               size: pageSize,
               count: totalJobsCount,
               more: currentPage < totalPages,
-              moreLimit: totalPages,
+              moreLimit: 5,
               info: `Showing {from} to {to} of {count} entries`
             }}
             layout={{ card: false }}
-            serverSide={false}
+            serverSide={true}
             onFetchData={async ({ pageIndex, pageSize: size }) => {
               if (pageIndex + 1 !== currentPage) {
                 handlePageChange(pageIndex + 1)

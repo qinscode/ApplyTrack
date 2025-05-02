@@ -1,17 +1,17 @@
 /* Excel-style table styles */
 body {
-  overflow: hidden;
+  overflow: auto;
 }
 
 .excel-table-container {
-  height: calc(100vh - 200px);
+  height: auto;
+  min-height: 500px;
   background-color: white;
   border-radius: 4px;
-  overflow: hidden !important; /* 强制禁止外层容器滚动 */
   display: flex;
   flex-direction: column;
   position: relative;
-  max-height: calc(100vh - 200px); /* 限制最大高度 */
+  max-height: none; /* 移除最大高度限制 */
 }
 
 /* Excel toolbar */
@@ -46,13 +46,16 @@ body {
   z-index: 10;
 }
 
-/* Excel grid container - 这是唯一应该滚动的部分 */
+/* Excel grid container - 允许内容自然滚动 */
 .excel-grid-container {
   flex: 1;
-  overflow: auto !important; /* 强制允许滚动 */
-  min-height: 0; /* 重要：确保flex子项可以正确滚动 */
+  overflow: visible; 
+  min-height: 0; 
   position: relative;
-  max-height: calc(100vh - 350px); /* 限制最大高度，留出工具栏和状态栏的空间 */
+  max-height: none; /* 移除最大高度限制 */
+  overflow-y: auto;
+  overflow-x: auto;
+  height: auto;
 }
 
 /* Excel header cells */
@@ -310,15 +313,9 @@ body {
 
 /* 禁止页面滚动，只允许表格内容滚动 */
 .excel-table-container-wrapper {
-  overflow: hidden;
-  height: 100%;
+  overflow: visible;
+  height: auto;
   position: relative;
-}
-
-/* 确保表格内容可以滚动 */
-.excel-grid-container {
-  overflow-y: auto;
-  overflow-x: auto;
 }
 
 /* 确保表格头部固定 */
@@ -407,8 +404,8 @@ body {
 
 /* 禁止页面滚动，只允许表格内容滚动 */
 .excel-table-container-wrapper {
-  overflow: hidden;
-  height: 100%;
+  overflow: visible;
+  height: auto;
   position: relative;
 }
 
